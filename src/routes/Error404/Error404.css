@@ -1,0 +1,16 @@
+.full-page {
+  height: 100vh;
+  width: 100vw;
+}
+
+.width-50 {
+  width: 50%;
+}
+
+.big-font {
+  font-size: 18rem;
+}
+
+.font-dark-color {
+  color: rgb(18, 28, 40);
+}

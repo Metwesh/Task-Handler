@@ -1,0 +1,70 @@
+@supports (grid-area: initial) {
+  .tasks-grid-area {
+    grid-area: tasks1;
+    background: white;
+    overflow-y: scroll;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+  }
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+@supports (position: sticky) {
+  .row-header {
+    position: sticky;
+    top: 0;
+    z-index: 0;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+  }
+
+  .row-header-thick {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: white;
+    border-bottom: 6px solid;
+  }
+}
+
+.table-hover > tbody > tr:hover > .no-hover {
+  --bs-table-accent-bg: transparent !important;
+}
+
+@supports (filter: brightness()) {
+  input[type="checkbox"]:checked {
+    filter: brightness(170%);
+  }
+}
+
+tbody > tr > td,
+th {
+  height: 10px;
+}
+
+input[type="checkbox"] {
+  transition: all 150ms ease-in-out;
+}
+.custom-table {
+  height: 100%;
+}
+
+.table-border-collapse {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.ms-05 {
+  margin-left: 0.15rem;
+}
+.me-25 {
+  margin-right: 0.6rem;
+}
+
+.width-40 {
+  width: 35rem;
+}
+.scale-13 {
+  transform: scale(1.3);
+}

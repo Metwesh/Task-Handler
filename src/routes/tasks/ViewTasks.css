@@ -1,0 +1,25 @@
+@supports (grid-template-areas: initial) {
+  .custom-grid {
+    margin-left: 15vw;
+    height: 100vh;
+    grid-template-rows: 1fr 6fr 1fr;
+    grid-template-areas:
+      "top-bar"
+      "tasks1"
+      "buttons";
+  }
+
+  .grid-area-buttons {
+    grid-area: buttons;
+  }
+}
+td,
+tr,
+th {
+  vertical-align: middle;
+}
+
+.btn-outline-info.disabled,
+.btn-outline-info:disabled {
+  color: #212529;
+}

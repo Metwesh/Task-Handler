@@ -1,0 +1,16 @@
+.spinner-border {
+  height: 5rem;
+  width: 5rem;
+  border-top-color: currentcolor;
+  border-top-style: solid;
+  border-top-width: 0.5em;
+  border-right-color: transparent;
+  border-right-style: solid;
+  border-right-width: 0.5em;
+  border-bottom-color: currentcolor;
+  border-bottom-style: solid;
+  border-bottom-width: 0.5em;
+  border-left-color: currentcolor;
+  border-left-style: solid;
+  border-left-width: 0.5em;
+}

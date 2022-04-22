@@ -1,0 +1,23 @@
+.fixed-7rem-wrapper {
+  width: 7rem;
+}
+
+.img-sizer {
+  width: auto;
+  height: 6.5vh;
+  margin-left: 1.6rem;
+}
+
+.horizontal-nav {
+  height: 10vh;
+  background-color: rgb(18, 28, 40);
+}
+
+.font-main-color {
+  color: var(--bs-body-color);
+}
+
+.ml-05 {
+  margin-bottom: 0;
+  margin-left: 0.5rem;
+}

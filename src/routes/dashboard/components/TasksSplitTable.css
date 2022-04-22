@@ -1,0 +1,28 @@
+@supports (grid-template-areas: initial) {
+  .grid-tasks-split {
+    height: 15rem;
+    width: 100%;
+    grid-template-areas: "table1 table2 table3";
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .grid-format {
+    background: white;
+    overflow-y: scroll;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+  }
+  .grid-area-table1 {
+    grid-area: table1;
+  }
+
+  .grid-area-table2 {
+    grid-area: table2;
+  }
+
+  .grid-area-table3 {
+    grid-area: table3;
+  }
+}
+
+.height-197 {
+  height: 197px;
+}

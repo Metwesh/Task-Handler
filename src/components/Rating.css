@@ -1,0 +1,56 @@
+.dot {
+  height: 20px;
+  width: 20px;
+  background-color: rgb(190, 190, 190);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.one-star {
+  background-color: rgb(0, 255, 234);
+}
+.two-star {
+  background-color: rgb(128, 255, 0);
+}
+.three-star {
+  background-color: yellow;
+}
+.four-star {
+  background-color: rgb(255, 205, 86);
+}
+.five-star {
+  background-color: rgba(255, 0, 0, 0.644);
+}
+
+.dot:not(:first-child) {
+  margin-left: 3px;
+}
+
+.dot-gray {
+  height: 1rem;
+  width: 1rem;
+  margin-right: 0.5rem;
+  background-color: rgb(190, 190, 190);
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot-yellow {
+  height: 1rem;
+  width: 1rem;
+  margin-right: 0.5rem;
+  background-color: rgb(255, 205, 86);
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot-green {
+  height: 1rem;
+  width: 1rem;
+  margin-right: 0.5rem;
+  background-color: rgb(128, 255, 0);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.align-center {
+  transform: translateY(2.5px);
+}

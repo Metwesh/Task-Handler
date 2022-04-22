@@ -1,0 +1,19 @@
+.height-41rem {
+  height: 41rem;
+}
+.card-sizer-signup {
+  width: 28rem;
+  height: 34rem;
+}
+
+.p-relative {
+  position: relative;
+}
+
+.email-tool-tip {
+  position: absolute;
+  color: rgba(255, 0, 0, 0.636);
+  top: 18%;
+  left: 60%;
+  transform: translateY(50%);
+}

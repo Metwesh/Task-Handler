@@ -1,0 +1,43 @@
+@supports (grid-template-areas: initial) {
+  .custom-d-grid {
+    margin-left: 15vw;
+    height: 100vh;
+    grid-template-areas:
+      "top-bar top-bar top-bar"
+      "area area area";
+    grid-template-rows: 1fr 7.1fr;
+    grid-template-columns: 1fr 2fr 1fr;
+  }
+
+  .custom-card-padding {
+    grid-area: area;
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+}
+
+.fixed-width {
+  margin-left: 17.5vw;
+  margin-right: 17.5vw;
+}
+
+.task-tool-tip {
+  position: absolute;
+  color: rgba(255, 0, 0, 0.721);
+  top: 8rem;
+  right: 148px;
+}
+
+.deadline-tool-tip {
+  position: absolute;
+  color: rgba(255, 0, 0, 0.721);
+  top: 14rem;
+  right: 104px;
+}
+
+.employees-tool-tip {
+  position: absolute;
+  color: rgba(255, 0, 0, 0.721);
+  top: 20rem;
+  right: 154px;
+}

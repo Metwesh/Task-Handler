@@ -1,0 +1,14 @@
+@supports (grid-area: initial) {
+  .card-wrapper {
+    border-radius: 4px;
+    grid-area: top-bar;
+  }
+}
+.card-wrapper-body {
+  border-radius: 3px;
+  background-image: linear-gradient(
+    to right,
+    rgba(21, 32, 46, 1) 15%,
+    white 60%
+  );
+}

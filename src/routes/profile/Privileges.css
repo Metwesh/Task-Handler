@@ -1,0 +1,8 @@
+.grid-privileges {
+  margin-left: 15vw;
+  height: 100vh;
+  grid-template-areas:
+    "top-bar"
+    "area1";
+  grid-template-rows: 1fr 7.1fr;
+}

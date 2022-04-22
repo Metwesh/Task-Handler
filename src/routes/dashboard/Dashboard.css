@@ -1,0 +1,28 @@
+@supports (grid-template-areas: initial) {
+  .grid-dashboard {
+    margin-left: 15vw;
+    height: 100vh;
+    grid-template-areas:
+      "top-bar top-bar"
+      "area1 area2"
+      "area3 area3";
+    grid-template-rows: 1.05fr 1fr 3fr;
+    grid-template-columns: 2.5fr 1fr;
+  }
+
+  .grid-area-area2 {
+    grid-area: area2;
+  }
+
+  .grid-area-area3 {
+    grid-area: area3;
+  }
+}
+
+.height-295 {
+  height: 295px;
+}
+
+.height-300 {
+  height: 328px;
+}
