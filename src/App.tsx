@@ -52,83 +52,88 @@ function App(): JSX.Element {
       <UserContext.Provider
         value={{ activeEmployee, setActiveEmployee, setUserAuth }}>
         <Routes>
-          <Route path="/task-handler">
-            <Route path="/" element={<Landing />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admindashboard"
-              element={
-                <ProtectedRoute>
-                  <AdminProtectedRoute>
-                    <AdminDashboard />
-                  </AdminProtectedRoute>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/editprofile"
-              element={
-                <ProtectedRoute>
-                  <EditProfile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/privileges"
-              element={
-                <ProtectedRoute>
-                  <AdminProtectedRoute>
-                    <Privileges />
-                  </AdminProtectedRoute>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/tasks"
-              element={
-                <ProtectedRoute>
-                  <Tasks />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/alltasks"
-              element={
-                <ProtectedRoute>
-                  <ViewAllTasks />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/addtask"
-              element={
-                <ProtectedRoute>
-                  <AdminProtectedRoute>
-                    <AddTask />
-                  </AdminProtectedRoute>
-                </ProtectedRoute>
-              }
-            />
+          <Route
+            path="/task-handler"
+            element={
+              <>
+                <Route path="/" element={<Landing />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/signin" element={<SignIn />} />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admindashboard"
+                  element={
+                    <ProtectedRoute>
+                      <AdminProtectedRoute>
+                        <AdminDashboard />
+                      </AdminProtectedRoute>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/editprofile"
+                  element={
+                    <ProtectedRoute>
+                      <EditProfile />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/privileges"
+                  element={
+                    <ProtectedRoute>
+                      <AdminProtectedRoute>
+                        <Privileges />
+                      </AdminProtectedRoute>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/tasks"
+                  element={
+                    <ProtectedRoute>
+                      <Tasks />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/alltasks"
+                  element={
+                    <ProtectedRoute>
+                      <ViewAllTasks />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/addtask"
+                  element={
+                    <ProtectedRoute>
+                      <AdminProtectedRoute>
+                        <AddTask />
+                      </AdminProtectedRoute>
+                    </ProtectedRoute>
+                  }
+                />
 
-            <Route path="*" element={<Error404 />} />
-          </Route>
+                <Route path="*" element={<Error404 />} />
+              </>
+            }
+          />
         </Routes>
       </UserContext.Provider>
     </main>
