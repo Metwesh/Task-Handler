@@ -10,7 +10,7 @@ import EditProfile from "./routes/profile/EditProfile";
 import Privileges from "./routes/profile/Privileges";
 import Error404 from "./routes/Error404/Error404";
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { useState } from "react";
 import { UserContext } from "./contexts/UserContext";
 import ProtectedRoute from "./containers/ProtectedRoute";
@@ -48,88 +48,90 @@ function App(): JSX.Element {
   );
 
   return (
-    <main className={"route-wrapper maxVH"}>
-      <UserContext.Provider
-        value={{ activeEmployee, setActiveEmployee, setUserAuth }}>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admindashboard"
-            element={
-              <ProtectedRoute>
-                <AdminProtectedRoute>
-                  <AdminDashboard />
-                </AdminProtectedRoute>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/editprofile"
-            element={
-              <ProtectedRoute>
-                <EditProfile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/privileges"
-            element={
-              <ProtectedRoute>
-                <AdminProtectedRoute>
-                  <Privileges />
-                </AdminProtectedRoute>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/tasks"
-            element={
-              <ProtectedRoute>
-                <Tasks />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/alltasks"
-            element={
-              <ProtectedRoute>
-                <ViewAllTasks />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/addtask"
-            element={
-              <ProtectedRoute>
-                <AdminProtectedRoute>
-                  <AddTask />
-                </AdminProtectedRoute>
-              </ProtectedRoute>
-            }
-          />
+    <BrowserRouter basename={"/task-handler"}>
+      <main className={"route-wrapper maxVH"}>
+        <UserContext.Provider
+          value={{ activeEmployee, setActiveEmployee, setUserAuth }}>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admindashboard"
+              element={
+                <ProtectedRoute>
+                  <AdminProtectedRoute>
+                    <AdminDashboard />
+                  </AdminProtectedRoute>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/editprofile"
+              element={
+                <ProtectedRoute>
+                  <EditProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/privileges"
+              element={
+                <ProtectedRoute>
+                  <AdminProtectedRoute>
+                    <Privileges />
+                  </AdminProtectedRoute>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/tasks"
+              element={
+                <ProtectedRoute>
+                  <Tasks />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/alltasks"
+              element={
+                <ProtectedRoute>
+                  <ViewAllTasks />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/addtask"
+              element={
+                <ProtectedRoute>
+                  <AdminProtectedRoute>
+                    <AddTask />
+                  </AdminProtectedRoute>
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path="*" element={<Error404 />} />
-        </Routes>
-      </UserContext.Provider>
-    </main>
+            <Route path="*" element={<Error404 />} />
+          </Routes>
+        </UserContext.Provider>
+      </main>
+    </BrowserRouter>
   );
 }
 
