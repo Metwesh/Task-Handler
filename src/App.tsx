@@ -10,7 +10,7 @@ import EditProfile from "./routes/profile/EditProfile";
 import Privileges from "./routes/profile/Privileges";
 import Error404 from "./routes/Error404/Error404";
 import "./App.css";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import { UserContext } from "./contexts/UserContext";
 import ProtectedRoute from "./containers/ProtectedRoute";
@@ -48,11 +48,11 @@ function App(): JSX.Element {
   );
 
   return (
-    <BrowserRouter basename={"/task-handler"}>
-      <main className={"route-wrapper maxVH"}>
-        <UserContext.Provider
-          value={{ activeEmployee, setActiveEmployee, setUserAuth }}>
-          <Routes>
+    <main className={"route-wrapper maxVH"}>
+      <UserContext.Provider
+        value={{ activeEmployee, setActiveEmployee, setUserAuth }}>
+        <Routes>
+          <Route path="/task-handler">
             <Route path="/" element={<Landing />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
@@ -128,10 +128,10 @@ function App(): JSX.Element {
             />
 
             <Route path="*" element={<Error404 />} />
-          </Routes>
-        </UserContext.Provider>
-      </main>
-    </BrowserRouter>
+          </Route>
+        </Routes>
+      </UserContext.Provider>
+    </main>
   );
 }
 
