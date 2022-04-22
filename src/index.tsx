@@ -7,7 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/task-handler">
       <App />
     </BrowserRouter>
   </React.StrictMode>,
