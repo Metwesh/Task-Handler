@@ -45,9 +45,13 @@ export default function TasksSplitTable(props: {
                 </td>
               </tr>
             )}
-            {props.incompleteTasks.length === 0 && !props.loading ? (
+            {(props.incompleteTasks.find(
+              (element) => element.priority === 1
+            ) === undefined ||
+              props.incompleteTasks.length === 0) &&
+            !props.loading ? (
               <tr>
-                <td>No tasks past due</td>
+                <td className="fw-light fst-italic">No tasks past due</td>
               </tr>
             ) : (
               props.incompleteTasks.length > 0 &&
@@ -83,9 +87,13 @@ export default function TasksSplitTable(props: {
                 </td>
               </tr>
             )}
-            {props.incompleteTasks.length === 0 && !props.loading ? (
+            {(props.incompleteTasks.find(
+              (element) => element.priority === 2
+            ) === undefined ||
+              props.incompleteTasks.length === 0) &&
+            !props.loading ? (
               <tr>
-                <td>No tasks for today</td>
+                <td className="fw-light fst-italic">No tasks for today</td>
               </tr>
             ) : (
               props.incompleteTasks.length > 0 &&
@@ -121,9 +129,13 @@ export default function TasksSplitTable(props: {
                 </td>
               </tr>
             )}
-            {props.incompleteTasks.length === 0 && !props.loading ? (
+            {(props.incompleteTasks.find(
+              (element) => element.priority === 1
+            ) === undefined ||
+              props.incompleteTasks.length === 0) &&
+            !props.loading ? (
               <tr>
-                <td>No tasks for this week</td>
+                <td className="fw-light fst-italic">No tasks for this week</td>
               </tr>
             ) : (
               props.incompleteTasks.length > 0 &&
