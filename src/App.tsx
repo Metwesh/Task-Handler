@@ -52,12 +52,11 @@ function App(): JSX.Element {
       <UserContext.Provider
         value={{ activeEmployee, setActiveEmployee, setUserAuth }}>
         <Routes>
-          <Route path="/task-handler">
-            <Route path="/" element={<Landing />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/signin" element={<SignIn />} />
+            <Route path="%PUBLIC_URL%/" element={<Landing />} />
+            <Route path="%PUBLIC_URL%/signup" element={<SignUp />} />
+            <Route path="%PUBLIC_URL%/signin" element={<SignIn />} />
             <Route
-              path="/dashboard"
+              path="%PUBLIC_URL%/dashboard"
               element={
                 <ProtectedRoute>
                   <Dashboard />
@@ -65,7 +64,7 @@ function App(): JSX.Element {
               }
             />
             <Route
-              path="/admindashboard"
+              path="%PUBLIC_URL%/admindashboard"
               element={
                 <ProtectedRoute>
                   <AdminProtectedRoute>
@@ -75,7 +74,7 @@ function App(): JSX.Element {
               }
             />
             <Route
-              path="/profile"
+              path="%PUBLIC_URL%/profile"
               element={
                 <ProtectedRoute>
                   <Profile />
@@ -83,7 +82,7 @@ function App(): JSX.Element {
               }
             />
             <Route
-              path="/editprofile"
+              path="%PUBLIC_URL%/editprofile"
               element={
                 <ProtectedRoute>
                   <EditProfile />
@@ -91,7 +90,7 @@ function App(): JSX.Element {
               }
             />
             <Route
-              path="/privileges"
+              path="%PUBLIC_URL%/privileges"
               element={
                 <ProtectedRoute>
                   <AdminProtectedRoute>
@@ -101,7 +100,7 @@ function App(): JSX.Element {
               }
             />
             <Route
-              path="/tasks"
+              path="%PUBLIC_URL%/tasks"
               element={
                 <ProtectedRoute>
                   <Tasks />
@@ -109,7 +108,7 @@ function App(): JSX.Element {
               }
             />
             <Route
-              path="/alltasks"
+              path="%PUBLIC_URL%/alltasks"
               element={
                 <ProtectedRoute>
                   <ViewAllTasks />
@@ -117,7 +116,7 @@ function App(): JSX.Element {
               }
             />
             <Route
-              path="/addtask"
+              path="%PUBLIC_URL%/addtask"
               element={
                 <ProtectedRoute>
                   <AdminProtectedRoute>
@@ -128,7 +127,6 @@ function App(): JSX.Element {
             />
 
             <Route path="*" element={<Error404 />} />
-          </Route>
         </Routes>
       </UserContext.Provider>
     </main>

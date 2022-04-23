@@ -2,7 +2,7 @@
   "name": "task-handler",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://metwesh.github.io/task-handler",
+  "homepage": "https://metwesh.github.io/task-handler/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
@@ -55,17 +55,5 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0"
-  },
-  "description": "I created this project with TypeScript to handle user tasks full with authentication, authorization & many more features.",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Metwesh/task-handler.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Metwesh/task-handler/issues"
   }
 }
