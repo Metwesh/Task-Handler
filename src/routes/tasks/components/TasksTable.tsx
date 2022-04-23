@@ -42,7 +42,7 @@ export default function TasksTable(props: {
   function stateTimeout() {
     if (tasks.length === 0) setLoading(false);
   }
-  setTimeout(stateTimeout, 3000);
+  setTimeout(stateTimeout, 1500);
 
   useEffect(() => {
     tasks.length > 0 &&
