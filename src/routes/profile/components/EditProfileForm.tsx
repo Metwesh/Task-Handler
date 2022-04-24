@@ -45,7 +45,7 @@ export default function EditProfileForm(): JSX.Element {
     !passwordErrors &&
       (await axios
         .post(
-          `${process.env.REACT_APP_BACKEND_BASE}/update/${activeEmployee._id}`,
+          `${process.env.REACT_APP_BACKEND_BASE}/updateuser/${activeEmployee._id}`,
           userInfo
         )
         .then((response) => {
