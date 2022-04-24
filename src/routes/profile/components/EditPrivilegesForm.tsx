@@ -129,14 +129,14 @@ export default function EditPrivilegesForm(): JSX.Element {
           </Form.Group>
           <div className="d-flex justify-content-center">
             {message ? (
-              <Toast className="mt-5" autohide>
+              <Toast className="mt-5" delay={3000} autohide>
                 <Toast.Header closeButton={false}>
                   <strong className="me-auto">Success</strong>
                 </Toast.Header>
                 <Toast.Body>User privileges updated.</Toast.Body>
               </Toast>
             ) : message === false ? (
-              <Toast className="mt-5" autohide>
+              <Toast className="mt-5" delay={3000} autohide>
                 <Toast.Header closeButton={false}>
                   <strong className="me-auto">Failed</strong>
                 </Toast.Header>
