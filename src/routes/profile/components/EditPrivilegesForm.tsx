@@ -73,6 +73,7 @@ export default function EditPrivilegesForm(): JSX.Element {
         .then((response) => {
           if (response.status === 200) {
             setMessage(true);
+            setTimeout(stateTimeout, 3000);
           }
         })
         .catch((error) => {
@@ -80,6 +81,11 @@ export default function EditPrivilegesForm(): JSX.Element {
         });
     }
   }
+
+  function stateTimeout() {
+    setMessage(null);
+  }
+
   return (
     <div className="mx-3 my-2 grid-area-eprivileges">
       <h3 className="mb-4 mt-3">Edit privileges</h3>
@@ -129,14 +135,14 @@ export default function EditPrivilegesForm(): JSX.Element {
           </Form.Group>
           <div className="d-flex justify-content-center">
             {message ? (
-              <Toast className="mt-5" delay={3000} autohide>
+              <Toast className="mt-5">
                 <Toast.Header closeButton={false}>
                   <strong className="me-auto">Success</strong>
                 </Toast.Header>
                 <Toast.Body>User privileges updated.</Toast.Body>
               </Toast>
             ) : message === false ? (
-              <Toast className="mt-5" delay={3000} autohide>
+              <Toast className="mt-5">
                 <Toast.Header closeButton={false}>
                   <strong className="me-auto">Failed</strong>
                 </Toast.Header>
