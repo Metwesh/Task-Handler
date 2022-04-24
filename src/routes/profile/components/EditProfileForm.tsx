@@ -5,7 +5,6 @@ import Form from "react-bootstrap/Form";
 import Stack from "react-bootstrap/Stack";
 import { useNavigate } from "react-router-dom";
 import { IUserContext, UserContext } from "../../../contexts/UserContext";
-import { BACKEND_BASE } from "../../../config";
 import "./EditProfileForm.css";
 
 interface IFormData {
@@ -45,7 +44,10 @@ export default function EditProfileForm(): JSX.Element {
 
     !passwordErrors &&
       (await axios
-        .post(`${BACKEND_BASE}/update/${activeEmployee._id}`, userInfo)
+        .post(
+          `${process.env.REACT_APP_BACKEND_BASE}/update/${activeEmployee._id}`,
+          userInfo
+        )
         .then((response) => {
           if (response.status === 200) {
             setActiveEmployee(Object.assign(activeEmployee, userInfo));

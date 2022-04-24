@@ -8,7 +8,6 @@ import VerticalNav from "../../components/VerticalNav";
 import "./Dashboard.css";
 import { ITasks } from "../tasks/components/TasksTable";
 import { IUserContext, UserContext } from "../../contexts/UserContext";
-import { BACKEND_BASE } from "../../config";
 import Loading from "../../components/Loading";
 
 export default function Dashboard() {
@@ -22,7 +21,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${BACKEND_BASE}/getusertasks/${activeEmployee.name}`)
+    fetch(
+      `${process.env.REACT_APP_BACKEND_BASE}/getusertasks/${activeEmployee.name}`
+    )
       .then((Response) => Response.json())
       .then((tasks) => setTasks(tasks));
   }, [activeEmployee.name]);

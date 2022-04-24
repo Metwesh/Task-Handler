@@ -7,7 +7,6 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Navigation from "../../components/Navigation";
 import "./SignUp.css";
 import { useContext, useState, useEffect } from "react";
-import { BACKEND_BASE } from "../../config";
 import { IEmployeeInfo } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { IUserContext, UserContext } from "../../contexts/UserContext";
@@ -28,7 +27,7 @@ export default function SignUp(): JSX.Element {
   let userInfo: IEmployeeInfo;
 
   useEffect((): void => {
-    fetch(`${BACKEND_BASE}/getallusers`)
+    fetch(`${process.env.REACT_APP_BACKEND_BASE}/getallusers`)
       .then((Response) => Response.json())
       .then((users) => setEmployees(users));
   }, []);
@@ -53,7 +52,7 @@ export default function SignUp(): JSX.Element {
       setActiveEmployee(userInfo);
     }
     axios
-      .post(`${BACKEND_BASE}/signup`, userInfo)
+      .post(`${process.env.REACT_APP_BACKEND_BASE}/signup`, userInfo)
       .then((response) => {
         if (response.data.accessToken) {
           const { name, email, role } = userInfo;

@@ -7,7 +7,6 @@ import Form from "react-bootstrap/Form";
 import Stack from "react-bootstrap/Stack";
 import Toast from "react-bootstrap/Toast";
 import "./EditPrivilegesForm.css";
-import { BACKEND_BASE } from "../../../config";
 import { IEmployeeInfo } from "../../../App";
 import { IEmployeeSelect } from "../../tasks/AddTask";
 import { IUserContext, UserContext } from "../../../contexts/UserContext";
@@ -24,7 +23,7 @@ export default function EditPrivilegesForm(): JSX.Element {
   const { activeEmployee } = useContext<IUserContext>(UserContext);
 
   useEffect((): void => {
-    fetch(`${BACKEND_BASE}/getallusers`)
+    fetch(`${process.env.REACT_APP_BACKEND_BASE}/getallusers`)
       .then((Response) => Response.json())
       .then((users) => setEmployees(users));
   }, []);
@@ -64,10 +63,13 @@ export default function EditPrivilegesForm(): JSX.Element {
 
     if (inputEmp.length > 0 && inputRole.length > 0) {
       await axios
-        .post(`${BACKEND_BASE}/privileges/${inputEmpId}`, {
-          activeEmpRole: activeEmployee.role,
-          role: inputRole,
-        })
+        .post(
+          `${process.env.REACT_APP_BACKEND_BASE}/privileges/${inputEmpId}`,
+          {
+            activeEmpRole: activeEmployee.role,
+            role: inputRole,
+          }
+        )
         .then((response) => {
           if (response.status === 200) {
             setMessage(true);

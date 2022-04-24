@@ -9,7 +9,6 @@ import VerticalNav from "../../components/VerticalNav";
 import DashboardNav from "../../components/DashboardNav";
 import "./ViewTasks.css";
 import { UserContext, IUserContext } from "../../contexts/UserContext";
-import { BACKEND_BASE } from "../../config";
 
 export default function ViewTasks(): JSX.Element {
   const [checkedBox, setCheckedBox] = useState<Array<string>>([]);
@@ -23,7 +22,10 @@ export default function ViewTasks(): JSX.Element {
     e.preventDefault();
     checkedBox.length > 0 &&
       (await axios
-        .post(`${BACKEND_BASE}/update${submitter}tasks`, checkedBox)
+        .post(
+          `${process.env.REACT_APP_BACKEND_BASE}/update${submitter}tasks`,
+          checkedBox
+        )
         .then((response) => {
           if (response.status === 200) {
             setForceUpdate((current) => (current += 1));

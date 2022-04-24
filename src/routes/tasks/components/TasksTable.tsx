@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import Loading from "../../../components/Loading";
 import "./TasksTable.css";
-import { BACKEND_BASE } from "../../../config";
 import { IUserContext, UserContext } from "../../../contexts/UserContext";
 
 export interface ITasks {
@@ -34,7 +33,7 @@ export default function TasksTable(props: {
     setIncompleteTasks([]);
     setPendingTasks([]);
     setCompleteTasks([]);
-    fetch(`${BACKEND_BASE}/getusertasks/${activeEmployee.name}`)
+    fetch(`${process.env.REACT_APP_BACKEND_BASE}/getusertasks/${activeEmployee.name}`)
       .then((Response) => Response.json())
       .then((tasks) => setTasks(tasks));
   }, [activeEmployee.name, props.forceUpdate]);

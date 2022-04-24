@@ -12,7 +12,6 @@ import DashboardNav from "../../components/DashboardNav";
 import DateSelect from "./components/DateSelect";
 import "./AddTasks.css";
 import { IEmployeeInfo } from "../../App";
-import { BACKEND_BASE } from "../../config";
 import { IUserContext, UserContext } from "../../contexts/UserContext";
 
 export interface IEmployeeSelect {
@@ -48,7 +47,7 @@ export default function AddTask(): JSX.Element {
   const { activeEmployee } = useContext<IUserContext>(UserContext);
 
   useEffect((): void => {
-    fetch(`${BACKEND_BASE}/getusers`)
+    fetch(`${process.env.REACT_APP_BACKEND_BASE}/getusers`)
       .then((Response) => Response.json())
       .then((users) => setEmployees(users));
   }, []);
@@ -100,7 +99,7 @@ export default function AddTask(): JSX.Element {
         status: "Incomplete",
       };
       await axios
-        .post(`${BACKEND_BASE}/addtask`, formData)
+        .post(`${process.env.REACT_APP_BACKEND_BASE}/addtask`, formData)
         .then((response) => {
           if (response.status === 200) {
             //

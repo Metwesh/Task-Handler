@@ -7,7 +7,6 @@ import DashboardNav from "../../components/DashboardNav";
 import VerticalNav from "../../components/VerticalNav";
 import "./Dashboard.css";
 import { ITasks } from "../tasks/components/TasksTable";
-import { BACKEND_BASE } from "../../config";
 import Loading from "../../components/Loading";
 
 export default function AdminDashboard() {
@@ -19,7 +18,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${BACKEND_BASE}/getalltasks`)
+    fetch(`${process.env.REACT_APP_BACKEND_BASE}/getalltasks`)
       .then((Response) => Response.json())
       .then((tasks) => setTasks(tasks));
   }, []);
