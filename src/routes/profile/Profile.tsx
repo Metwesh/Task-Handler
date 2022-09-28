@@ -1,7 +1,7 @@
-import GridProfile from "./components/ViewProfile";
-import VerticalNav from "../../components/VerticalNav";
-import DashboardNav from "../../components/DashboardNav";
 import Card from "react-bootstrap/Card";
+import DashboardNav from "../../components/DashboardNav";
+import VerticalNav from "../../components/VerticalNav";
+import GridProfile from "./components/ViewProfile";
 import "./Profile.css";
 
 export default function Profile(): JSX.Element {

@@ -1,10 +1,10 @@
-import Stack from "react-bootstrap/Stack";
-import Card from "react-bootstrap/Card";
-import "./ViewProfile.css";
 import { useContext } from "react";
-import { UserContext, IUserContext } from "../../../contexts/UserContext";
+import Card from "react-bootstrap/Card";
+import Stack from "react-bootstrap/Stack";
 import { Link } from "react-router-dom";
 import { IEmployeeInfo } from "../../../App";
+import { IUserContext, UserContext } from "../../../contexts/UserContext";
+import "./ViewProfile.css";
 
 export default function ViewProfile() {
   const { activeEmployee } = useContext<IUserContext>(UserContext);

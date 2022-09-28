@@ -1,6 +1,6 @@
-import "./PrioritiesTable.css";
 import "../../../components/Rating.css";
 import { ITasks } from "../../tasks/components/TasksTable";
+import "./PrioritiesTable.css";
 
 export default function PrioritiesTable(props: {
   incompleteTasks: Array<ITasks>;

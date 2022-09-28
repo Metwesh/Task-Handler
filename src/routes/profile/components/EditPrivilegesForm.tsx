@@ -1,15 +1,15 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import Select from "react-select";
-import AsyncSelect from "react-select/async";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Stack from "react-bootstrap/Stack";
 import Toast from "react-bootstrap/Toast";
-import "./EditPrivilegesForm.css";
+import Select from "react-select";
+import AsyncSelect from "react-select/async";
 import { IEmployeeInfo } from "../../../App";
-import { IEmployeeSelect } from "../../tasks/AddTask";
 import { IUserContext, UserContext } from "../../../contexts/UserContext";
+import { IEmployeeSelect } from "../../tasks/AddTask";
+import "./EditPrivilegesForm.css";
 
 export default function EditPrivilegesForm(): JSX.Element {
   const [employees, setEmployees] = useState<Array<IEmployeeInfo>>([]);

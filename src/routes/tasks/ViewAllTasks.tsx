@@ -1,14 +1,14 @@
 import axios from "axios";
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import VerticalNav from "../../components/VerticalNav";
 import DashboardNav from "../../components/DashboardNav";
+import VerticalNav from "../../components/VerticalNav";
+import { IUserContext, UserContext } from "../../contexts/UserContext";
 import AllTasksTable from "./components/AllTasksTable";
 import "./ViewTasks.css";
-import { IUserContext, UserContext } from "../../contexts/UserContext";
 
 export default function ViewTasks(): JSX.Element {
   const [checkedBox, setCheckedBox] = useState<Array<string>>([]);

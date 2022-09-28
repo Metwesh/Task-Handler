@@ -1,4 +1,4 @@
-import { Chart, ArcElement, Legend, Tooltip } from "chart.js";
+import { ArcElement, Chart, Legend, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { ITasks } from "../../tasks/components/TasksTable";
 

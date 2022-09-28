@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
-import Charts from "./components/Charts";
-import TasksSplitTable from "./components/TasksSplitTable";
-import PrioritiesTable from "./components/PrioritiesTable";
 import DashboardNav from "../../components/DashboardNav";
-import VerticalNav from "../../components/VerticalNav";
-import "./Dashboard.css";
-import { ITasks } from "../tasks/components/TasksTable";
 import Loading from "../../components/Loading";
+import VerticalNav from "../../components/VerticalNav";
+import { ITasks } from "../tasks/components/TasksTable";
+import Charts from "./components/Charts";
+import PrioritiesTable from "./components/PrioritiesTable";
+import TasksSplitTable from "./components/TasksSplitTable";
+import "./Dashboard.css";
 
 export default function AdminDashboard() {
   const [tasks, setTasks] = useState<Array<ITasks>>([]);

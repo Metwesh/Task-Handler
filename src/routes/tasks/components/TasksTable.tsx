@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import Loading from "../../../components/Loading";
-import "./TasksTable.css";
 import { IUserContext, UserContext } from "../../../contexts/UserContext";
+import "./TasksTable.css";
 
 export interface ITasks {
   adminEmail: string;
@@ -102,7 +102,7 @@ export default function TasksTable(props: {
         )}
         {incompleteTasks.length > 0 && (
           <tr className="row-header-thick">
-            <th scope="col" className="width-40">
+            <th scope="col" className="width-35">
               <span className="dot-gray me-05 align-center"></span>Incomplete
             </th>
             <th scope="col" className="text-center">
@@ -140,7 +140,7 @@ export default function TasksTable(props: {
           })}
         {pendingTasks.length > 0 && (
           <tr className="row-header-thick">
-            <th scope="col" className="width-40">
+            <th scope="col" className="width-35">
               <span className="dot-yellow align-center"></span>Pending approval
             </th>
             <th scope="col" className="text-center">
@@ -179,7 +179,7 @@ export default function TasksTable(props: {
           })}
         {completeTasks.length > 0 && (
           <tr className="row-header-thick">
-            <th scope="col" className="width-40">
+            <th scope="col" className="width-35">
               <span className="dot-green align-center"></span>
               Completed
             </th>

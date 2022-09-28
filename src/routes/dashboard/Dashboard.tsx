@@ -1,14 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
-import Charts from "./components/Charts";
-import TasksSplitTable from "./components/TasksSplitTable";
-import PrioritiesTable from "./components/PrioritiesTable";
 import DashboardNav from "../../components/DashboardNav";
-import VerticalNav from "../../components/VerticalNav";
-import "./Dashboard.css";
-import { ITasks } from "../tasks/components/TasksTable";
-import { IUserContext, UserContext } from "../../contexts/UserContext";
 import Loading from "../../components/Loading";
+import VerticalNav from "../../components/VerticalNav";
+import { IUserContext, UserContext } from "../../contexts/UserContext";
+import { ITasks } from "../tasks/components/TasksTable";
+import Charts from "./components/Charts";
+import PrioritiesTable from "./components/PrioritiesTable";
+import TasksSplitTable from "./components/TasksSplitTable";
+import "./Dashboard.css";
 
 export default function Dashboard() {
   const [tasks, setTasks] = useState<Array<ITasks>>([]);

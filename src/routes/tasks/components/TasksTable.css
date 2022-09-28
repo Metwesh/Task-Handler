@@ -33,10 +33,8 @@
   --bs-table-accent-bg: transparent !important;
 }
 
-@supports (filter: brightness()) {
-  input[type="checkbox"]:checked {
-    filter: brightness(170%);
-  }
+input {
+  accent-color: #0dcaf0;
 }
 
 tbody > tr > td,
@@ -62,7 +60,7 @@ input[type="checkbox"] {
   margin-right: 0.6rem;
 }
 
-.width-40 {
+.width-35 {
   width: 35rem;
 }
 .scale-13 {

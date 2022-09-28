@@ -1,13 +1,12 @@
-import { Component } from "react";
 import { CSSObject } from "@emotion/serialize";
-import moment, { Moment } from "moment";
 import * as chrono from "chrono-node";
+import moment, { Moment } from "moment";
+import { Component } from "react";
 import "./DateSelect.css";
 
 import Select, {
-  GroupProps,
-  OptionProps,
-  components as SelectComponents,
+  components as SelectComponents, GroupProps,
+  OptionProps
 } from "react-select";
 
 interface DateOption {
