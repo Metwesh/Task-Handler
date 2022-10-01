@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import Loading from "../../../components/Loading";
-import "./TasksTable.css";
 import { IUserContext, UserContext } from "../../../contexts/UserContext";
+import "./TasksTable.css";
 
 export interface ITasks {
   adminEmail: string;

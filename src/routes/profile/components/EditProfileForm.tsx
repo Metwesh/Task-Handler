@@ -23,12 +23,10 @@ export default function EditProfileForm(): JSX.Element {
 
   const navigate = useNavigate();
 
-  let userInfo: IFormData;
-
   const { activeEmployee, setActiveEmployee } =
     useContext<IUserContext>(UserContext);
 
-  userInfo = {
+  const userInfo: IFormData = {
     name: inputName?.charAt(0)?.toUpperCase() + inputName?.slice(1),
     email: inputEmail?.toLocaleLowerCase(),
     oldPassword: oldInputPassword,
@@ -121,7 +119,8 @@ export default function EditProfileForm(): JSX.Element {
               type="submit"
               variant="info"
               size="lg"
-              className="text-center font-main-color">
+              className="text-center font-main-color"
+            >
               Update profile
             </Button>
           </Form.Group>

@@ -1,15 +1,15 @@
 import axios from "axios";
-import Card from "react-bootstrap/Card";
-import Stack from "react-bootstrap/Stack";
+import { useContext, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import Card from "react-bootstrap/Card";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
-import Navigation from "../../components/Navigation";
-import "./SignUp.css";
-import { useContext, useState, useEffect } from "react";
-import { IEmployeeInfo } from "../../App";
+import Form from "react-bootstrap/Form";
+import Stack from "react-bootstrap/Stack";
 import { useNavigate } from "react-router-dom";
+import { IEmployeeInfo } from "../../App";
+import Navigation from "../../components/Navigation";
 import { IUserContext, UserContext } from "../../contexts/UserContext";
+import "./SignUp.css";
 
 export default function SignUp(): JSX.Element {
   const [employees, setEmployees] = useState<Array<IEmployeeInfo>>([]);
@@ -111,7 +111,8 @@ export default function SignUp(): JSX.Element {
               <FloatingLabel
                 controlId="email"
                 label="Email address"
-                className="mb-3">
+                className="mb-3"
+              >
                 <Form.Control
                   className="p-relative"
                   type="email"
@@ -131,7 +132,8 @@ export default function SignUp(): JSX.Element {
               <FloatingLabel
                 controlId="password"
                 label="Password"
-                className="mb-3">
+                className="mb-3"
+              >
                 <Form.Control
                   type="password"
                   placeholder="Password"
@@ -150,7 +152,8 @@ export default function SignUp(): JSX.Element {
                   onChange={(e) => {
                     setInputRole(e.target.value);
                   }}
-                  required>
+                  required
+                >
                   <option value="" disabled hidden>
                     Select role
                   </option>
@@ -168,7 +171,8 @@ export default function SignUp(): JSX.Element {
                 <Button
                   href="/signin"
                   variant="outline-info"
-                  className="font-main-color">
+                  className="font-main-color"
+                >
                   Sign in
                 </Button>
               </Stack>

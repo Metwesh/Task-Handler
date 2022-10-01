@@ -1,10 +1,10 @@
 import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Card from "react-bootstrap/Card";
-import Logo from "../../images/Logo.svg";
 import Navigation from "../../components/Navigation";
+import Logo from "../../images/Logo.svg";
 import "./Landing.css";
 
 export default function Landing(): JSX.Element {
@@ -23,7 +23,8 @@ export default function Landing(): JSX.Element {
                 href="/signin"
                 variant="info"
                 size="lg"
-                className="ms-auto mt-2 font-main-color">
+                className="ms-auto mt-2 font-main-color"
+              >
                 Sign in
               </Button>
             </Card>

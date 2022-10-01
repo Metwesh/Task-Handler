@@ -1,15 +1,15 @@
 import axios from "axios";
-import Card from "react-bootstrap/Card";
-import Stack from "react-bootstrap/Stack";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import FloatingLabel from "react-bootstrap/FloatingLabel";
-import Navigation from "../../components/Navigation";
-import "./SignIn.css";
 import { useContext, useEffect, useState } from "react";
-import { IEmployeeInfo } from "../../App";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
+import Form from "react-bootstrap/Form";
+import Stack from "react-bootstrap/Stack";
 import { useNavigate } from "react-router-dom";
-import { UserContext, IUserContext } from "../../contexts/UserContext";
+import { IEmployeeInfo } from "../../App";
+import Navigation from "../../components/Navigation";
+import { IUserContext, UserContext } from "../../contexts/UserContext";
+import "./SignIn.css";
 
 export default function SignIn(): JSX.Element {
   const [employees, setEmployees] = useState<Array<IEmployeeInfo>>([]);
@@ -90,7 +90,8 @@ export default function SignIn(): JSX.Element {
               <FloatingLabel
                 controlId="email"
                 label="Email address"
-                className="mb-3">
+                className="mb-3"
+              >
                 <Form.Control
                   className="p-relative"
                   type="email"
@@ -132,7 +133,8 @@ export default function SignIn(): JSX.Element {
                 <Button
                   href="/signup"
                   variant="outline-info"
-                  className="font-main-color">
+                  className="font-main-color"
+                >
                   Register
                 </Button>
               </Stack>

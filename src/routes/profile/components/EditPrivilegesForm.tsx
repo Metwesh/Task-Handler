@@ -1,15 +1,15 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import Select from "react-select";
-import AsyncSelect from "react-select/async";
+import { SetStateAction, useContext, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Stack from "react-bootstrap/Stack";
 import Toast from "react-bootstrap/Toast";
-import "./EditPrivilegesForm.css";
+import Select from "react-select";
+import AsyncSelect from "react-select/async";
 import { IEmployeeInfo } from "../../../App";
-import { IEmployeeSelect } from "../../tasks/AddTask";
 import { IUserContext, UserContext } from "../../../contexts/UserContext";
+import { IEmployeeSelect } from "../../tasks/AddTask";
+import "./EditPrivilegesForm.css";
 
 export default function EditPrivilegesForm(): JSX.Element {
   const [employees, setEmployees] = useState<Array<IEmployeeInfo>>([]);
@@ -33,26 +33,31 @@ export default function EditPrivilegesForm(): JSX.Element {
     { value: "User", label: "User" },
   ];
 
-  let filteredEmployees: Array<IEmployeeInfo> = employees.filter(
+  const filteredEmployees: Array<IEmployeeInfo> = employees.filter(
     (emp) => emp.name !== activeEmployee.name
   );
 
-  let empSelect: Array<IEmployeeSelect> = filteredEmployees.map((employee) => {
-    return {
-      value: employee.name,
-      label: employee.name,
-      _id: employee._id,
-      role: employee.role,
-    };
-  });
+  const empSelect: Array<IEmployeeSelect> = filteredEmployees.map(
+    (employee) => {
+      return {
+        value: employee.name,
+        label: employee.name,
+        _id: employee._id,
+        role: employee.role,
+      };
+    }
+  );
 
-  const handleEmpChange = (options: any) => {
+  const handleEmpChange = (options: {
+    value: SetStateAction<string>;
+    _id: SetStateAction<string>;
+  }) => {
     setInputEmp(options.value);
     setInputEmpId(options._id);
     setEmpErrors(false);
   };
 
-  const handleRoleChange = (options: any) => {
+  const handleRoleChange = (options: { value: SetStateAction<string> }) => {
     setInputRole(options.value);
     setRoleErrors(false);
   };
@@ -73,7 +78,7 @@ export default function EditPrivilegesForm(): JSX.Element {
         .then((response) => {
           if (response.status === 200) {
             setMessage(true);
-            setTimeout(stateTimeout, 3000);
+            setTimeout(stateTimeout, 2000);
           }
         })
         .catch((error) => {
@@ -129,7 +134,8 @@ export default function EditPrivilegesForm(): JSX.Element {
               type="submit"
               variant="info"
               size="lg"
-              className="text-center font-main-color">
+              className="text-center font-main-color"
+            >
               Update privileges
             </Button>
           </Form.Group>

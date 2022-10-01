@@ -1,15 +1,15 @@
-import "./PrioritiesTable.css";
 import "../../../components/Rating.css";
 import { ITasks } from "../../tasks/components/TasksTable";
+import "./PrioritiesTable.css";
 
 export default function PrioritiesTable(props: {
   incompleteTasks: Array<ITasks>;
 }) {
   function compareDate(date: Date) {
-    let differenceInTime = date.getTime() - new Date().getTime();
+    const differenceInTime = date.getTime() - new Date().getTime();
 
     // To calculate the no. of days between two dates
-    let differenceInDays = differenceInTime / (1000 * 3600 * 24);
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
     return differenceInDays;
   }
 
@@ -24,7 +24,7 @@ export default function PrioritiesTable(props: {
       else if (compareDate(taskDeadline) > 0) return (taskInfo.priority = 4);
       else if (compareDate(taskDeadline) <= 0) return (taskInfo.priority = 5);
     });
-    
+
   props.incompleteTasks.sort((a, b) => b?.priority - a?.priority);
 
   return (

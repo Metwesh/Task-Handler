@@ -1,14 +1,14 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { FormEventHandler, useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import TasksTable from "./components/TasksTable";
-import VerticalNav from "../../components/VerticalNav";
 import DashboardNav from "../../components/DashboardNav";
+import VerticalNav from "../../components/VerticalNav";
+import { IUserContext, UserContext } from "../../contexts/UserContext";
+import TasksTable from "./components/TasksTable";
 import "./ViewTasks.css";
-import { UserContext, IUserContext } from "../../contexts/UserContext";
 
 export default function ViewTasks(): JSX.Element {
   const [checkedBox, setCheckedBox] = useState<Array<string>>([]);
@@ -16,8 +16,12 @@ export default function ViewTasks(): JSX.Element {
 
   const { activeEmployee } = useContext<IUserContext>(UserContext);
 
-  async function handleSubmit(e: React.SyntheticEvent) {
-    const submitter: string = (e.nativeEvent as any).submitter.value;
+  async function handleSubmit(e: {
+    nativeEvent: { submitter: { value: string } };
+    preventDefault: () => void;
+    onSubmit?: FormEventHandler<HTMLFormElement> | undefined;
+  }) {
+    const submitter: string = e.nativeEvent.submitter.value;
 
     e.preventDefault();
     checkedBox.length > 0 &&
@@ -59,16 +63,18 @@ export default function ViewTasks(): JSX.Element {
                     value="delete"
                     variant="outline-info"
                     size="lg"
-                    className="text-center font-main-color">
+                    className="text-center font-main-color"
+                  >
                     Delete task(s)
                   </Button>
                 ) : (
                   <OverlayTrigger
                     overlay={
                       <Tooltip id="tooltip-disabled">
-                        You don't have the required privileges
+                        You don&apos;t have the required privileges
                       </Tooltip>
-                    }>
+                    }
+                  >
                     <span className="d-inline-block">
                       <Button
                         type="submit"
@@ -77,7 +83,8 @@ export default function ViewTasks(): JSX.Element {
                         variant="outline-info"
                         size="lg"
                         className="text-center font-main-color"
-                        disabled>
+                        disabled
+                      >
                         Delete task(s)
                       </Button>
                     </span>
@@ -90,7 +97,8 @@ export default function ViewTasks(): JSX.Element {
                     value="complete"
                     variant="info"
                     size="lg"
-                    className="ms-5 text-center font-main-color">
+                    className="ms-5 text-center font-main-color"
+                  >
                     Mark as completed
                   </Button>
                 ) : (
@@ -100,7 +108,8 @@ export default function ViewTasks(): JSX.Element {
                     value="pending"
                     variant="info"
                     size="lg"
-                    className="ms-5 text-center font-main-color">
+                    className="ms-5 text-center font-main-color"
+                  >
                     Send for approval
                   </Button>
                 )}

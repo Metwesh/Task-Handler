@@ -8,10 +8,10 @@ export default function TasksSplitTable(props: {
   incompleteTasks: Array<ITasks>;
 }): JSX.Element {
   function compareDate(date: Date) {
-    let differenceInTime = date.getTime() - new Date().getTime();
+    const differenceInTime = date.getTime() - new Date().getTime();
 
     // To calculate the no. of days between two dates
-    let differenceInDays = differenceInTime / (1000 * 3600 * 24);
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
     return differenceInDays;
   }
 

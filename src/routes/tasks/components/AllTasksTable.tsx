@@ -1,8 +1,8 @@
-import { useEffect, useState, useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import Loading from "../../../components/Loading";
-import "./TasksTable.css";
-import { ITasks } from "./TasksTable";
 import { IUserContext, UserContext } from "../../../contexts/UserContext";
+import { ITasks } from "./TasksTable";
+import "./TasksTable.css";
 
 export default function TasksTable(props: {
   forceUpdate: number;

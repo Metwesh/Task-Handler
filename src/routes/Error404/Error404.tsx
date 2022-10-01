@@ -10,7 +10,8 @@ export default function Error404() {
           className="py-3 font-main-color width-50"
           href="/"
           variant="info"
-          size="lg">
+          size="lg"
+        >
           Go back
         </Button>
       </div>

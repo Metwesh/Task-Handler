@@ -1,6 +1,6 @@
-import VerticalNav from "../../components/VerticalNav";
-import DashboardNav from "../../components/DashboardNav";
 import Card from "react-bootstrap/Card";
+import DashboardNav from "../../components/DashboardNav";
+import VerticalNav from "../../components/VerticalNav";
 import EditPrivilegesForm from "./components/EditPrivilegesForm";
 import "./Privileges.css";
 
