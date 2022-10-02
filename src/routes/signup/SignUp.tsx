@@ -111,7 +111,8 @@ export default function SignUp(): JSX.Element {
               <FloatingLabel
                 controlId="email"
                 label="Email address"
-                className="mb-3">
+                className="mb-3"
+              >
                 <Form.Control
                   className="p-relative"
                   type="email"
@@ -131,7 +132,8 @@ export default function SignUp(): JSX.Element {
               <FloatingLabel
                 controlId="password"
                 label="Password"
-                className="mb-3">
+                className="mb-3"
+              >
                 <Form.Control
                   type="password"
                   placeholder="Password"
@@ -150,7 +152,8 @@ export default function SignUp(): JSX.Element {
                   onChange={(e) => {
                     setInputRole(e.target.value);
                   }}
-                  required>
+                  required
+                >
                   <option value="" disabled hidden>
                     Select role
                   </option>
@@ -168,7 +171,8 @@ export default function SignUp(): JSX.Element {
                 <Button
                   href="/signin"
                   variant="outline-info"
-                  className="font-main-color">
+                  className="font-main-color"
+                >
                   Sign in
                 </Button>
               </Stack>

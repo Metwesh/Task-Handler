@@ -5,8 +5,9 @@ import { Component } from "react";
 import "./DateSelect.css";
 
 import Select, {
-  components as SelectComponents, GroupProps,
-  OptionProps
+  components as SelectComponents,
+  GroupProps,
+  OptionProps,
 } from "react-select";
 
 interface DateOption {
@@ -43,7 +44,9 @@ const defaultOptions: (DateOption | CalendarGroup)[] = [
 ].map((i) => createOptionForDate(chrono.parseDate(i)));
 
 const createCalendarOptions = (date = new Date()) => {
-  const daysInMonth = Array.apply(null, Array(moment(date).daysInMonth())).map(
+  // const pages = Array.apply(null, { length: pdf.numPages });
+  // const pages = { ...{ length: somePdf.numPages }};
+  const daysInMonth = Array(...Array(moment(date).daysInMonth())).map(
     (_x, i) => {
       const d = moment(date).date(i + 1);
       return { ...createOptionForDate(d), display: "calendar" };
@@ -114,7 +117,8 @@ const Group = (props: GroupProps<DateOption, false>) => {
         theme={theme}
         getStyles={getStyles}
         cx={cx}
-        {...headingProps}>
+        {...headingProps}
+      >
         {label}
       </Heading>
       <div className="daysHeaderStyles">
@@ -160,7 +164,7 @@ const Option = (props: OptionProps<DateOption, false>) => {
 
 interface DatePickerProps {
   readonly value: DateOption | null;
-  readonly onChange: (value: DateOption | null) => void;
+  readonly onChange: (_value: DateOption | null) => void;
 }
 
 interface DatePickerState {
@@ -213,7 +217,10 @@ interface State {
   readonly value: DateOption | null;
 }
 
-export default class DateSelect extends Component<{}, State> {
+export default class DateSelect extends Component<
+  Record<string, unknown>,
+  State
+> {
   state: State = {
     value: defaultOptions[0] as DateOption,
   };

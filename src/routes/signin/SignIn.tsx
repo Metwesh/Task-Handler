@@ -90,7 +90,8 @@ export default function SignIn(): JSX.Element {
               <FloatingLabel
                 controlId="email"
                 label="Email address"
-                className="mb-3">
+                className="mb-3"
+              >
                 <Form.Control
                   className="p-relative"
                   type="email"
@@ -132,7 +133,8 @@ export default function SignIn(): JSX.Element {
                 <Button
                   href="/signup"
                   variant="outline-info"
-                  className="font-main-color">
+                  className="font-main-color"
+                >
                   Register
                 </Button>
               </Stack>

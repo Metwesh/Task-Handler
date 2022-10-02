@@ -31,5 +31,5 @@ export default function Charts(props: {
     ],
   };
 
-  return (<Doughnut data={data} />);
+  return <Doughnut data={data} />;
 }

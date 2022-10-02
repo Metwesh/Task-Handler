@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { SetStateAction, useContext, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -29,8 +29,8 @@ interface IFormData {
   adminName: string | undefined;
   startDate: Date;
   deadline: Date;
-  employeeNames: Array<String | undefined> | undefined;
-  employeeEmails: Array<String | undefined> | undefined;
+  employeeNames: Array<string | undefined> | undefined;
+  employeeEmails: Array<string | undefined> | undefined;
   status: string;
 }
 
@@ -52,7 +52,7 @@ export default function AddTask(): JSX.Element {
       .then((users) => setEmployees(users));
   }, []);
 
-  let empSelect: Array<IEmployeeSelect> = employees.map((employee) => {
+  const empSelect: Array<IEmployeeSelect> = employees.map((employee) => {
     return {
       value: employee.name,
       label: employee.name,
@@ -60,7 +60,7 @@ export default function AddTask(): JSX.Element {
     };
   });
 
-  const handleChange = (options: any) => {
+  const handleChange = (options: SetStateAction<IEmployeeSelect[]>) => {
     setInputEmps(options);
     setEmpErrors(false);
   };
@@ -73,9 +73,9 @@ export default function AddTask(): JSX.Element {
     e.preventDefault();
     setDateErrors(false);
 
-    let startDate = new Date();
-    let deadline = new Date((e.target as HTMLFormElement).deadline.value);
-    let employeeNames!: Array<String | undefined>;
+    const startDate = new Date();
+    const deadline = new Date((e.target as HTMLFormElement).deadline.value);
+    let employeeNames!: Array<string | undefined>;
     let employeeEmails!: Array<string | undefined>;
     if (!inputTask) setTaskErrors(true);
     if (compareDate(deadline)) setDateErrors(true);
@@ -87,7 +87,7 @@ export default function AddTask(): JSX.Element {
     }
 
     if (taskErrors === false && empErrors === false && dateErrors === false) {
-      let formData: IFormData = {
+      const formData: IFormData = {
         task: inputTask,
         adminEmail: activeEmployee.email,
         adminRole: activeEmployee.role,
@@ -122,7 +122,8 @@ export default function AddTask(): JSX.Element {
           <Card.Body>
             <Form
               onSubmit={handleSubmit}
-              className="fixed-width d-flex justify-content-center">
+              className="fixed-width d-flex justify-content-center"
+            >
               <Stack direction="vertical" className="">
                 <h3 className="mb-4 mt-3">Add task form</h3>
                 <Form.Group className="mb-4" controlId="task">
@@ -182,7 +183,8 @@ export default function AddTask(): JSX.Element {
                     type="submit"
                     variant="info"
                     size="lg"
-                    className="text-center font-main-color ms-4">
+                    className="text-center font-main-color ms-4"
+                  >
                     Submit
                   </Button>
                 </Form.Group>

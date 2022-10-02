@@ -16,8 +16,8 @@ export default function ViewTasks(): JSX.Element {
 
   const { activeEmployee } = useContext<IUserContext>(UserContext);
 
-  async function handleSubmit(e: React.SyntheticEvent) {
-    const submitter: string = (e.nativeEvent as any).submitter.value;
+  async function handleSubmit(e: { nativeEvent: { submitter: { value: string; }; }; preventDefault: () => void; }) {
+    const submitter: string = e.nativeEvent.submitter.value;
 
     e.preventDefault();
     checkedBox.length > 0 &&
@@ -56,7 +56,7 @@ export default function ViewTasks(): JSX.Element {
                   <OverlayTrigger
                     overlay={
                       <Tooltip id="tooltip-disabled">
-                        You don't have the required privileges
+                        You don&apos;t have the required privileges
                       </Tooltip>
                     }>
                     <span className="d-inline-block">
@@ -87,7 +87,7 @@ export default function ViewTasks(): JSX.Element {
                   <OverlayTrigger
                     overlay={
                       <Tooltip id="tooltip-disabled">
-                        You don't have the required privileges
+                        You don&apos;t have the required privileges
                       </Tooltip>
                     }>
                     <span className="d-inline-block">

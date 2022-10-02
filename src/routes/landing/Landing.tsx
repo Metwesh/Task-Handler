@@ -23,7 +23,8 @@ export default function Landing(): JSX.Element {
                 href="/signin"
                 variant="info"
                 size="lg"
-                className="ms-auto mt-2 font-main-color">
+                className="ms-auto mt-2 font-main-color"
+              >
                 Sign in
               </Button>
             </Card>

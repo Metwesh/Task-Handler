@@ -51,7 +51,7 @@ export default function Dashboard() {
   function stateTimeout() {
     if (tasks.length === 0) setLoading(false);
   }
-  setTimeout(stateTimeout, 3000);
+  setTimeout(stateTimeout, 2000);
 
   return (
     <>

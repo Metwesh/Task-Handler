@@ -32,7 +32,8 @@ export default function ViewProfile() {
               <Card.Body>
                 <Stack
                   direction="horizontal"
-                  className="justify-content-between">
+                  className="justify-content-between"
+                >
                   <h5>Name:</h5>
                   <h5 className="fw-normal">{activeEmployee.name}</h5>
                 </Stack>
@@ -42,7 +43,8 @@ export default function ViewProfile() {
               <Card.Body>
                 <Stack
                   direction="horizontal"
-                  className="justify-content-between">
+                  className="justify-content-between"
+                >
                   <h5>E-mail:</h5>
                   <h5 className="fw-normal">{activeEmployee.email}</h5>
                 </Stack>
@@ -52,7 +54,8 @@ export default function ViewProfile() {
               <Card.Body>
                 <Stack
                   direction="horizontal"
-                  className="justify-content-between">
+                  className="justify-content-between"
+                >
                   <h5>Role:</h5>
                   <h5 className="fw-normal">{activeEmployee.role}</h5>
                 </Stack>
@@ -63,13 +66,15 @@ export default function ViewProfile() {
           <div className={`d-flex ${checkStyle(activeEmployee)} mb-1`}>
             <Link
               to="/editprofile"
-              className="text-center font-main-color width-10rem btn btn-info btn-lg">
+              className="text-center font-main-color width-10rem btn btn-info btn-lg"
+            >
               Edit profile
             </Link>
             {activeEmployee.role === "Admin" && (
               <Link
                 to="/privileges"
-                className="text-center font-main-color width-10rem btn btn-info btn-lg">
+                className="text-center font-main-color width-10rem btn btn-info btn-lg"
+              >
                 Edit privileges
               </Link>
             )}
