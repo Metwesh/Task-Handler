@@ -8,6 +8,10 @@ export interface IUserContext {
 }
 export const UserContext = createContext<IUserContext>({
   activeEmployee: {},
-  setActiveEmployee: () => {},
-  setUserAuth: () => {},
+  setActiveEmployee: () => {
+    /**/
+  },
+  setUserAuth: () => {
+    /**/
+  },
 });

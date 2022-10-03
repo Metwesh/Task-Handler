@@ -48,16 +48,13 @@ export default function EditPrivilegesForm(): JSX.Element {
     }
   );
 
-  const handleEmpChange = (options: {
-    value: SetStateAction<string>;
-    _id: SetStateAction<string>;
-  }) => {
+  const handleEmpChange = (options: { value: SetStateAction<string>; _id: SetStateAction<string>; }) => {
     setInputEmp(options.value);
     setInputEmpId(options._id);
     setEmpErrors(false);
   };
 
-  const handleRoleChange = (options: { value: SetStateAction<string> }) => {
+  const handleRoleChange = (options: { value: SetStateAction<string>; }) => {
     setInputRole(options.value);
     setRoleErrors(false);
   };

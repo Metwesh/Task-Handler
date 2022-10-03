@@ -1,9 +1,9 @@
-import Clock from "./Clock";
-import { Link } from "react-router-dom";
-import Card from "react-bootstrap/Card";
-import "./DashboardNav.css";
-import { IUserContext, UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
+import Card from "react-bootstrap/Card";
+import { Link } from "react-router-dom";
+import { IUserContext, UserContext } from "../contexts/UserContext";
+import Clock from "./Clock";
+import "./DashboardNav.css";
 
 export default function DashboardNav(): JSX.Element {
   const { activeEmployee } = useContext<IUserContext>(UserContext);

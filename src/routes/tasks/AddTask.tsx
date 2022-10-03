@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SetStateAction, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -9,7 +9,7 @@ import makeAnimated from "react-select/animated";
 import AsyncSelect from "react-select/async";
 import { IEmployeeInfo } from "../../App";
 import DashboardNav from "../../components/DashboardNav";
-import VerticallNav from "../../components/VerticalNav";
+import VerticalNav from "../../components/VerticalNav";
 import { IUserContext, UserContext } from "../../contexts/UserContext";
 import "./AddTasks.css";
 import DateSelect from "./components/DateSelect";
@@ -60,7 +60,7 @@ export default function AddTask(): JSX.Element {
     };
   });
 
-  const handleChange = (options: SetStateAction<IEmployeeSelect[]>) => {
+  const handleChange = (options: React.SetStateAction<IEmployeeSelect[]>) => {
     setInputEmps(options);
     setEmpErrors(false);
   };
@@ -102,7 +102,6 @@ export default function AddTask(): JSX.Element {
         .post(`${process.env.REACT_APP_BACKEND_BASE}/addtask`, formData)
         .then((response) => {
           if (response.status === 200) {
-            //
             navigate("/alltasks");
           }
         })
@@ -114,7 +113,7 @@ export default function AddTask(): JSX.Element {
 
   return (
     <>
-      <VerticallNav />
+      <VerticalNav />
       <div className="d-grid custom-d-grid">
         <DashboardNav />
 

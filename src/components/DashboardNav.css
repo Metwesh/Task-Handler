@@ -1,9 +1,8 @@
-@supports (grid-area: initial) {
-  .card-wrapper {
-    border-radius: 4px;
-    grid-area: top-bar;
-  }
+.card-wrapper {
+  border-radius: 4px;
+  grid-area: top-bar;
 }
+
 .card-wrapper-body {
   border-radius: 3px;
   background-image: linear-gradient(

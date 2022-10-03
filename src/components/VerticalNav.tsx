@@ -1,15 +1,15 @@
 import { useContext, useLayoutEffect, useState } from "react";
-import LogoLight from "../images/Logo-light.svg";
-import "./VerticalNav.css";
-import Stack from "react-bootstrap/Stack";
+import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import Accordion from "react-bootstrap/Accordion";
+import Stack from "react-bootstrap/Stack";
 import { Link } from "react-router-dom";
-import ConditionalChecks from "../functions/ConditionalChecks";
 import { IUserContext, UserContext } from "../contexts/UserContext";
+import ConditionalChecks from "../functions/ConditionalChecks";
+import LogoLight from "../images/Logo-light.svg";
+import "./VerticalNav.css";
 
-export default function VerticallNav(): JSX.Element {
+export default function VerticalNav(): JSX.Element {
   const [homeLink, setHomeLink] = useState<string>("");
   const [adminHomeLink, setAdminHomeLink] = useState<string>("");
   const [profileLink, setProfileLink] = useState<string>("");

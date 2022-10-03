@@ -110,7 +110,8 @@ const Group = (props: GroupProps<DateOption, false>) => {
     selectProps,
   } = props;
   return (
-    // @ts-ignore-next-line
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore-next-line
     <div style={getStyles("group", props)}>
       <Heading
         selectProps={selectProps}
@@ -154,7 +155,8 @@ const Option = (props: OptionProps<DateOption, false>) => {
       }
     }
     return (
-      // @ts-ignore-next-line
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore-next-line
       <span {...innerProps} style={styles} ref={innerRef}>
         {data.date.format("D")}
       </span>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FormEventHandler, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
@@ -16,12 +16,8 @@ export default function ViewTasks(): JSX.Element {
 
   const { activeEmployee } = useContext<IUserContext>(UserContext);
 
-  async function handleSubmit(e: {
-    nativeEvent: { submitter: { value: string } };
-    preventDefault: () => void;
-    onSubmit?: FormEventHandler<HTMLFormElement> | undefined;
-  }) {
-    const submitter: string = e.nativeEvent.submitter.value;
+  async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
+    const submitter: string | undefined = e.nativeEvent.submitter.value;
 
     e.preventDefault();
     checkedBox.length > 0 &&

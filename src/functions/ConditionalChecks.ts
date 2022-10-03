@@ -1,12 +1,14 @@
+import { Dispatch, SetStateAction } from "react";
+
 export default function ConditionalChecks(
-  setHomeLink: Function,
-  setAdminHomeLink: Function,
-  setProfileLink: Function,
-  setEditProfileLink: Function,
-  setPrivilegesLink: Function,
-  setAllTasksLink: Function,
-  setTasksLink: Function,
-  setAddTaskLink: Function
+  setHomeLink: Dispatch<SetStateAction<string>>,
+  setAdminHomeLink: Dispatch<SetStateAction<string>>,
+  setProfileLink: Dispatch<SetStateAction<string>>,
+  setEditProfileLink: Dispatch<SetStateAction<string>>,
+  setPrivilegesLink: Dispatch<SetStateAction<string>>,
+  setAllTasksLink: Dispatch<SetStateAction<string>>,
+  setTasksLink: Dispatch<SetStateAction<string>>,
+  setAddTaskLink: Dispatch<SetStateAction<string>>
 ): void {
   if (window.location.pathname === "/dashboard") {
     setHomeLink("cardHoverActive");
