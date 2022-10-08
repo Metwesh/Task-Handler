@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import Loading from "../../../components/Loading";
+import { ViewTaskModal } from "../../../components/ViewTaskModal";
 import { IUserContext, UserContext } from "../../../contexts/UserContext";
 import "./TasksTable.css";
 
@@ -17,36 +18,45 @@ export interface ITasks {
 }
 
 export default function TasksTable(props: {
+  tasks: ITasks[];
+  searchedTasks: ITasks[];
+  setSearchedTasks: React.Dispatch<React.SetStateAction<Array<ITasks>>>;
   forceUpdate: number;
+  setForceUpdate: React.Dispatch<React.SetStateAction<number>>;
   setCheckedBox: React.Dispatch<React.SetStateAction<Array<string>>>;
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  incompleteShow: string;
+  pendingShow: string;
+  completeShow: string;
 }): JSX.Element {
-  const [tasks, setTasks] = useState<Array<ITasks>>([]);
   const [incompleteTasks, setIncompleteTasks] = useState<Array<ITasks>>([]);
   const [pendingTasks, setPendingTasks] = useState<Array<ITasks>>([]);
   const [completeTasks, setCompleteTasks] = useState<Array<ITasks>>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+
+  const [showTaskModal, setShowTaskModal] = useState(false);
+
+  const handleClose = () => setShowTaskModal(!showTaskModal);
+  const handleShow = () => setShowTaskModal(!showTaskModal);
 
   const { activeEmployee } = useContext<IUserContext>(UserContext);
 
   useEffect(() => {
-    setLoading(true);
+    return () => {
+      props.setSearchedTasks([]);
+    };
+  }, []);
+
+  useEffect(() => {
     setIncompleteTasks([]);
     setPendingTasks([]);
     setCompleteTasks([]);
-    fetch(`${process.env.REACT_APP_BACKEND_BASE}/getusertasks/${activeEmployee.name}`)
-      .then((Response) => Response.json())
-      .then((tasks) => setTasks(tasks));
-  }, [activeEmployee.name, props.forceUpdate]);
-
-  function stateTimeout() {
-    if (tasks.length === 0) setLoading(false);
-  }
-  setTimeout(stateTimeout, 1500);
+  }, [props.forceUpdate, props.searchedTasks]);
 
   useEffect(() => {
-    tasks.length > 0 &&
-      tasks.forEach((task) => {
-        setLoading(false);
+    props.searchedTasks.length > 0 &&
+      props.searchedTasks.forEach((task: ITasks) => {
+        props.setLoading(false);
         switch (true) {
           case task.status === "Incomplete":
             setIncompleteTasks((current) => [...current, task]);
@@ -61,7 +71,7 @@ export default function TasksTable(props: {
             break;
         }
       });
-  }, [tasks]);
+  }, [props.tasks, props.searchedTasks]);
 
   function checkboxOnChange(
     setChecked: React.Dispatch<React.SetStateAction<Array<string>>>
@@ -78,38 +88,47 @@ export default function TasksTable(props: {
 
   return (
     <table className="table table-hover rounded-start table-border-collapse custom-table">
-      <thead>
-        <tr className="row-header">
-          <th className="fs-3" colSpan={4}>
-            Tasks
-          </th>
-        </tr>
-      </thead>
       <tbody>
-        {loading ? (
+        {props.loading && (
           <tr>
-            <td className="fs-3 column-span-4 text-center no-hover">
+            <td colSpan={4} className="fs-3 text-center no-hover">
               <Loading />
             </td>
           </tr>
-        ) : null}
-        {tasks.length === 0 && !loading && (
+        )}
+        {props.tasks.length === 0 && !props.loading && (
           <tr>
-            <td className="fs-3 column-span-4 text-center no-hover">
-              No tasks issued to you
+            <td colSpan={4} className="fs-3 text-center no-hover">
+              No tasks found
             </td>
           </tr>
         )}
+        {props.tasks.length > 0 &&
+          !props.loading &&
+          props.searchedTasks.length === 0 && (
+            <tr>
+              <td colSpan={4} className="fs-3 text-center no-hover">
+                No tasks found matching your search
+              </td>
+            </tr>
+          )}
         {incompleteTasks.length > 0 && (
-          <tr className="row-header-thick">
+          <tr className={`row-header-thick ${props.incompleteShow}`}>
             <th scope="col" className="width-35">
-              <span className="dot-gray me-05 align-center"></span>Incomplete
+              <span className="dot-gray me-2 align-center" />
+              Incomplete
             </th>
             <th scope="col" className="text-center">
               Issued by
             </th>
             <th scope="col" className="text-center">
-              Issued on
+              Issued to
+            </th>
+            <th scope="col" className="text-center">
+              Issued on 
+              {/* TODO: add sorting
+              &#8681; Arrow down
+              &#8679; Arrow up */}
             </th>
             <th scope="col" className="text-center">
               Deadline
@@ -120,31 +139,43 @@ export default function TasksTable(props: {
           incompleteTasks.map((taskInfo) => {
             const taskStartDate = new Date(taskInfo.startDate);
             const taskDeadline = new Date(taskInfo.deadline);
+            const formattedArray = taskInfo.employeeNames.join(", ");
             return (
-              <tr key={taskInfo._id}>
+              <tr
+                key={taskInfo._id}
+                className={`${props.incompleteShow} pointer`}
+                onClick={handleShow}
+              >
+                <ViewTaskModal taskInfo={taskInfo} showTaskModal={showTaskModal} handleClose={handleClose} />
                 <td>
                   <input
                     type="checkbox"
+                    className="ms-05 me-25 scale-13"
                     title={taskInfo._id}
                     value={taskInfo._id}
-                    className="ms-05 me-25 scale-13"
+                    onClick={(e) => e.stopPropagation()}
                     onChange={checkboxOnChange(props.setCheckedBox)}
                   />
                   {taskInfo.task}
                 </td>
                 <td className="text-center">{taskInfo.adminName}</td>
+                <td className="text-center">{formattedArray}</td>
                 <td className="text-center">{taskStartDate.toDateString()}</td>
                 <td className="text-center">{taskDeadline.toDateString()}</td>
               </tr>
             );
           })}
         {pendingTasks.length > 0 && (
-          <tr className="row-header-thick">
+          <tr className={`row-header-thick ${props.pendingShow}`}>
             <th scope="col" className="width-35">
-              <span className="dot-yellow align-center"></span>Pending approval
+              <span className="dot-yellow align-center" />
+              Pending approval
             </th>
             <th scope="col" className="text-center">
               Issued by
+            </th>
+            <th scope="col" className="text-center">
+              Issued to
             </th>
             <th scope="col" className="text-center">
               Issued on
@@ -158,33 +189,39 @@ export default function TasksTable(props: {
           pendingTasks.map((taskInfo) => {
             const taskStartDate = new Date(taskInfo.startDate);
             const taskDeadline = new Date(taskInfo.deadline);
+            const formattedArray = taskInfo.employeeNames.join(", ");
             return (
-              <tr key={taskInfo._id}>
+              <tr key={taskInfo._id} className={`${props.pendingShow}`}>
                 <td>
                   <input
                     type="checkbox"
+                    className="ms-05 me-25 scale-13"
                     title={taskInfo._id}
                     value={taskInfo._id}
-                    className="ms-05 me-25 scale-13"
+                    onClick={(e) => e.stopPropagation()}
                     onChange={checkboxOnChange(props.setCheckedBox)}
                     disabled={activeEmployee.role === "User" ? true : false}
                   />
                   {taskInfo.task}
                 </td>
                 <td className="text-center">{taskInfo.adminName}</td>
+                <td className="text-center">{formattedArray}</td>
                 <td className="text-center">{taskStartDate.toDateString()}</td>
                 <td className="text-center">{taskDeadline.toDateString()}</td>
               </tr>
             );
           })}
         {completeTasks.length > 0 && (
-          <tr className="row-header-thick">
+          <tr className={`row-header-thick ${props.completeShow}`}>
             <th scope="col" className="width-35">
-              <span className="dot-green align-center"></span>
+              <span className="dot-green align-center" />
               Completed
             </th>
             <th scope="col" className="text-center">
               Issued by
+            </th>
+            <th scope="col" className="text-center">
+              Issued to
             </th>
             <th scope="col" className="text-center">
               Issued on
@@ -198,26 +235,32 @@ export default function TasksTable(props: {
           completeTasks.map((taskInfo) => {
             const taskStartDate = new Date(taskInfo.startDate);
             const taskDeadline = new Date(taskInfo.deadline);
+            const formattedArray = taskInfo.employeeNames.join(", ");
+
             return (
-              <tr key={taskInfo._id}>
+              <tr key={taskInfo._id} className={`${props.completeShow}`}>
                 <td>
                   <input
                     type="checkbox"
+                    className="ms-05 me-25 scale-13"
                     title={taskInfo._id}
                     value={taskInfo._id}
-                    className="ms-05 me-25 scale-13"
+                    onClick={(e) => e.stopPropagation()}
                     onChange={checkboxOnChange(props.setCheckedBox)}
                     disabled={activeEmployee.role === "User" ? true : false}
                   />
                   {taskInfo.task}
                 </td>
                 <td className="text-center">{taskInfo.adminName}</td>
+                <td className="text-center">{formattedArray}</td>
                 <td className="text-center">{taskStartDate.toDateString()}</td>
                 <td className="text-center">{taskDeadline.toDateString()}</td>
               </tr>
             );
           })}
-        {tasks.length > 0 && !loading && <tr></tr>}
+        {props.tasks.length > 0 &&
+          !props.loading &&
+          props.searchedTasks.length > 0 && <tr></tr>}
       </tbody>
     </table>
   );

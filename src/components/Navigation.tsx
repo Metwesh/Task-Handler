@@ -21,16 +21,14 @@ export default function Navigation(): JSX.Element {
             <Button
               href="/signup"
               variant="info"
-              size="lg"
-              className="font-main-color">
+              size="lg">
               Register
             </Button>
           ) : window.location.pathname === "/signup" ? (
             <Button
               href="/signin"
               variant="info"
-              size="lg"
-              className="font-main-color">
+              size="lg">
               Sign in
             </Button>
           ) : null}

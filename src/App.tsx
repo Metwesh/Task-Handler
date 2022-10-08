@@ -3,9 +3,9 @@ import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import AdminProtectedRoute from "./containers/AdminProtectedRoute";
+import AlreadySignedInRoute from "./containers/AlreadySignedInRoute";
 import ProtectedRoute from "./containers/ProtectedRoute";
 import { UserContext } from "./contexts/UserContext";
-import AdminDashboard from "./routes/dashboard/AdminDashboard";
 import Dashboard from "./routes/dashboard/Dashboard";
 import Error404 from "./routes/Error404/Error404";
 import Landing from "./routes/landing/Landing";
@@ -15,8 +15,7 @@ import Profile from "./routes/profile/Profile";
 import SignIn from "./routes/signin/SignIn";
 import SignUp from "./routes/signup/SignUp";
 import AddTask from "./routes/tasks/AddTask";
-import ViewAllTasks from "./routes/tasks/ViewAllTasks";
-import Tasks from "./routes/tasks/ViewTasks";
+import ViewTasks from "./routes/tasks/ViewTasks";
 
 export interface IEmployeeInfo {
   email?: string;
@@ -53,9 +52,33 @@ function App(): JSX.Element {
         value={{ activeEmployee, setActiveEmployee, setUserAuth }}
       >
         <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn />} />
+          <Route
+            path="/"
+            element={
+              <AlreadySignedInRoute>
+                <Landing />
+              </AlreadySignedInRoute>
+            }
+          />
+
+          <Route
+            path="/signup"
+            element={
+              <AlreadySignedInRoute>
+                <SignUp />
+              </AlreadySignedInRoute>
+            }
+          />
+
+          <Route
+            path="/signin"
+            element={
+              <AlreadySignedInRoute>
+                <SignIn />
+              </AlreadySignedInRoute>
+            }
+          />
+
           <Route
             path="/dashboard"
             element={
@@ -69,7 +92,7 @@ function App(): JSX.Element {
             element={
               <ProtectedRoute>
                 <AdminProtectedRoute>
-                  <AdminDashboard />
+                  <Dashboard />
                 </AdminProtectedRoute>
               </ProtectedRoute>
             }
@@ -104,15 +127,7 @@ function App(): JSX.Element {
             path="/tasks"
             element={
               <ProtectedRoute>
-                <Tasks />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/alltasks"
-            element={
-              <ProtectedRoute>
-                <ViewAllTasks />
+                <ViewTasks />
               </ProtectedRoute>
             }
           />

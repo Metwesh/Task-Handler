@@ -6,7 +6,6 @@ export default function ConditionalChecks(
   setProfileLink: Dispatch<SetStateAction<string>>,
   setEditProfileLink: Dispatch<SetStateAction<string>>,
   setPrivilegesLink: Dispatch<SetStateAction<string>>,
-  setAllTasksLink: Dispatch<SetStateAction<string>>,
   setTasksLink: Dispatch<SetStateAction<string>>,
   setAddTaskLink: Dispatch<SetStateAction<string>>
 ): void {
@@ -24,9 +23,6 @@ export default function ConditionalChecks(
   }
   if (window.location.pathname === "/privileges") {
     setPrivilegesLink("cardHoverActive");
-  }
-  if (window.location.pathname === "/alltasks") {
-    setAllTasksLink("cardHoverActive");
   }
   if (window.location.pathname === "/tasks") {
     setTasksLink("cardHoverActive");

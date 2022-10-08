@@ -8,8 +8,10 @@
   border-left: 10px solid #e5e4ff;
 }
 
-.cardHover:hover, .cardHover:focus {
+.cardHover:hover,
+.cardHover:focus {
   border-left: 10px solid #e5e4ff;
+  color: rgb(13, 202, 240);
 }
 
 .accordion-button {

@@ -24,20 +24,20 @@
 .task-tool-tip {
   position: absolute;
   color: rgba(255, 0, 0, 0.721);
-  top: 8rem;
+  top: 9rem;
   right: 148px;
 }
 
 .deadline-tool-tip {
   position: absolute;
   color: rgba(255, 0, 0, 0.721);
-  top: 14rem;
+  top: 23rem;
   right: 104px;
 }
 
 .employees-tool-tip {
   position: absolute;
   color: rgba(255, 0, 0, 0.721);
-  top: 20rem;
-  right: 154px;
+  top: 16rem;
+  right: 153px;
 }

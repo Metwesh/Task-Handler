@@ -1,18 +1,22 @@
-@supports (grid-template-areas: initial) {
-  .custom-grid {
-    margin-left: 15vw;
-    height: 100vh;
-    grid-template-rows: 1fr 6fr 1fr;
-    grid-template-areas:
-      "top-bar"
-      "tasks1"
-      "buttons";
-  }
-
-  .grid-area-buttons {
-    grid-area: buttons;
-  }
+.custom-grid {
+  margin-left: 15vw;
+  height: 100vh;
+  grid-template-rows: 1fr 1fr 7fr 1fr;
+  grid-template-areas:
+    "top-bar"
+    "search"
+    "tasks1"
+    "buttons";
 }
+
+.grid-area-buttons {
+  grid-area: buttons;
+}
+
+.grid-area-search {
+  grid-area: search;
+}
+
 td,
 tr,
 th {
@@ -22,4 +26,46 @@ th {
 .btn-outline-info.disabled,
 .btn-outline-info:disabled {
   color: #212529;
+}
+
+.search-box {
+  max-width: 35%;
+}
+
+.nav-tabs {
+  border-bottom: 1px solid #0dcaf0;
+}
+
+.nav-tabs .nav-link.active {
+  color: black;
+  border-color: #0dcaf0 #0dcaf0 transparent;
+}
+
+.nav-link {
+  color: #495057;
+}
+
+.nav-link:focus,
+.nav-link:hover {
+  color: black;
+}
+
+.nav-link:focus,
+.nav-tabs:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.25rem rgb(13 202 240 / 50%);
+  border-color: #0dcaf0 !important;
+}
+
+.nav-tabs .nav-link:hover {
+  border-color: #0dcaf0 #0dcaf0 transparent;
+  isolation: isolate;
+}
+
+.tiny-negative-margin-top {
+  margin-top: -5px;
+}
+
+.hide {
+  display: none;
 }

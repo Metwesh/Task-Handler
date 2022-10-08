@@ -1,12 +1,11 @@
-@supports (grid-area: initial) {
-  .grid-area-area1 {
-    grid-area: area1;
-    background: white;
-    overflow-y: scroll;
-    border: 1px solid rgba(0, 0, 0, 0.125);
-  }
+.grid-area-area1 {
+  grid-area: area1;
+  background: white;
+  overflow-y: scroll;
+  border: 1px solid rgba(0, 0, 0, 0.125);
 }
 
-.width-35rem {
-  width: 30rem;
+.width-30rem {
+  min-width: 23.3rem;
+  max-width: 30rem;
 }

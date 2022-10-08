@@ -1,0 +1,11 @@
+.custom-input-group-text {
+  background-color: transparent;
+}
+
+.no-border-left {
+  border-left-color: transparent;
+}
+
+.no-border-right {
+  border-right-color: transparent;
+}

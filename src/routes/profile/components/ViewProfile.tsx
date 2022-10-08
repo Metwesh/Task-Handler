@@ -66,14 +66,14 @@ export default function ViewProfile() {
           <div className={`d-flex ${checkStyle(activeEmployee)} mb-1`}>
             <Link
               to="/editprofile"
-              className="text-center font-main-color width-10rem btn btn-info btn-lg"
+              className="text-center width-10rem btn btn-info btn-lg"
             >
               Edit profile
             </Link>
             {activeEmployee.role === "Admin" && (
               <Link
                 to="/privileges"
-                className="text-center font-main-color width-10rem btn btn-info btn-lg"
+                className="text-center width-10rem btn btn-info btn-lg"
               >
                 Edit privileges
               </Link>

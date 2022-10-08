@@ -51,7 +51,6 @@ export default function EditProfileForm(): JSX.Element {
             setActiveEmployee(Object.assign(activeEmployee, userInfo));
             navigate("/profile");
           }
-          console.log(response);
         })
         .catch((error) => {
           if (error.response.status === 401) setPasswordErrors(true);
@@ -119,7 +118,7 @@ export default function EditProfileForm(): JSX.Element {
               type="submit"
               variant="info"
               size="lg"
-              className="text-center font-main-color"
+              className="text-center"
             >
               Update profile
             </Button>

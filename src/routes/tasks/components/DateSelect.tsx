@@ -44,8 +44,6 @@ const defaultOptions: (DateOption | CalendarGroup)[] = [
 ].map((i) => createOptionForDate(chrono.parseDate(i)));
 
 const createCalendarOptions = (date = new Date()) => {
-  // const pages = Array.apply(null, { length: pdf.numPages });
-  // const pages = { ...{ length: somePdf.numPages }};
   const daysInMonth = Array(...Array(moment(date).daysInMonth())).map(
     (_x, i) => {
       const d = moment(date).date(i + 1);
@@ -167,17 +165,23 @@ const Option = (props: OptionProps<DateOption, false>) => {
 interface DatePickerProps {
   readonly value: DateOption | null;
   readonly onChange: (_value: DateOption | null) => void;
+  setDateErrors?: ((_arg: boolean) => void) | undefined;
 }
 
 interface DatePickerState {
   readonly options: readonly (DateOption | CalendarGroup)[];
+  setDateErrors?: ((_arg: boolean) => void) | undefined;
 }
 
 class DatePicker extends Component<DatePickerProps, DatePickerState> {
+  constructor(props: DatePickerProps | Readonly<DatePickerProps>) {
+    super(props);
+  }
   state: DatePickerState = {
     options: defaultOptions,
   };
   handleInputChange = (value: string) => {
+    this.props.setDateErrors?.(false);
     if (!value) {
       this.setState({ options: defaultOptions });
       return;
@@ -199,15 +203,26 @@ class DatePicker extends Component<DatePickerProps, DatePickerState> {
     return (
       <Select<DateOption, false>
         {...this.props}
+        theme={(theme) => ({
+          ...theme,
+          borderRadius: 0,
+          colors: {
+            ...theme.colors,
+            text: "black",
+            primary25: "rgb(13, 202, 240, 0.3)",
+            primary: "#0dcaf0",
+          },
+        })}
         components={{ Group, Option }}
         filterOption={null}
         isMulti={false}
         isOptionSelected={(o, v) => v.some((i) => i.date.isSame(o.date, "day"))}
-        maxMenuHeight={380}
+        maxMenuHeight={405}
         onChange={this.props.onChange}
         onInputChange={this.handleInputChange}
         options={options}
         name="deadline"
+        menuPlacement="top"
         classNamePrefix="select"
         value={value}
       />
@@ -223,6 +238,11 @@ export default class DateSelect extends Component<
   Record<string, unknown>,
   State
 > {
+  constructor(
+    props: Record<string, unknown> | Readonly<Record<string, unknown>>
+  ) {
+    super(props);
+  }
   state: State = {
     value: defaultOptions[0] as DateOption,
   };
@@ -233,7 +253,13 @@ export default class DateSelect extends Component<
     const { value } = this.state;
     return (
       <div>
-        <DatePicker value={value} onChange={this.handleChange} />
+        <DatePicker
+          value={value}
+          onChange={this.handleChange}
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          //@ts-ignore-next-line
+          setDateErrors={this.props.setDateErrors}
+        />
       </div>
     );
   }

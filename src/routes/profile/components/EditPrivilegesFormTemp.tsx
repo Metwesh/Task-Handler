@@ -46,21 +46,35 @@ export default function EditPrivilegesForm(): JSX.Element {
     };
   });
 
-  const handleEmpChange = (options: {
-    value: SetStateAction<string>;
-    _id: SetStateAction<string>;
-    role: SetStateAction<string>;
-  }) => {
-    setInputEmp(options.value);
-    setInputEmpId(options._id);
-    setInputRole(options.role);
-    setEmpErrors(false);
+  const filterItems = (inputValue: string) => {
+    return (
+      empSelect.length > 0 &&
+      empSelect.filter((emp) =>
+        emp?.label?.toLowerCase().includes(inputValue.toLowerCase())
+      )
+    );
+  };
+
+  const loadOptions = (
+    inputValue: string,
+    callback: (_options: unknown) => void
+  ) => {
+    setTimeout(() => {
+      callback(filterItems(inputValue));
+    }, 500);
+  };
+
+  const handleInputChange = (newValue: string) => {
+    const inputValue = newValue.replace(/\W/g, "");
+    setInputEmp(inputValue);
+    return inputValue;
   };
 
   const handleRoleChange = (options: { value: SetStateAction<string> }) => {
     setInputRole(options.value);
     setRoleErrors(false);
   };
+
   async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     if (inputEmp.length === 0) setEmpErrors(true);
@@ -104,8 +118,11 @@ export default function EditPrivilegesForm(): JSX.Element {
               placeholder="Select employee"
               classNamePrefix="select"
               cacheOptions
-              isSearchable={false}
               defaultOptions={empSelect}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              //@ts-ignore-next-line
+              loadOptions={loadOptions}
+              onInputChange={handleInputChange}
               theme={(theme) => ({
                 ...theme,
                 borderRadius: 0,
@@ -116,9 +133,6 @@ export default function EditPrivilegesForm(): JSX.Element {
                   primary: "#0dcaf0",
                 },
               })}
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore-next-line
-              onChange={handleEmpChange}
             />
             {empErrors && (
               <h6 className="employees-errors-tool-tip">
@@ -134,8 +148,11 @@ export default function EditPrivilegesForm(): JSX.Element {
               placeholder="Select role"
               className="basic-multi-select"
               classNamePrefix="select"
-              isSearchable={false}
+              isSearchable
               options={roleOptions}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              //@ts-ignore-next-line
+              onChange={handleRoleChange}
               theme={(theme) => ({
                 ...theme,
                 borderRadius: 0,
@@ -146,9 +163,6 @@ export default function EditPrivilegesForm(): JSX.Element {
                   primary: "#0dcaf0",
                 },
               })}
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore-next-line
-              onChange={handleRoleChange}
             />
             {roleErrors && (
               <h6 className="roles-errors-tool-tip">Please select a role</h6>

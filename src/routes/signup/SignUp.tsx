@@ -83,8 +83,8 @@ export default function SignUp(): JSX.Element {
           navigate("/admindashboard");
         }
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        /* */
       });
   }
   return (
@@ -171,7 +171,6 @@ export default function SignUp(): JSX.Element {
                 <Button
                   href="/signin"
                   variant="outline-info"
-                  className="font-main-color"
                 >
                   Sign in
                 </Button>

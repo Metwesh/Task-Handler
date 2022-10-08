@@ -13,10 +13,6 @@
   background-color: rgb(18, 28, 40);
 }
 
-.font-main-color {
-  color: var(--bs-body-color);
-}
-
 .ml-05 {
   margin-bottom: 0;
   margin-left: 0.5rem;

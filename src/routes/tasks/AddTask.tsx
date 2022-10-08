@@ -65,50 +65,80 @@ export default function AddTask(): JSX.Element {
     setEmpErrors(false);
   };
 
+  function employeeValidation() {
+    if (inputEmps.length === 0) {
+      setEmpErrors(true);
+      return false;
+    }
+    return true;
+  }
+
   function compareDate(date: Date) {
     return new Date(date?.toDateString()) < new Date(new Date().toDateString());
+  }
+
+  function dateValidation(deadline: Date) {
+    if (compareDate(deadline)) {
+      setDateErrors(true);
+      return false;
+    }
+    return true;
+  }
+
+  function taskValidation() {
+    if (!inputTask) {
+      setTaskErrors(true);
+      return false;
+    }
+    return true;
+  }
+
+  function validateInputs(deadline: Date) {
+    taskValidation();
+    dateValidation(deadline);
+    employeeValidation();
+    if (!taskValidation() || !dateValidation(deadline) || !employeeValidation())
+      return false;
+    return true;
+  }
+
+  async function handlePostToDb(formData: IFormData) {
+    await axios
+      .post(`${process.env.REACT_APP_BACKEND_BASE}/addtask`, formData)
+      .then((response) => {
+        if (response.status === 200) {
+          navigate("/tasks");
+        }
+      })
+      .catch(() => {
+        /**/
+      });
   }
 
   async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     setDateErrors(false);
-
     const startDate = new Date();
     const deadline = new Date((e.target as HTMLFormElement).deadline.value);
-    let employeeNames!: Array<string | undefined>;
-    let employeeEmails!: Array<string | undefined>;
-    if (!inputTask) setTaskErrors(true);
-    if (compareDate(deadline)) setDateErrors(true);
-    if (inputEmps.length === 0) {
-      setEmpErrors(true);
-    } else {
-      employeeNames = inputEmps?.map((emps: IEmployeeSelect) => emps.value);
-      employeeEmails = inputEmps?.map((emps: IEmployeeSelect) => emps.email);
-    }
-
-    if (taskErrors === false && empErrors === false && dateErrors === false) {
-      const formData: IFormData = {
-        task: inputTask,
-        adminEmail: activeEmployee.email,
-        adminRole: activeEmployee.role,
-        adminName: activeEmployee.name,
-        startDate: startDate,
-        deadline: deadline,
-        employeeNames: employeeNames,
-        employeeEmails: employeeEmails,
-        status: "Incomplete",
-      };
-      await axios
-        .post(`${process.env.REACT_APP_BACKEND_BASE}/addtask`, formData)
-        .then((response) => {
-          if (response.status === 200) {
-            navigate("/alltasks");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+    validateInputs(deadline);
+    if (!validateInputs(deadline)) return false;
+    const employeeNames = inputEmps?.map((emps: IEmployeeSelect) => emps.value);
+    const employeeEmails = inputEmps?.map(
+      (emps: IEmployeeSelect) => emps.email
+    );
+    const formData: IFormData = {
+      task: inputTask,
+      adminEmail: activeEmployee.email,
+      adminRole: activeEmployee.role,
+      adminName: activeEmployee.name,
+      startDate: startDate,
+      deadline: deadline,
+      employeeNames: employeeNames,
+      employeeEmails: employeeEmails,
+      status: "Incomplete",
+    };
+    e.persist();
+    await handlePostToDb(formData);
   }
 
   return (
@@ -123,12 +153,11 @@ export default function AddTask(): JSX.Element {
               onSubmit={handleSubmit}
               className="fixed-width d-flex justify-content-center"
             >
-              <Stack direction="vertical" className="">
+              <Stack direction="vertical" gap={3}>
                 <h3 className="mb-4 mt-3">Add task form</h3>
                 <Form.Group className="mb-4" controlId="task">
                   <Form.Label>Task:</Form.Label>
                   <Form.Control
-                    className=""
                     type="text"
                     name="task"
                     onChange={(e) => {
@@ -143,17 +172,6 @@ export default function AddTask(): JSX.Element {
                   )}
                 </Form.Group>
 
-                <Form.Group className="mb-4" controlId="deadline">
-                  <Form.Label>Deadline:</Form.Label>
-
-                  <DateSelect />
-                  {dateErrors && (
-                    <h6 className="deadline-tool-tip">
-                      Please select a valid deadline
-                    </h6>
-                  )}
-                </Form.Group>
-
                 <Form.Group className="mb-4" controlId="employees">
                   <Form.Label>Issued to:</Form.Label>
 
@@ -162,14 +180,36 @@ export default function AddTask(): JSX.Element {
                     cacheOptions
                     placeholder="Select User(s)"
                     name="employees"
-                    className="basic-multi-select"
                     classNamePrefix="select"
                     components={makeAnimated()}
                     defaultOptions={empSelect}
-                    onChange={handleChange}
                     menuPlacement="auto"
-                    maxMenuHeight={200}
+                    maxMenuHeight={250}
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore-next-line
+                    onChange={handleChange}
+                    theme={(theme) => ({
+                      ...theme,
+                      borderRadius: 0,
+                      colors: {
+                        ...theme.colors,
+                        text: "black",
+                        primary25: "rgb(13, 202, 240, 0.8)",
+                        primary: "#0dcaf0",
+                      },
+                    })}
                   />
+                  {dateErrors && (
+                    <h6 className="deadline-tool-tip">
+                      Please select a valid deadline
+                    </h6>
+                  )}
+                </Form.Group>
+
+                <Form.Group className="mb-4" controlId="deadline">
+                  <Form.Label>Deadline:</Form.Label>
+
+                  <DateSelect setDateErrors={setDateErrors} />
                   {empErrors && (
                     <h6 className="employees-tool-tip">
                       Please fill out this field
@@ -182,7 +222,7 @@ export default function AddTask(): JSX.Element {
                     type="submit"
                     variant="info"
                     size="lg"
-                    className="text-center font-main-color ms-4"
+                    className="text-center ms-4"
                   >
                     Submit
                   </Button>

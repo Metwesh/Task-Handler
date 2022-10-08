@@ -21,12 +21,23 @@ export default function Dashboard() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(
-      `${process.env.REACT_APP_BACKEND_BASE}/getusertasks/${activeEmployee.name}`
-    )
-      .then((Response) => Response.json())
-      .then((tasks) => setTasks(tasks));
-  }, [activeEmployee.name]);
+    window.location.pathname === "/admindashboard" &&
+      fetch(`${process.env.REACT_APP_BACKEND_BASE}/getalltasks`)
+        .then((Response) => Response.json())
+        .then((tasks) => {
+          setTasks(tasks);
+          if (tasks.length === 0) setLoading(false);
+        });
+    window.location.pathname === "/dashboard" &&
+      fetch(
+        `${process.env.REACT_APP_BACKEND_BASE}/getusertasks/${activeEmployee.name}`
+      )
+        .then((Response) => Response.json())
+        .then((tasks) => {
+          setTasks(tasks);
+          if (tasks.length === 0) setLoading(false);
+        });
+  }, []);
 
   useEffect(() => {
     tasks.length > 0 &&
@@ -48,11 +59,6 @@ export default function Dashboard() {
       });
   }, [tasks]);
 
-  function stateTimeout() {
-    if (tasks.length === 0) setLoading(false);
-  }
-  setTimeout(stateTimeout, 2000);
-
   return (
     <>
       <VerticalNav />
@@ -64,7 +70,7 @@ export default function Dashboard() {
           <table className="table table-hover rounded-3 table-border-collapse">
             <thead>
               <tr className="row-header-thick">
-                <th scope="col" className="width-35rem">
+                <th scope="col" className="width-30rem">
                   Priorities
                 </th>
                 <th scope="col" className="text-center">

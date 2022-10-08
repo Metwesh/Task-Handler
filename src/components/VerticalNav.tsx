@@ -15,7 +15,6 @@ export default function VerticalNav(): JSX.Element {
   const [profileLink, setProfileLink] = useState<string>("");
   const [editProfileLink, setEditProfileLink] = useState<string>("");
   const [privilegesLink, setPrivilegesLink] = useState<string>("");
-  const [allTasksLink, setAllTasksLink] = useState<string>("");
   const [tasksLink, setTasksLink] = useState<string>("");
   const [addTaskLink, setAddTaskLink] = useState<string>("");
 
@@ -32,7 +31,6 @@ export default function VerticalNav(): JSX.Element {
       setProfileLink,
       setEditProfileLink,
       setPrivilegesLink,
-      setAllTasksLink,
       setTasksLink,
       setAddTaskLink
     );
@@ -42,12 +40,16 @@ export default function VerticalNav(): JSX.Element {
     <Stack direction="vertical" className="custom-v-stack">
       <Stack
         direction="vertical"
-        className="d-flex justify-content-start width-100">
+        className="d-flex justify-content-start width-100"
+      >
         <Card className="custom-card">
           <Link
-            to="/dashboard"
+            to={
+              activeEmployee.role === "Admin" ? "/admindashboard" : "/dashboard"
+            }
             aria-label="Home"
-            className="text-decoration-none">
+            className="text-decoration-none"
+          >
             <Card.Body>
               <img src={LogoLight} alt="Logo" width="40rem"></img>
               <span className="h5 font-inverse">Task Handler</span>
@@ -75,7 +77,8 @@ export default function VerticalNav(): JSX.Element {
               : window.location.pathname === "/alltasks"
               ? "2"
               : null
-          }>
+          }
+        >
           <Accordion.Item eventKey="0" className="custom-accordion-item">
             <Accordion.Header className="d-flex">
               <svg width="24" height="24" viewBox="0 0 24 24">
@@ -92,14 +95,16 @@ export default function VerticalNav(): JSX.Element {
                   <Link
                     to="/admindashboard"
                     aria-label="Admin Dashboard"
-                    className={`text-decoration-none font-inverse mb-1 cardHover ${adminHomeLink}`}>
+                    className={`text-decoration-none font-inverse mb-1 cardHover ${adminHomeLink}`}
+                  >
                     Admin dashboard
                   </Link>
                 )}
                 <Link
                   to="/dashboard"
                   aria-label="Home"
-                  className={`text-decoration-none mt-1 font-inverse cardHover ${homeLink}`}>
+                  className={`text-decoration-none mt-1 font-inverse cardHover ${homeLink}`}
+                >
                   Dashboard
                 </Link>
               </Stack>
@@ -121,20 +126,23 @@ export default function VerticalNav(): JSX.Element {
                 <Link
                   to="/profile"
                   aria-label="Home"
-                  className={`text-decoration-none font-inverse mb-1 cardHover ${profileLink}`}>
+                  className={`text-decoration-none font-inverse mb-1 cardHover ${profileLink}`}
+                >
                   View profile
                 </Link>
                 <Link
                   to="/editprofile"
                   aria-label="Home"
-                  className={`text-decoration-none font-inverse mt-1 mb-1 cardHover ${editProfileLink}`}>
+                  className={`text-decoration-none font-inverse mt-1 mb-1 cardHover ${editProfileLink}`}
+                >
                   Edit profile
                 </Link>
                 {activeEmployee.role === "Admin" && (
                   <Link
                     to="/privileges"
                     aria-label="Home"
-                    className={`text-decoration-none font-inverse mt-1 cardHover ${privilegesLink}`}>
+                    className={`text-decoration-none font-inverse mt-1 cardHover ${privilegesLink}`}
+                  >
                     Edit privileges
                   </Link>
                 )}
@@ -156,20 +164,16 @@ export default function VerticalNav(): JSX.Element {
                 <Link
                   to="/tasks"
                   aria-label="Tasks"
-                  className={`text-decoration-none font-inverse mb-1 cardHover ${tasksLink}`}>
-                  Your tasks
-                </Link>
-                <Link
-                  to="/alltasks"
-                  aria-label="Tasks"
-                  className={`text-decoration-none font-inverse mb-1 mt-1 cardHover ${allTasksLink}`}>
-                  All tasks
+                  className={`text-decoration-none font-inverse mb-1 mt-1 cardHover ${tasksLink}`}
+                >
+                  View tasks
                 </Link>
                 {activeEmployee.role === "Admin" && (
                   <Link
                     to="/addtask"
                     aria-label="Tasks"
-                    className={`text-decoration-none font-inverse mt-1 cardHover ${addTaskLink}`}>
+                    className={`text-decoration-none font-inverse mt-1 cardHover ${addTaskLink}`}
+                  >
                     Add task
                   </Link>
                 )}
@@ -182,8 +186,9 @@ export default function VerticalNav(): JSX.Element {
         href="/"
         variant="info"
         size="lg"
-        className="m-3 text-center font-main-color"
-        onClick={signout}>
+        className="m-3 text-center"
+        onClick={signout}
+      >
         Sign out
       </Button>
     </Stack>

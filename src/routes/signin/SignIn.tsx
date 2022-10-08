@@ -133,7 +133,6 @@ export default function SignIn(): JSX.Element {
                 <Button
                   href="/signup"
                   variant="outline-info"
-                  className="font-main-color"
                 >
                   Register
                 </Button>

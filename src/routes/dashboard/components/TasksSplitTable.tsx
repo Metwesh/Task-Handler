@@ -18,18 +18,18 @@ export default function TasksSplitTable(props: {
   props.incompleteTasks.length > 0 &&
     props.incompleteTasks.forEach((taskInfo) => {
       const taskDeadline = new Date(taskInfo.deadline);
-      if (compareDate(taskDeadline) > 1 && compareDate(taskDeadline) <= 7)
+      if (compareDate(taskDeadline) > 7) return (taskInfo.priority = 5);
+      else if (compareDate(taskDeadline) > 5 && compareDate(taskDeadline) < 7)
+        return (taskInfo.priority = 4);
+      else if (compareDate(taskDeadline) > 3 && compareDate(taskDeadline) < 5)
         return (taskInfo.priority = 3);
-      else if (compareDate(taskDeadline) >= 0 && compareDate(taskDeadline) <= 1)
-        return (taskInfo.priority = 2);
-      else if (compareDate(taskDeadline) < 0) return (taskInfo.priority = 1);
-      else return (taskInfo.priority = 0);
+      else if (compareDate(taskDeadline) > 0) return (taskInfo.priority = 2);
+      else if (compareDate(taskDeadline) === 0) return (taskInfo.priority = 1);
+      else if (compareDate(taskDeadline) < 0) return (taskInfo.priority = 0);
     });
-
   return (
     <div className="d-grid grid-tasks-split">
       {/* Table 1 */}
-
       <div className="rounded-3 me-3 grid-format grid-area-table1">
         <table className="table table-hover rounded-start table-border-collapse">
           <thead>
@@ -46,7 +46,7 @@ export default function TasksSplitTable(props: {
               </tr>
             )}
             {(props.incompleteTasks.find(
-              (element) => element.priority === 1
+              (element) => element.priority === 0
             ) === undefined ||
               props.incompleteTasks.length === 0) &&
             !props.loading ? (
@@ -57,10 +57,10 @@ export default function TasksSplitTable(props: {
               props.incompleteTasks.length > 0 &&
               !props.loading &&
               props.incompleteTasks.map((taskInfo) => {
-                if (taskInfo.priority !== 1) return false;
+                if (taskInfo.priority !== 0) return false;
                 else
                   return (
-                    <tr>
+                    <tr key={taskInfo._id} className="warning pointer">
                       <td>{taskInfo.task}</td>
                     </tr>
                   );
@@ -69,9 +69,7 @@ export default function TasksSplitTable(props: {
           </tbody>
         </table>
       </div>
-
       {/* Table 2 */}
-
       <div className="rounded-3 grid-format grid-area-table2">
         <table className="table table-hover rounded-start table-border-collapse">
           <thead>
@@ -88,7 +86,7 @@ export default function TasksSplitTable(props: {
               </tr>
             )}
             {(props.incompleteTasks.find(
-              (element) => element.priority === 2
+              (element) => element.priority === 1
             ) === undefined ||
               props.incompleteTasks.length === 0) &&
             !props.loading ? (
@@ -99,10 +97,10 @@ export default function TasksSplitTable(props: {
               props.incompleteTasks.length > 0 &&
               !props.loading &&
               props.incompleteTasks.map((taskInfo) => {
-                if (taskInfo.priority !== 2) return false;
+                if (taskInfo.priority !== 1) return false;
                 else
                   return (
-                    <tr>
+                    <tr key={taskInfo._id} className="pointer">
                       <td>{taskInfo.task}</td>
                     </tr>
                   );
@@ -111,9 +109,7 @@ export default function TasksSplitTable(props: {
           </tbody>
         </table>
       </div>
-
       {/* Table 3 */}
-
       <div className="rounded-3 ms-3 grid-format grid-area-table3">
         <table className="table table-hover rounded-start table-border-collapse">
           <thead>
@@ -130,7 +126,7 @@ export default function TasksSplitTable(props: {
               </tr>
             )}
             {(props.incompleteTasks.find(
-              (element) => element.priority === 1
+              (element) => element.priority >= 2 && element.priority < 4
             ) === undefined ||
               props.incompleteTasks.length === 0) &&
             !props.loading ? (
@@ -141,10 +137,10 @@ export default function TasksSplitTable(props: {
               props.incompleteTasks.length > 0 &&
               !props.loading &&
               props.incompleteTasks.map((taskInfo) => {
-                if (taskInfo.priority !== 3) return false;
+                if (taskInfo.priority < 2) return false;
                 else
                   return (
-                    <tr>
+                    <tr key={taskInfo._id} className="pointer">
                       <td>{taskInfo.task}</td>
                     </tr>
                   );
