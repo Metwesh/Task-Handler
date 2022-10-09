@@ -19,7 +19,6 @@ export default function Charts(props: {
     labels: [" Incomplete", " Pending approval", " Completed"],
     datasets: [
       {
-        label: "Tasks chart",
         data: chartData,
         backgroundColor: [
           "rgb(190,190,190)",
@@ -31,5 +30,7 @@ export default function Charts(props: {
     ],
   };
 
-  return <Doughnut data={data} />;
+  return (
+    <Doughnut data={data} width={"auto"} height={"auto"} />
+  );
 }

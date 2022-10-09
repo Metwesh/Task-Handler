@@ -91,7 +91,7 @@ export default function Dashboard() {
               )}
 
               {incompleteTasks.length === 0 && !loading ? (
-                <tr className="height-300">
+                <tr className="height-195">
                   <td colSpan={4} className="fs-3 text-center no-hover">
                     No tasks found
                   </td>
@@ -105,26 +105,32 @@ export default function Dashboard() {
 
         <Card className="me-3 ms-1 my-2 grid-area-area2">
           <Card.Body>
-            <h3 className="text-center">Tasks</h3>
-            <div className="d-flex justify-content-center align-items-center height-295">
-              {loading && (
+            <h5 className="text-center mb-0">Tasks</h5>
+            {loading && (
+              <div className="d-flex justify-content-center align-items-center height-295">
                 <div className="fs-5">
                   <Loading />
                 </div>
-              )}
-              {tasks.length === 0 && !loading ? (
-                <h4>No tasks found</h4>
-              ) : (
-                tasks.length > 0 &&
-                !loading && (
+              </div>
+            )}
+            {tasks.length === 0 && !loading ? (
+              <div className="d-flex justify-content-center align-items-center height-195">
+                <div className="d-flex justify-content-center align-items-center h-50">
+                  <h4>No tasks found</h4>
+                </div>
+              </div>
+            ) : (
+              tasks.length > 0 &&
+              !loading && (
+                <div className="chart-container p-relative w-100 h-50">
                   <Charts
                     incompleteTasks={incompleteTasks}
                     pendingTasks={pendingTasks}
                     completeTasks={completeTasks}
                   />
-                )
-              )}
-            </div>
+                </div>
+              )
+            )}
           </Card.Body>
         </Card>
 

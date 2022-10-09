@@ -1,9 +1,5 @@
-@supports (grid-area: initial) {
-  .grid-padding {
-    grid-area: area;
-    padding-left: 20rem;
-    padding-right: 20rem;
-  }
+.width-50percent{
+  width: 45%;
 }
 
 .password-error-tool-tip {

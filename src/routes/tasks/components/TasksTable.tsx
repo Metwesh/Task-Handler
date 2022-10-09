@@ -155,7 +155,7 @@ export default function TasksTable(props: {
                     value={taskInfo._id}
                     onClick={(e) => e.stopPropagation()}
                     onChange={checkboxOnChange(props.setCheckedBox)}
-                  />
+                    />
                   {taskInfo.task}
                 </td>
                 <td className="text-center">{taskInfo.adminName}</td>

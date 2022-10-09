@@ -16,7 +16,7 @@ a:focus {
 }
 
 input[type="checkbox"]:focus {
-  outline: 1px solid rgb(13, 202, 240);
+  outline: 2px solid rgb(13, 202, 240);
   outline-offset: 1px;
 }
 

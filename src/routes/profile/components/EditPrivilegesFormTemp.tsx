@@ -28,6 +28,12 @@ export default function EditPrivilegesForm(): JSX.Element {
       .then((users) => setEmployees(users));
   }, []);
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore-next-line
+  employees.sort((a, b) => {
+    return a.name && b.name && a.name.localeCompare(b.name);
+  });
+
   const roleOptions: Array<IEmployeeSelect> = [
     { value: "Admin", label: "Admin" },
     { value: "User", label: "User" },
@@ -45,6 +51,17 @@ export default function EditPrivilegesForm(): JSX.Element {
       role: employee.role,
     };
   });
+
+  const handleEmpChange = (options: {
+    value: SetStateAction<string>;
+    _id: SetStateAction<string>;
+    role: SetStateAction<string>;
+  }) => {
+    setInputEmp(options.value);
+    setInputEmpId(options._id);
+    setInputRole(options.role);
+    setEmpErrors(false);
+  };
 
   const filterItems = (inputValue: string) => {
     return (

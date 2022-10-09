@@ -1,20 +1,18 @@
-@supports (grid-template-areas: initial) {
-  .grid-viewprofile {
-    height: 100%;
-    grid-template-areas:
-      ". row1 ."
-      ". row2 .";
-    grid-template-columns: 1fr 1.5fr 1fr;
-    grid-template-rows: 1fr 8fr;
-  }
+.grid-viewprofile {
+  height: 100%;
+  grid-template-areas:
+    ". row1 ."
+    ". row2 .";
+  grid-template-columns: 1fr 1.5fr 1fr;
+  grid-template-rows: 1fr 8fr;
+}
 
-  .grid-row1 {
-    grid-area: row1;
-  }
+.grid-row1 {
+  grid-area: row1;
+}
 
-  .grid-row2 {
-    grid-area: row2;
-  }
+.grid-row2 {
+  grid-area: row2;
 }
 
 .width-10rem {

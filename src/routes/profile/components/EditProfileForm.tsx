@@ -57,74 +57,73 @@ export default function EditProfileForm(): JSX.Element {
         }));
   }
   return (
-    <div className="mx-3 my-2 grid-padding">
-      <h3 className="mb-4 mt-3">Edit profile</h3>
-      <Form onSubmit={handleSubmit}>
-        <Stack direction="vertical">
-          <Form.Group className="mb-4" controlId="name">
-            <Form.Label>Name:</Form.Label>
-            <Form.Control
-              className="px-2"
-              type="text"
-              placeholder={activeEmployee.name}
-              onChange={(e) => {
-                setInputName(e.target.value);
-              }}
-              autoComplete="off"
-            />
-          </Form.Group>
+    <div className="m-auto">
+      <Stack direction="vertical" className="width-50percent m-auto">
+        <h3 className="mb-4 mt-2">Edit profile</h3>
+        <Form.Group className="mb-4" controlId="name">
+          <Form.Label>Name:</Form.Label>
+          <Form.Control
+            className="px-2"
+            type="text"
+            placeholder={activeEmployee.name}
+            onChange={(e) => {
+              setInputName(e.target.value);
+            }}
+            autoComplete="off"
+          />
+        </Form.Group>
 
-          <Form.Group className="mb-4" controlId="email">
-            <Form.Label>E-mail:</Form.Label>
-            <Form.Control
-              className="px-2"
-              type="text"
-              placeholder={activeEmployee.email}
-              onChange={(e) => {
-                setInputEmail(e.target.value);
-              }}
-              autoComplete="off"
-            />
-          </Form.Group>
+        <Form.Group className="mb-4" controlId="email">
+          <Form.Label>E-mail:</Form.Label>
+          <Form.Control
+            className="px-2"
+            type="text"
+            placeholder={activeEmployee.email}
+            onChange={(e) => {
+              setInputEmail(e.target.value);
+            }}
+            autoComplete="off"
+          />
+        </Form.Group>
 
-          <Form.Group className="mb-4" controlId="oldpassword">
-            <Form.Label>Current password:</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Current password"
-              onChange={(e) => {
-                setOldInputPassword(e.target.value);
-                setPasswordErrors(false);
-              }}
-            />
-            {passwordErrors && (
-              <h6 className="password-error-tool-tip">Invalid credentials</h6>
-            )}
-          </Form.Group>
+        <Form.Group className="mb-4" controlId="oldpassword">
+          <Form.Label>Current password:</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Current password"
+            onChange={(e) => {
+              setOldInputPassword(e.target.value);
+              setPasswordErrors(false);
+            }}
+          />
+          {passwordErrors && (
+            <h6 className="password-error-tool-tip">Invalid credentials</h6>
+          )}
+        </Form.Group>
 
-          <Form.Group className="mb-4" controlId="newpassword">
-            <Form.Label>New password:</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="New password"
-              onChange={(e) => {
-                setNewInputPassword(e.target.value);
-              }}
-            />
-          </Form.Group>
+        <Form.Group className="mb-4" controlId="newpassword">
+          <Form.Label>New password:</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="New password"
+            onChange={(e) => {
+              setNewInputPassword(e.target.value);
+            }}
+          />
+        </Form.Group>
 
-          <Form.Group className="d-flex justify-content-center mb-1">
-            <Button
-              type="submit"
-              variant="info"
-              size="lg"
-              className="text-center"
-            >
-              Update profile
-            </Button>
-          </Form.Group>
-        </Stack>
-      </Form>
+        <Form.Group className="d-flex justify-content-center mb-1">
+          <Button
+            type="submit"
+            variant="info"
+            size="lg"
+            className="text-center"
+            onClick={handleSubmit}
+          >
+            Update profile
+          </Button>
+        </Form.Group>
+      </Stack>
     </div>
   );
 }

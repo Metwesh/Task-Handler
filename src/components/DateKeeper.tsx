@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import "./Clock.css";
+import "./DateKeeper.css";
 
-export default function Clock() {
+export default function DateKeeper() {
   const [weekDayState, setWeekDayState] = useState<number>(0);
   const [yearState, setYearState] = useState<number>(0);
   const [monthState, setMonthState] = useState<number>(0);
@@ -72,14 +72,14 @@ export default function Clock() {
   }, []);
 
   return (
-    <div className="border border-info pe-2 rounded-3">
+    <div className="border border-info pe-2 rounded-3 vertical-align-middle">
       <span className="ms-2 me-2 fw-bold">{weekDays[weekDayState]}</span>
-      <span className="clock-divider"></span>
+      <span className="date-divider"></span>
 
       <span className="ms-2 me-2 fw-bold">{months[monthState]}</span>
-      <span className="clock-divider"></span>
+      <span className="date-divider"></span>
       <span className="ms-2 me-2 fw-bold">{monthDays[monthDayState - 1]}</span>
-      <span className="clock-divider"></span>
+      <span className="date-divider"></span>
       <span className="ms-2 fw-bold">{yearState}</span>
     </div>
   );

@@ -52,6 +52,12 @@ export default function AddTask(): JSX.Element {
       .then((users) => setEmployees(users));
   }, []);
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore-next-line
+  employees.sort((a, b) => {
+    return a.name && b.name && a.name.localeCompare(b.name);
+  });
+
   const empSelect: Array<IEmployeeSelect> = employees.map((employee) => {
     return {
       value: employee.name,
@@ -183,7 +189,7 @@ export default function AddTask(): JSX.Element {
                     classNamePrefix="select"
                     components={makeAnimated()}
                     defaultOptions={empSelect}
-                    menuPlacement="auto"
+                    menuPlacement="top"
                     maxMenuHeight={250}
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore-next-line
