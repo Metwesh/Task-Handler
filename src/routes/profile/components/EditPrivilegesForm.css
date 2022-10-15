@@ -1,28 +1,23 @@
-@supports (grid-area: initial) {
-  .grid-area-eprivileges {
-    grid-area: area;
-    padding-left: 20rem;
-    padding-right: 20rem;
-  }
+.grid-area-eprivileges {
+  grid-area: area;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.max-width-50 {
+  width: 45%;
 }
 
 .employees-errors-tool-tip {
-  position: absolute;
+  padding-top: 0.1rem;
   color: rgba(255, 0, 0, 0.721);
-  top: 8.25rem;
-  right: 8rem;
 }
 
 .roles-errors-tool-tip {
-  position: absolute;
-  color: rgba(255, 0, 0, 0.721);
-  top: 14rem;
-  right: 11.25rem;
+  color: #ff0000b8;
 }
 
-.roles-errors2-tool-tip {
-  position: absolute;
-  color: rgba(255, 0, 0, 0.721);
-  top: 14rem;
-  right: 9rem;
+.warning-svg {
+  height: 1rem;
+  width: auto;
 }

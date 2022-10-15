@@ -1,195 +1,248 @@
 import axios from "axios";
-import { SetStateAction, useContext, useEffect, useState } from "react";
+import { SetStateAction, useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Stack from "react-bootstrap/Stack";
 import Toast from "react-bootstrap/Toast";
-import Select from "react-select";
-import AsyncSelect from "react-select/async";
 import { IEmployeeInfo } from "../../../App";
+import EmployeeAsyncSelect from "../../../components/EmployeeAsyncSelect";
+import SyncSelect from "../../../components/SyncSelect";
 import { IUserContext, UserContext } from "../../../contexts/UserContext";
-import { IEmployeeSelect } from "../../tasks/AddTask";
+import { ISelectOptions } from "../../tasks/AddTask";
 import "./EditPrivilegesForm.css";
 
 export default function EditPrivilegesForm(): JSX.Element {
-  const [employees, setEmployees] = useState<Array<IEmployeeInfo>>([]);
   const [inputRole, setInputRole] = useState<string>("");
+  const [defaultRole, setDefaultRole] = useState<string>("");
   const [inputEmp, setInputEmp] = useState<string>("");
   const [inputEmpId, setInputEmpId] = useState<string>("");
-  const [empErrors, setEmpErrors] = useState<boolean>(false);
-  const [roleErrors, setRoleErrors] = useState<boolean>(false);
-  const [message, setMessage] = useState<boolean | null>(null);
+
+  const [empError, setEmpError] = useState<boolean>(false);
+  const [roleError, setRoleError] = useState<boolean>(false);
+  const [redundantError, setRedundantError] = useState<boolean>(false);
+
+  const [showToastSuccess, setShowToastSuccess] = useState<boolean>(false);
+  const [showToastFail, setShowToastFail] = useState<boolean>(false);
 
   const { activeEmployee } = useContext<IUserContext>(UserContext);
 
-  useEffect((): void => {
-    fetch(`${process.env.REACT_APP_BACKEND_BASE}/getallusers`)
-      .then((Response) => Response.json())
-      .then((users) => setEmployees(users));
-  }, []);
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore-next-line
-  employees.sort((a, b) => {
-    return a.name && b.name && a.name.localeCompare(b.name);
-  });
-  
-  const roleOptions: Array<IEmployeeSelect> = [
+  const roleOptions: Array<ISelectOptions> = [
     { value: "Admin", label: "Admin" },
     { value: "User", label: "User" },
   ];
 
-  const filteredEmployees = employees.filter(
-    (emp) => emp.name !== activeEmployee.name
-  );
-
-  const empSelect = filteredEmployees.map((employee) => {
-    return {
-      value: employee.name,
-      label: employee.name,
-      _id: employee._id,
-      role: employee.role,
-    };
-  });
-
   const handleEmpChange = (options: {
-    value: SetStateAction<string>;
-    _id: SetStateAction<string>;
-    role: SetStateAction<string>;
+    value?: SetStateAction<string>;
+    label?: SetStateAction<string>;
+    _id?: SetStateAction<string>;
+    role?: SetStateAction<string>;
+    email?: SetStateAction<string>;
   }) => {
-    setInputEmp(options.value);
-    setInputEmpId(options._id);
-    setInputRole(options.role);
-    setEmpErrors(false);
+    setInputEmp(options.value as string);
+    setInputEmpId(options._id as string);
+    setDefaultRole(options.role as string);
+    setRoleError(false);
+    setRedundantError(false);
+    setEmpError(false);
   };
 
   const handleRoleChange = (options: { value: SetStateAction<string> }) => {
     setInputRole(options.value);
-    setRoleErrors(false);
+    setRoleError(false);
+    setRedundantError(false);
   };
-  async function handleSubmit(e: React.SyntheticEvent) {
-    e.preventDefault();
-    if (inputEmp.length === 0) setEmpErrors(true);
-    if (inputRole.length === 0) setRoleErrors(true);
 
-    if (inputEmp.length > 0 && inputRole.length > 0) {
-      await axios
-        .post(
-          `${process.env.REACT_APP_BACKEND_BASE}/privileges/${inputEmpId}`,
-          {
-            activeEmpRole: activeEmployee.role,
-            role: inputRole,
-          }
-        )
-        .then((response) => {
-          if (response.status === 200) {
-            setMessage(true);
-            setTimeout(stateTimeout, 2000);
-          }
-        })
-        .catch(() => {
-          /**/
-        });
-    }
+  function employeeFieldValidation(
+    inputEmp: string,
+    setEmpErrors: React.Dispatch<React.SetStateAction<boolean>>
+  ) {
+    if (inputEmp) return true;
+    setEmpErrors(true);
+    return false;
   }
 
-  function stateTimeout() {
-    setMessage(null);
+  function roleFieldValidation(
+    inputRole: string,
+    setRoleErrors: React.Dispatch<React.SetStateAction<boolean>>
+  ) {
+    if (inputRole) return true;
+    setRoleErrors(true);
+    return false;
+  }
+
+  function validateRedundantPost(
+    inputRole: string,
+    defaultRole: string,
+    setRedundantError: React.Dispatch<React.SetStateAction<boolean>>
+  ) {
+    if (
+      employeeFieldValidation(inputEmp, setEmpError) &&
+      roleFieldValidation(inputRole, setRoleError) &&
+      inputRole === defaultRole
+    ) {
+      setRedundantError(true);
+      return false;
+    }
+    return true;
+  }
+
+  async function handleSubmit(e: React.SyntheticEvent) {
+    e.preventDefault();
+    employeeFieldValidation(inputEmp, setEmpError);
+    roleFieldValidation(inputRole, setRoleError);
+    validateRedundantPost(inputRole, defaultRole, setRedundantError);
+
+    if (
+      !employeeFieldValidation(inputEmp, setEmpError) ||
+      !roleFieldValidation(inputRole, setRoleError) ||
+      !validateRedundantPost(inputRole, defaultRole, setRedundantError)
+    )
+      return false;
+
+    await handlePostToDB(
+      inputEmpId,
+      activeEmployee,
+      inputRole,
+      setShowToastSuccess,
+      setShowToastFail
+    );
+  }
+
+  async function handlePostToDB(
+    inputEmpId: string,
+    activeEmployee: IEmployeeInfo,
+    inputRole: string,
+    setShowToastSuccess: React.Dispatch<React.SetStateAction<boolean>>,
+    setShowToastFail: React.Dispatch<React.SetStateAction<boolean>>
+  ) {
+    await axios
+      .post(`${process.env.REACT_APP_BACKEND_BASE}/privileges/${inputEmpId}`, {
+        activeEmpRole: activeEmployee.role,
+        role: inputRole,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setShowToastSuccess(true);
+          setTimeout(() => setShowToastSuccess(false), 3000);
+        }
+      })
+      .catch(() => {
+        setShowToastFail(true);
+        setTimeout(() => setShowToastFail(false), 3000);
+      });
   }
 
   return (
     <div className="mx-3 my-2 grid-area-eprivileges">
-      <h3 className="mb-4 mt-3">Edit privileges</h3>
-      <Form onSubmit={handleSubmit}>
-        <Stack direction="vertical">
-          <Form.Group className="mb-4" controlId="employee">
-            <Form.Label>Employees:</Form.Label>
-            <AsyncSelect
-              name="employee"
-              className="basic-single"
-              placeholder="Select employee"
-              classNamePrefix="select"
-              cacheOptions
-              isSearchable={false}
-              defaultOptions={empSelect}
-              theme={(theme) => ({
-                ...theme,
-                borderRadius: 0,
-                colors: {
-                  ...theme.colors,
-                  text: "black",
-                  primary25: "rgb(13, 202, 240, 0.8)",
-                  primary: "#0dcaf0",
-                },
-              })}
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore-next-line
-              onChange={handleEmpChange}
-            />
-            {empErrors && (
-              <h6 className="employees-errors-tool-tip">
-                Please select an employee
+      <div className="d-flex justify-content-center">
+        <div className="max-width-50">
+          <Stack direction="vertical">
+            <h3 className="mb-4 mt-3">Edit privileges</h3>
+            <Form.Group className="mb-2" controlId="employee">
+              <Form.Label>Employees:</Form.Label>
+              <EmployeeAsyncSelect
+                placeholder={"Select employee"}
+                error={empError ? true : false}
+                multi={false}
+                editable={true}
+                onChange={handleEmpChange}
+              />
+              <h6 className="roles-errors-tool-tip m-0 mt-2 d-flex align-items-center">
+                <svg
+                  className={`warning-svg me-1${empError ? " show" : " hide"}`}
+                  clipRule="evenodd"
+                  fillRule="evenodd"
+                  strokeLinejoin="round"
+                  strokeMiterlimit="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="m12.002 21.534c5.518 0 9.998-4.48 9.998-9.998s-4.48-9.997-9.998-9.997c-5.517 0-9.997 4.479-9.997 9.997s4.48 9.998 9.997 9.998zm0-1.5c-4.69 0-8.497-3.808-8.497-8.498s3.807-8.497 8.497-8.497 8.498 3.807 8.498 8.497-3.808 8.498-8.498 8.498zm0-6.5c-.414 0-.75-.336-.75-.75v-5.5c0-.414.336-.75.75-.75s.75.336.75.75v5.5c0 .414-.336.75-.75.75zm-.002 3c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"
+                    fillRule="nonzero"
+                    fill="#ff0000"
+                  />
+                </svg>
+                {empError && "Please select an employee"}&nbsp;
               </h6>
-            )}
-          </Form.Group>
+            </Form.Group>
 
-          <Form.Group className="mb-5" controlId="role">
-            <Form.Label>Role:</Form.Label>
-            <Select
-              name="Role"
-              placeholder="Select role"
-              className="basic-multi-select"
-              classNamePrefix="select"
-              isSearchable={false}
-              options={roleOptions}
-              theme={(theme) => ({
-                ...theme,
-                borderRadius: 0,
-                colors: {
-                  ...theme.colors,
-                  text: "black",
-                  primary25: "rgb(13, 202, 240, 0.8)",
-                  primary: "#0dcaf0",
-                },
-              })}
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore-next-line
-              onChange={handleRoleChange}
-            />
-            {roleErrors && (
-              <h6 className="roles-errors-tool-tip">Please select a role</h6>
-            )}
-          </Form.Group>
+            <Form.Group className="mb-2" controlId="role">
+              <Form.Label>Role:</Form.Label>
+              <SyncSelect
+                name={"role"}
+                placeholder={"Select role"}
+                editable={true}
+                options={roleOptions}
+                defaultRole={defaultRole}
+                onChange={handleRoleChange}
+                setInputRole={setInputRole}
+                error={roleError || redundantError ? true : false}
+              />
+              <h6 className="roles-errors-tool-tip m-0 mt-2 d-flex align-items-center">
+                <svg
+                  className={`warning-svg me-1${
+                    roleError || redundantError ? " show" : " hide"
+                  }`}
+                  clipRule="evenodd"
+                  fillRule="evenodd"
+                  strokeLinejoin="round"
+                  strokeMiterlimit="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="m12.002 21.534c5.518 0 9.998-4.48 9.998-9.998s-4.48-9.997-9.998-9.997c-5.517 0-9.997 4.479-9.997 9.997s4.48 9.998 9.997 9.998zm0-1.5c-4.69 0-8.497-3.808-8.497-8.498s3.807-8.497 8.497-8.497 8.498 3.807 8.498 8.497-3.808 8.498-8.498 8.498zm0-6.5c-.414 0-.75-.336-.75-.75v-5.5c0-.414.336-.75.75-.75s.75.336.75.75v5.5c0 .414-.336.75-.75.75zm-.002 3c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"
+                    fillRule="nonzero"
+                    fill="#ff0000"
+                  />
+                </svg>
+                {roleError && "Please select a role"}
+                {!roleError &&
+                  redundantError &&
+                  `${inputEmp} already has ${defaultRole.toLocaleLowerCase()} privileges`}
+                &nbsp;
+              </h6>
+            </Form.Group>
 
-          <Form.Group className="d-flex justify-content-center mb-1">
-            <Button
-              type="submit"
-              variant="info"
-              size="lg"
-              className="text-center"
-            >
-              Update privileges
-            </Button>
-          </Form.Group>
-          <div className="d-flex justify-content-center">
-            {message ? (
-              <Toast className="mt-5">
+            <Form.Group className="d-flex justify-content-center mb-1">
+              <Button
+                type="submit"
+                variant="outline-info"
+                size="lg"
+                className="text-center"
+                onClick={handleSubmit}
+              >
+                Update privileges
+              </Button>
+            </Form.Group>
+            <div className="d-flex justify-content-center">
+              <Toast
+                className="mt-5"
+                bg="info"
+                show={showToastSuccess}
+                animation
+              >
                 <Toast.Header closeButton={false}>
                   <strong className="me-auto">Success</strong>
                 </Toast.Header>
                 <Toast.Body>User privileges updated.</Toast.Body>
               </Toast>
-            ) : message === false ? (
-              <Toast className="mt-5">
+              <Toast
+                className="mt-5"
+                bg="danger"
+                show={showToastFail}
+                animation
+              >
                 <Toast.Header closeButton={false}>
-                  <strong className="me-auto">Failed</strong>
+                  <strong className="me-auto">Failure</strong>
                 </Toast.Header>
-                <Toast.Body>Update privileges failed.</Toast.Body>
+                <Toast.Body className="text-white">
+                  Update privileges failed.
+                </Toast.Body>
               </Toast>
-            ) : null}
-          </div>
-        </Stack>
-      </Form>
+            </div>
+          </Stack>
+        </div>
+      </div>
     </div>
   );
 }

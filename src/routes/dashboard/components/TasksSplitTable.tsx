@@ -69,7 +69,8 @@ export default function TasksSplitTable(props: {
       <div className="rounded-3 me-3 grid-format grid-area-table1">
         <table
           className="table table-hover rounded-start table-border-collapse"
-          id="pastDueTable">
+          id="pastDueTable"
+        >
           <thead>
             <tr className="row-header-thick">
               <th scope="col">
@@ -122,7 +123,8 @@ export default function TasksSplitTable(props: {
       <div className="rounded-3 grid-format grid-area-table2">
         <table
           className="table table-hover rounded-start table-border-collapse"
-          id="todayTable">
+          id="todayTable"
+        >
           <thead>
             <tr className="row-header-thick">
               <th scope="col">
@@ -149,7 +151,7 @@ export default function TasksSplitTable(props: {
                 </td>
               </tr>
             )}
-            {(priorityTwoTasks.length === 0 ||
+            {(priorityOneTasks.length === 0 ||
               props.incompleteTasks.length === 0) &&
             !props.loading ? (
               <tr>
@@ -175,12 +177,16 @@ export default function TasksSplitTable(props: {
       <div className="rounded-3 ms-3 grid-format grid-area-table3">
         <table
           className="table table-hover rounded-start table-border-collapse"
-          id="thisWeekTable">
+          id="thisWeekTable"
+        >
           <thead>
             <tr className="row-header-thick">
               <th scope="col">
                 This week
-                {props.loading ? null : (priorityTwoTasks.concat(priorityThreeTasks,priorityFourTasks).length === 0 ||
+                {props.loading ? null : (priorityTwoTasks.concat(
+                    priorityThreeTasks,
+                    priorityFourTasks
+                  ).length === 0 ||
                     props.incompleteTasks.length === 0) &&
                   !props.loading ? (
                   <Badge bg="secondary" className="ms-2">
@@ -189,7 +195,10 @@ export default function TasksSplitTable(props: {
                 ) : (
                   <Badge bg="info" className="ms-2">
                     {
-                      priorityTwoTasks.concat(priorityThreeTasks,priorityFourTasks).length
+                      priorityTwoTasks.concat(
+                        priorityThreeTasks,
+                        priorityFourTasks
+                      ).length
                     }
                   </Badge>
                 )}
@@ -204,16 +213,22 @@ export default function TasksSplitTable(props: {
                 </td>
               </tr>
             )}
-            {(props.incompleteTasks.length === 0) ||
-              (priorityTwoTasks.length === 0 && priorityThreeTasks.length === 0 && priorityFourTasks.length === 0) &&
-            !props.loading ? (
+            {props.incompleteTasks.length === 0 ||
+            (priorityTwoTasks.length === 0 &&
+              priorityThreeTasks.length === 0 &&
+              priorityFourTasks.length === 0 &&
+              !props.loading) ? (
               <tr>
                 <td className="fw-light fst-italic">No tasks for this week</td>
               </tr>
             ) : (
               props.incompleteTasks.length > 0 &&
-              !props.loading && priorityTwoTasks.concat(priorityThreeTasks,priorityFourTasks).length > 0 &&
-                priorityTwoTasks.concat(priorityThreeTasks,priorityFourTasks).map((taskInfo) => {
+              !props.loading &&
+              priorityTwoTasks.concat(priorityThreeTasks, priorityFourTasks)
+                .length > 0 &&
+              priorityTwoTasks
+                .concat(priorityThreeTasks, priorityFourTasks)
+                .map((taskInfo) => {
                   return (
                     <tr key={taskInfo?._id} className="pointer">
                       <td>{taskInfo?.task}</td>

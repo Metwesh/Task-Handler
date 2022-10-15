@@ -1,0 +1,7 @@
+.custom-input-field:disabled {
+  background-color: hsl(0, 0%, 95%) !important;
+}
+
+.custom-input-field {
+  border-color: hsl(0, 0%, 90%) !important;
+}

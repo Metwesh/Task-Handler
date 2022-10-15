@@ -1,7 +1,7 @@
 import { CSSObject } from "@emotion/serialize";
 import * as chrono from "chrono-node";
 import moment, { Moment } from "moment";
-import { Component } from "react";
+import { Component, CSSProperties } from "react";
 import "./DateSelect.css";
 
 import Select, {
@@ -108,9 +108,7 @@ const Group = (props: GroupProps<DateOption, false>) => {
     selectProps,
   } = props;
   return (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore-next-line
-    <div style={getStyles("group", props)}>
+    <div style={getStyles("group", props) as CSSProperties | undefined}>
       <Heading
         selectProps={selectProps}
         theme={theme}
@@ -153,9 +151,11 @@ const Option = (props: OptionProps<DateOption, false>) => {
       }
     }
     return (
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore-next-line
-      <span {...innerProps} style={styles} ref={innerRef}>
+      <span
+        {...innerProps}
+        style={styles as CSSProperties | undefined}
+        ref={innerRef}
+      >
         {data.date.format("D")}
       </span>
     );
@@ -165,11 +165,19 @@ const Option = (props: OptionProps<DateOption, false>) => {
 interface DatePickerProps {
   readonly value: DateOption | null;
   readonly onChange: (_value: DateOption | null) => void;
+  readonly disabled?: boolean | unknown;
+  readonly placement?: string | unknown;
+  readonly error?: boolean | unknown;
+  readonly initialValue?: Date | unknown;
   setDateErrors?: ((_arg: boolean) => void) | undefined;
 }
 
 interface DatePickerState {
   readonly options: readonly (DateOption | CalendarGroup)[];
+  readonly disabled?: boolean | unknown;
+  readonly placement?: string | unknown;
+  readonly error?: boolean | unknown;
+  readonly initialValue?: Date | unknown;
   setDateErrors?: ((_arg: boolean) => void) | undefined;
 }
 
@@ -183,7 +191,14 @@ class DatePicker extends Component<DatePickerProps, DatePickerState> {
   handleInputChange = (value: string) => {
     this.props.setDateErrors?.(false);
     if (!value) {
-      this.setState({ options: defaultOptions });
+      this.setState({
+        options: this.props.initialValue
+          ? [
+              createOptionForDate(this.props.initialValue as Date),
+              ...defaultOptions,
+            ]
+          : defaultOptions,
+      });
       return;
     }
     const date = chrono.parseDate(suggest(value.toLowerCase()));
@@ -208,21 +223,25 @@ class DatePicker extends Component<DatePickerProps, DatePickerState> {
           borderRadius: 0,
           colors: {
             ...theme.colors,
+            neutral50: "#6c757d",
             text: "black",
-            primary25: "rgb(13, 202, 240, 0.3)",
+            neutral20: this.props.error ? "#ff0000" : "#cccccc",
+            primary25: "rgb(13, 202, 240, 0.4)",
             primary: "#0dcaf0",
           },
         })}
         components={{ Group, Option }}
         filterOption={null}
         isMulti={false}
+        isDisabled={this.props.disabled ? true : false}
         isOptionSelected={(o, v) => v.some((i) => i.date.isSame(o.date, "day"))}
-        maxMenuHeight={405}
+        maxMenuHeight={600}
         onChange={this.props.onChange}
         onInputChange={this.handleInputChange}
         options={options}
+        placeholder="Select deadline"
         name="deadline"
-        menuPlacement="top"
+        menuPlacement={`${this.props.placement === "top" ? "top" : "auto"}`}
         classNamePrefix="select"
         value={value}
       />
@@ -244,7 +263,7 @@ export default class DateSelect extends Component<
     super(props);
   }
   state: State = {
-    value: defaultOptions[0] as DateOption,
+    value: createOptionForDate(this.props.initialValue as Date) as DateOption,
   };
   handleChange = (value: DateOption | null) => {
     this.setState({ value });
@@ -256,9 +275,13 @@ export default class DateSelect extends Component<
         <DatePicker
           value={value}
           onChange={this.handleChange}
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          //@ts-ignore-next-line
-          setDateErrors={this.props.setDateErrors}
+          disabled={this.props.disabled}
+          initialValue={this.props.initialValue}
+          placement={this.props.placement}
+          error={this.props.error}
+          setDateErrors={
+            this.props.setDateErrors as ((_arg: boolean) => void) | undefined
+          }
         />
       </div>
     );

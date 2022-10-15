@@ -30,7 +30,5 @@ export default function Charts(props: {
     ],
   };
 
-  return (
-    <Doughnut data={data} width={"auto"} height={"auto"} />
-  );
+  return <Doughnut data={data} width={"auto"} height={"auto"} />;
 }

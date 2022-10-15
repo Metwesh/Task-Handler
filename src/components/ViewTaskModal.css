@@ -1,3 +1,62 @@
 .btn-close:focus {
   box-shadow: 0 0 0 0.25rem rgb(13 202 240 / 50%);
 }
+
+.greyed-out {
+  background-color: #e9ecef;
+}
+
+.css-lr9fot-singleValue,
+.css-14el2xx-placeholder {
+  color: #212529 !important;
+}
+.css-13ibex8-control {
+  background-color: #e9ecef !important;
+}
+
+.cursor-disabled {
+  cursor: no-drop !important;
+}
+
+.transition {
+  transition: all 300ms ease-in-out;
+  border-radius: inherit;
+}
+
+.border-modal {
+  outline: 5px solid #0dcaf0;
+  animation: blink-edit 1.5s linear infinite 300ms;
+}
+
+.border-modal-danger {
+  outline: 5px solid #dc3545;
+  animation: blink-danger 1.5s linear infinite 300ms;
+}
+
+.background-dark {
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.175);
+}
+
+@keyframes blink-edit {
+  0% {
+    outline: 5px solid #0dcaf0;
+  }
+  to {
+    outline: 5px solid transparent;
+  }
+}
+
+@keyframes blink-danger {
+  0% {
+    outline: 5px solid #dc3545;
+  }
+  to {
+    outline: 5px solid transparent;
+  }
+}
+
+.modal-45w {
+  width: 45vw;
+  max-width: none;
+}

@@ -1,20 +1,18 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { SetStateAction, useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Stack from "react-bootstrap/Stack";
 import { useNavigate } from "react-router-dom";
-import makeAnimated from "react-select/animated";
-import AsyncSelect from "react-select/async";
-import { IEmployeeInfo } from "../../App";
 import DashboardNav from "../../components/DashboardNav";
+import DateSelect from "../../components/DateSelect";
+import EmployeeAsyncSelect from "../../components/EmployeeAsyncSelect";
 import VerticalNav from "../../components/VerticalNav";
 import { IUserContext, UserContext } from "../../contexts/UserContext";
 import "./AddTasks.css";
-import DateSelect from "./components/DateSelect";
 
-export interface IEmployeeSelect {
+export interface ISelectOptions {
   value?: string;
   label?: string;
   email?: string;
@@ -35,10 +33,9 @@ interface IFormData {
 }
 
 export default function AddTask(): JSX.Element {
-  const [employees, setEmployees] = useState<Array<IEmployeeInfo>>([]);
   const [inputTask, setInputTask] = useState<string>("");
-  const [inputEmps, setInputEmps] = useState<Array<IEmployeeSelect>>([]);
-  const [taskErrors, setTaskErrors] = useState<boolean>(false);
+  const [inputEmps, setInputEmps] = useState<Array<ISelectOptions>>([]);
+  const [taskError, setTaskErrors] = useState<boolean>(false);
   const [dateErrors, setDateErrors] = useState<boolean>(false);
   const [empErrors, setEmpErrors] = useState<boolean>(false);
 
@@ -46,28 +43,14 @@ export default function AddTask(): JSX.Element {
 
   const { activeEmployee } = useContext<IUserContext>(UserContext);
 
-  useEffect((): void => {
-    fetch(`${process.env.REACT_APP_BACKEND_BASE}/getusers`)
-      .then((Response) => Response.json())
-      .then((users) => setEmployees(users));
-  }, []);
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore-next-line
-  employees.sort((a, b) => {
-    return a.name && b.name && a.name.localeCompare(b.name);
-  });
-
-  const empSelect: Array<IEmployeeSelect> = employees.map((employee) => {
-    return {
-      value: employee.name,
-      label: employee.name,
-      email: employee.email,
-    };
-  });
-
-  const handleChange = (options: React.SetStateAction<IEmployeeSelect[]>) => {
-    setInputEmps(options);
+  const handleEmpChange = (options: {
+    value?: SetStateAction<string> | undefined;
+    label?: SetStateAction<string> | undefined;
+    _id?: SetStateAction<string> | undefined;
+    role?: SetStateAction<string> | undefined;
+    email?: SetStateAction<string> | undefined;
+  }) => {
+    setInputEmps(options as SetStateAction<Array<ISelectOptions>>);
     setEmpErrors(false);
   };
 
@@ -128,10 +111,8 @@ export default function AddTask(): JSX.Element {
     const deadline = new Date((e.target as HTMLFormElement).deadline.value);
     validateInputs(deadline);
     if (!validateInputs(deadline)) return false;
-    const employeeNames = inputEmps?.map((emps: IEmployeeSelect) => emps.value);
-    const employeeEmails = inputEmps?.map(
-      (emps: IEmployeeSelect) => emps.email
-    );
+    const employeeNames = inputEmps?.map((emps: ISelectOptions) => emps.value);
+    const employeeEmails = inputEmps?.map((emps: ISelectOptions) => emps.email);
     const formData: IFormData = {
       task: inputTask,
       adminEmail: activeEmployee.email,
@@ -159,11 +140,12 @@ export default function AddTask(): JSX.Element {
               onSubmit={handleSubmit}
               className="fixed-width d-flex justify-content-center"
             >
-              <Stack direction="vertical" gap={3}>
+              <Stack direction="vertical">
                 <h3 className="mb-4 mt-3">Add task form</h3>
-                <Form.Group className="mb-4" controlId="task">
+                <Form.Group className="mb-2" controlId="task">
                   <Form.Label>Task:</Form.Label>
                   <Form.Control
+                    className={`rounded-0${taskError && " border-danger"}`}
                     type="text"
                     name="task"
                     onChange={(e) => {
@@ -173,64 +155,93 @@ export default function AddTask(): JSX.Element {
                     placeholder="Task"
                     autoComplete="off"
                   />
-                  {taskErrors && (
-                    <h6 className="task-tool-tip">Please input task name</h6>
-                  )}
+                  <h6 className="roles-errors-tool-tip m-0 mt-2 d-flex align-items-center">
+                    <svg
+                      className={`warning-svg me-1${
+                        taskError ? " show" : " hide"
+                      }`}
+                      clipRule="evenodd"
+                      fillRule="evenodd"
+                      strokeLinejoin="round"
+                      strokeMiterlimit="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="m12.002 21.534c5.518 0 9.998-4.48 9.998-9.998s-4.48-9.997-9.998-9.997c-5.517 0-9.997 4.479-9.997 9.997s4.48 9.998 9.997 9.998zm0-1.5c-4.69 0-8.497-3.808-8.497-8.498s3.807-8.497 8.497-8.497 8.498 3.807 8.498 8.497-3.808 8.498-8.498 8.498zm0-6.5c-.414 0-.75-.336-.75-.75v-5.5c0-.414.336-.75.75-.75s.75.336.75.75v5.5c0 .414-.336.75-.75.75zm-.002 3c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"
+                        fillRule="nonzero"
+                        fill="#ff0000"
+                      />
+                    </svg>
+                    {taskError && "Please input task name"}&nbsp;
+                  </h6>
                 </Form.Group>
 
-                <Form.Group className="mb-4" controlId="employees">
+                <Form.Group className="mb-2" controlId="employees">
                   <Form.Label>Issued to:</Form.Label>
-
-                  <AsyncSelect
-                    isMulti={true}
-                    cacheOptions
-                    placeholder="Select User(s)"
-                    name="employees"
-                    classNamePrefix="select"
-                    components={makeAnimated()}
-                    defaultOptions={empSelect}
-                    menuPlacement="top"
-                    maxMenuHeight={250}
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore-next-line
-                    onChange={handleChange}
-                    theme={(theme) => ({
-                      ...theme,
-                      borderRadius: 0,
-                      colors: {
-                        ...theme.colors,
-                        text: "black",
-                        primary25: "rgb(13, 202, 240, 0.8)",
-                        primary: "#0dcaf0",
-                      },
-                    })}
+                  <EmployeeAsyncSelect
+                    placeholder={"Select User(s)"}
+                    multi={true}
+                    editable={true}
+                    error={empErrors ? true : false}
+                    onChange={handleEmpChange}
                   />
-                  {dateErrors && (
-                    <h6 className="deadline-tool-tip">
-                      Please select a valid deadline
-                    </h6>
-                  )}
+                  <h6 className="roles-errors-tool-tip m-0 mt-2 d-flex align-items-center">
+                    <svg
+                      className={`warning-svg me-1${
+                        empErrors ? " show" : " hide"
+                      }`}
+                      clipRule="evenodd"
+                      fillRule="evenodd"
+                      strokeLinejoin="round"
+                      strokeMiterlimit="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="m12.002 21.534c5.518 0 9.998-4.48 9.998-9.998s-4.48-9.997-9.998-9.997c-5.517 0-9.997 4.479-9.997 9.997s4.48 9.998 9.997 9.998zm0-1.5c-4.69 0-8.497-3.808-8.497-8.498s3.807-8.497 8.497-8.497 8.498 3.807 8.498 8.497-3.808 8.498-8.498 8.498zm0-6.5c-.414 0-.75-.336-.75-.75v-5.5c0-.414.336-.75.75-.75s.75.336.75.75v5.5c0 .414-.336.75-.75.75zm-.002 3c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"
+                        fillRule="nonzero"
+                        fill="#ff0000"
+                      />
+                    </svg>
+                    {empErrors && "Please fill out this field"}&nbsp;
+                  </h6>
                 </Form.Group>
 
                 <Form.Group className="mb-4" controlId="deadline">
                   <Form.Label>Deadline:</Form.Label>
-
-                  <DateSelect setDateErrors={setDateErrors} />
-                  {empErrors && (
-                    <h6 className="employees-tool-tip">
-                      Please fill out this field
-                    </h6>
-                  )}
+                  <DateSelect
+                    setDateErrors={setDateErrors}
+                    placement={"top"}
+                    error={dateErrors ? true : false}
+                  />
+                  <h6 className="roles-errors-tool-tip m-0 mt-2 d-flex align-items-center">
+                    <svg
+                      className={`warning-svg me-1${
+                        dateErrors ? " show" : " hide"
+                      }`}
+                      clipRule="evenodd"
+                      fillRule="evenodd"
+                      strokeLinejoin="round"
+                      strokeMiterlimit="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="m12.002 21.534c5.518 0 9.998-4.48 9.998-9.998s-4.48-9.997-9.998-9.997c-5.517 0-9.997 4.479-9.997 9.997s4.48 9.998 9.997 9.998zm0-1.5c-4.69 0-8.497-3.808-8.497-8.498s3.807-8.497 8.497-8.497 8.498 3.807 8.498 8.497-3.808 8.498-8.498 8.498zm0-6.5c-.414 0-.75-.336-.75-.75v-5.5c0-.414.336-.75.75-.75s.75.336.75.75v5.5c0 .414-.336.75-.75.75zm-.002 3c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"
+                        fillRule="nonzero"
+                        fill="#ff0000"
+                      />
+                    </svg>
+                    {dateErrors && "Please select a valid deadline"}&nbsp;
+                  </h6>
                 </Form.Group>
 
                 <Form.Group className="d-flex justify-content-center mt-4 mb-1">
                   <Button
                     type="submit"
-                    variant="info"
+                    variant="outline-info"
                     size="lg"
                     className="text-center ms-4"
                   >
-                    Submit
+                    Submit task
                   </Button>
                 </Form.Group>
               </Stack>

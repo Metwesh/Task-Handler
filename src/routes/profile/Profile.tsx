@@ -1,7 +1,7 @@
 import Card from "react-bootstrap/Card";
 import DashboardNav from "../../components/DashboardNav";
 import VerticalNav from "../../components/VerticalNav";
-import GridProfile from "./components/ViewProfile";
+import ViewProfile from "./components/ViewProfile";
 import "./Profile.css";
 
 export default function Profile(): JSX.Element {
@@ -12,7 +12,7 @@ export default function Profile(): JSX.Element {
         <DashboardNav />
         <Card className="mx-3 my-2">
           <Card.Body>
-            <GridProfile />
+            <ViewProfile />
           </Card.Body>
         </Card>
       </div>

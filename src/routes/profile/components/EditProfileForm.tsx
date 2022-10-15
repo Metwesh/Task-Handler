@@ -63,7 +63,7 @@ export default function EditProfileForm(): JSX.Element {
         <Form.Group className="mb-4" controlId="name">
           <Form.Label>Name:</Form.Label>
           <Form.Control
-            className="px-2"
+            className="px-2 rounded-0"
             type="text"
             placeholder={activeEmployee.name}
             onChange={(e) => {
@@ -76,7 +76,7 @@ export default function EditProfileForm(): JSX.Element {
         <Form.Group className="mb-4" controlId="email">
           <Form.Label>E-mail:</Form.Label>
           <Form.Control
-            className="px-2"
+            className="px-2 rounded-0"
             type="text"
             placeholder={activeEmployee.email}
             onChange={(e) => {
@@ -87,8 +87,11 @@ export default function EditProfileForm(): JSX.Element {
         </Form.Group>
 
         <Form.Group className="mb-4" controlId="oldpassword">
-          <Form.Label>Current password:</Form.Label>
+          <Form.Label>
+            Current password: <span className="text-info">*</span>
+          </Form.Label>
           <Form.Control
+            className="rounded-0"
             type="password"
             placeholder="Current password"
             onChange={(e) => {
@@ -104,6 +107,7 @@ export default function EditProfileForm(): JSX.Element {
         <Form.Group className="mb-4" controlId="newpassword">
           <Form.Label>New password:</Form.Label>
           <Form.Control
+            className="rounded-0"
             type="password"
             placeholder="New password"
             onChange={(e) => {
@@ -115,7 +119,7 @@ export default function EditProfileForm(): JSX.Element {
         <Form.Group className="d-flex justify-content-center mb-1">
           <Button
             type="submit"
-            variant="info"
+            variant="outline-info"
             size="lg"
             className="text-center"
             onClick={handleSubmit}

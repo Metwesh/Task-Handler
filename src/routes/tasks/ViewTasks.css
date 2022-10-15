@@ -1,7 +1,7 @@
 .custom-grid {
   margin-left: 15vw;
   height: 100vh;
-  grid-template-rows: 1fr 1fr 7fr 1fr;
+  grid-template-rows: 1fr 1fr 6fr 1fr;
   grid-template-areas:
     "top-bar"
     "search"
@@ -68,4 +68,16 @@ th {
 
 .hide {
   display: none;
+}
+
+.color-in:hover {
+  background-color: #0dcaf0;
+}
+
+.toast {
+  background-color: rgb(255, 255, 255, 0.95);
+}
+
+.toast-margin-left {
+  margin-left: 15vw;
 }

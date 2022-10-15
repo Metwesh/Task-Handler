@@ -7,7 +7,6 @@ export default function PrioritiesTable(props: {
 }) {
   function compareDate(date: Date) {
     const differenceInTime = date.getTime() - new Date().getTime();
-
     // To calculate the no. of days between two dates
     const differenceInDays = differenceInTime / (1000 * 3600 * 24);
     return differenceInDays;
@@ -21,7 +20,8 @@ export default function PrioritiesTable(props: {
         return (taskInfo.priority = 4);
       else if (compareDate(taskDeadline) > 3 && compareDate(taskDeadline) < 5)
         return (taskInfo.priority = 3);
-      else if (compareDate(taskDeadline) > 0) return (taskInfo.priority = 2);
+      else if (compareDate(taskDeadline) > 0 && compareDate(taskDeadline) < 3)
+        return (taskInfo.priority = 2);
       else if (compareDate(taskDeadline) <= 0) return (taskInfo.priority = 1);
     });
 

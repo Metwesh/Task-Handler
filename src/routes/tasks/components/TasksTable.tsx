@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import Loading from "../../../components/Loading";
-import { ViewTaskModal } from "../../../components/ViewTaskModal";
+import ViewTaskModal from "../../../components/ViewTaskModal";
 import { IUserContext, UserContext } from "../../../contexts/UserContext";
 import "./TasksTable.css";
 
@@ -23,21 +23,32 @@ export default function TasksTable(props: {
   setSearchedTasks: React.Dispatch<React.SetStateAction<Array<ITasks>>>;
   forceUpdate: number;
   setForceUpdate: React.Dispatch<React.SetStateAction<number>>;
-  setCheckedBox: React.Dispatch<React.SetStateAction<Array<string>>>;
+  checkboxes: Array<string>;
+  setCheckboxes: React.Dispatch<React.SetStateAction<Array<string>>>;
+  checkboxError: boolean;
+  setCheckboxError:React.Dispatch<React.SetStateAction<boolean>>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   incompleteShow: string;
   pendingShow: string;
   completeShow: string;
+  setShowToastSuccess: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowToastFail: React.Dispatch<React.SetStateAction<boolean>>;
 }): JSX.Element {
   const [incompleteTasks, setIncompleteTasks] = useState<Array<ITasks>>([]);
   const [pendingTasks, setPendingTasks] = useState<Array<ITasks>>([]);
   const [completeTasks, setCompleteTasks] = useState<Array<ITasks>>([]);
 
-  const [showTaskModal, setShowTaskModal] = useState(false);
+  const [showTaskModal, setShowTaskModal] = useState<boolean>(false);
+  const [activeModalInfo, setActiveModalInfo] = useState<ITasks | undefined>(
+    undefined
+  );
 
-  const handleClose = () => setShowTaskModal(!showTaskModal);
-  const handleShow = () => setShowTaskModal(!showTaskModal);
+  const handleClose = () => {
+    setActiveModalInfo(undefined);
+    setShowTaskModal(false);
+  };
+  const handleShow = () => setShowTaskModal(true);
 
   const { activeEmployee } = useContext<IUserContext>(UserContext);
 
@@ -46,6 +57,10 @@ export default function TasksTable(props: {
       props.setSearchedTasks([]);
     };
   }, []);
+
+  useEffect(() => {
+    props.setCheckboxError(false);
+  },[props.checkboxes])
 
   useEffect(() => {
     setIncompleteTasks([]);
@@ -114,8 +129,10 @@ export default function TasksTable(props: {
           )}
         {incompleteTasks.length > 0 && (
           <tr className={`row-header-thick ${props.incompleteShow}`}>
+            <th scope="col" className="dot-table-cell">
+              <span className="dot-gray me-0 height-1-1 d-flex justify-content-center align-items-center" />
+            </th>
             <th scope="col" className="width-35">
-              <span className="dot-gray me-2 align-center" />
               Incomplete
             </th>
             <th scope="col" className="text-center">
@@ -125,10 +142,7 @@ export default function TasksTable(props: {
               Issued to
             </th>
             <th scope="col" className="text-center">
-              Issued on 
-              {/* TODO: add sorting
-              &#8681; Arrow down
-              &#8679; Arrow up */}
+              Issued on
             </th>
             <th scope="col" className="text-center">
               Deadline
@@ -143,32 +157,73 @@ export default function TasksTable(props: {
             return (
               <tr
                 key={taskInfo._id}
-                className={`${props.incompleteShow} pointer`}
-                onClick={handleShow}
+                className={`${props.incompleteShow}`}
+                title="View task info"
               >
-                <ViewTaskModal taskInfo={taskInfo} showTaskModal={showTaskModal} handleClose={handleClose} />
-                <td>
+                <td className="checkbox-table-cell">
                   <input
                     type="checkbox"
-                    className="ms-05 me-25 scale-13"
+                    className={`custom-checkbox${props.checkboxError ? " animated-checkbox-danger" : ""}`}
                     title={taskInfo._id}
                     value={taskInfo._id}
                     onClick={(e) => e.stopPropagation()}
-                    onChange={checkboxOnChange(props.setCheckedBox)}
-                    />
+                    onChange={checkboxOnChange(props.setCheckboxes)}
+                  />
+                </td>
+                <td
+                  className="pointer"
+                  onClick={() => {
+                    setActiveModalInfo(taskInfo);
+                    handleShow();
+                  }}
+                >
                   {taskInfo.task}
                 </td>
-                <td className="text-center">{taskInfo.adminName}</td>
-                <td className="text-center">{formattedArray}</td>
-                <td className="text-center">{taskStartDate.toDateString()}</td>
-                <td className="text-center">{taskDeadline.toDateString()}</td>
+                <td
+                  className="text-center pointer"
+                  onClick={() => {
+                    setActiveModalInfo(taskInfo);
+                    handleShow();
+                  }}
+                >
+                  {taskInfo.adminName}
+                </td>
+                <td
+                  className="text-center pointer"
+                  onClick={() => {
+                    setActiveModalInfo(taskInfo);
+                    handleShow();
+                  }}
+                >
+                  {formattedArray}
+                </td>
+                <td
+                  className="text-center pointer"
+                  onClick={() => {
+                    setActiveModalInfo(taskInfo);
+                    handleShow();
+                  }}
+                >
+                  {taskStartDate.toDateString()}
+                </td>
+                <td
+                  className="text-center pointer"
+                  onClick={() => {
+                    setActiveModalInfo(taskInfo);
+                    handleShow();
+                  }}
+                >
+                  {taskDeadline.toDateString()}
+                </td>
               </tr>
             );
           })}
         {pendingTasks.length > 0 && (
           <tr className={`row-header-thick ${props.pendingShow}`}>
+            <th scope="col" className="dot-table-cell">
+              <span className="dot-yellow me-0 height-1-1 d-flex justify-content-center align-items-center" />
+            </th>
             <th scope="col" className="width-35">
-              <span className="dot-yellow align-center" />
               Pending approval
             </th>
             <th scope="col" className="text-center">
@@ -191,31 +246,81 @@ export default function TasksTable(props: {
             const taskDeadline = new Date(taskInfo.deadline);
             const formattedArray = taskInfo.employeeNames.join(", ");
             return (
-              <tr key={taskInfo._id} className={`${props.pendingShow}`}>
-                <td>
+              <tr
+                key={taskInfo._id}
+                className={`${props.pendingShow}`}
+                title="View task info"
+              >
+                <td className="checkbox-table-cell">
                   <input
                     type="checkbox"
-                    className="ms-05 me-25 scale-13"
-                    title={taskInfo._id}
+                    className={`custom-checkbox${props.checkboxError ? " animated-checkbox-danger" : ""}`}
+                    title={
+                      activeEmployee.role === "User"
+                        ? "You don't have the required privileges"
+                        : taskInfo._id
+                    }
                     value={taskInfo._id}
                     onClick={(e) => e.stopPropagation()}
-                    onChange={checkboxOnChange(props.setCheckedBox)}
+                    onChange={checkboxOnChange(props.setCheckboxes)}
                     disabled={activeEmployee.role === "User" ? true : false}
                   />
+                </td>
+                <td
+                  className="pointer"
+                  onClick={() => {
+                    setActiveModalInfo(taskInfo);
+                    handleShow();
+                  }}
+                >
                   {taskInfo.task}
                 </td>
-                <td className="text-center">{taskInfo.adminName}</td>
-                <td className="text-center">{formattedArray}</td>
-                <td className="text-center">{taskStartDate.toDateString()}</td>
-                <td className="text-center">{taskDeadline.toDateString()}</td>
+                <td
+                  className="text-center pointer"
+                  onClick={() => {
+                    setActiveModalInfo(taskInfo);
+                    handleShow();
+                  }}
+                >
+                  {taskInfo.adminName}
+                </td>
+                <td
+                  className="text-center pointer"
+                  onClick={() => {
+                    setActiveModalInfo(taskInfo);
+                    handleShow();
+                  }}
+                >
+                  {formattedArray}
+                </td>
+                <td
+                  className="text-center pointer"
+                  onClick={() => {
+                    setActiveModalInfo(taskInfo);
+                    handleShow();
+                  }}
+                >
+                  {taskStartDate.toDateString()}
+                </td>
+                <td
+                  className="text-center pointer"
+                  onClick={() => {
+                    setActiveModalInfo(taskInfo);
+                    handleShow();
+                  }}
+                >
+                  {taskDeadline.toDateString()}
+                </td>
               </tr>
             );
           })}
         {completeTasks.length > 0 && (
           <tr className={`row-header-thick ${props.completeShow}`}>
+            <th scope="col" className="dot-table-cell">
+              <span className="dot-green me-0 height-1-1 d-flex justify-content-center align-items-center" />
+            </th>
             <th scope="col" className="width-35">
-              <span className="dot-green align-center" />
-              Completed
+              Complete
             </th>
             <th scope="col" className="text-center">
               Issued by
@@ -238,23 +343,71 @@ export default function TasksTable(props: {
             const formattedArray = taskInfo.employeeNames.join(", ");
 
             return (
-              <tr key={taskInfo._id} className={`${props.completeShow}`}>
-                <td>
+              <tr
+                key={taskInfo._id}
+                className={`${props.completeShow}`}
+                title="View task info"
+              >
+                <td className="checkbox-table-cell">
                   <input
                     type="checkbox"
-                    className="ms-05 me-25 scale-13"
-                    title={taskInfo._id}
+                    className={`custom-checkbox${props.checkboxError ? " animated-checkbox-danger" : ""}`}
+                    title={
+                      activeEmployee.role === "User"
+                        ? "You don't have the required privileges"
+                        : taskInfo._id
+                    }
                     value={taskInfo._id}
                     onClick={(e) => e.stopPropagation()}
-                    onChange={checkboxOnChange(props.setCheckedBox)}
+                    onChange={checkboxOnChange(props.setCheckboxes)}
                     disabled={activeEmployee.role === "User" ? true : false}
                   />
+                </td>
+                <td
+                  className="pointer"
+                  onClick={() => {
+                    setActiveModalInfo(taskInfo);
+                    handleShow();
+                  }}
+                >
                   {taskInfo.task}
                 </td>
-                <td className="text-center">{taskInfo.adminName}</td>
-                <td className="text-center">{formattedArray}</td>
-                <td className="text-center">{taskStartDate.toDateString()}</td>
-                <td className="text-center">{taskDeadline.toDateString()}</td>
+                <td
+                  className="text-center pointer"
+                  onClick={() => {
+                    setActiveModalInfo(taskInfo);
+                    handleShow();
+                  }}
+                >
+                  {taskInfo.adminName}
+                </td>
+                <td
+                  className="text-center pointer"
+                  onClick={() => {
+                    setActiveModalInfo(taskInfo);
+                    handleShow();
+                  }}
+                >
+                  {formattedArray}
+                </td>
+                <td
+                  className="text-center pointer"
+                  onClick={() => {
+                    setActiveModalInfo(taskInfo);
+                    handleShow();
+                  }}
+                >
+                  {taskStartDate.toDateString()}
+                </td>
+                <td
+                  className="text-center pointer"
+                  onClick={() => {
+                    setActiveModalInfo(taskInfo);
+                    handleShow();
+                  }}
+                >
+                  {taskDeadline.toDateString()}
+                </td>
               </tr>
             );
           })}
@@ -262,6 +415,14 @@ export default function TasksTable(props: {
           !props.loading &&
           props.searchedTasks.length > 0 && <tr></tr>}
       </tbody>
+      <ViewTaskModal
+        activeModalInfo={activeModalInfo}
+        showTaskModal={showTaskModal}
+        handleClose={handleClose}
+        setShowToastSuccess={props.setShowToastSuccess}
+        setShowToastFail={props.setShowToastFail}
+        setForceUpdate={props.setForceUpdate}
+      />
     </table>
   );
 }

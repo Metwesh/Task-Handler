@@ -6,8 +6,8 @@
     "top-bar top-bar"
     "area1 area2"
     "area3 area3";
-  grid-template-rows: 1.05fr 1fr 3fr;
-  grid-template-columns: 3.5fr 1fr;
+  grid-template-rows: 1fr 1fr 3.5fr;
+  grid-template-columns: 2.35fr 1fr;
 }
 
 .grid-area-area2 {
@@ -19,16 +19,13 @@
 }
 
 .height-195 {
-  /* TODO: change */
   height: 195px;
 }
 
 .height-295 {
-  /* TODO: change */
   height: 295px;
 }
 
 .height-300 {
-  /* TODO: change */
   height: 328px;
 }

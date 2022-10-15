@@ -71,7 +71,7 @@ export default function Dashboard() {
             <thead>
               <tr className="row-header-thick">
                 <th scope="col" className="width-30rem">
-                  Priorities
+                  Incomplete tasks
                 </th>
                 <th scope="col" className="text-center">
                   Deadline
@@ -122,7 +122,7 @@ export default function Dashboard() {
             ) : (
               tasks.length > 0 &&
               !loading && (
-                <div className="chart-container p-relative w-100 h-50">
+                <div className="chart-container p-relative w-100">
                   <Charts
                     incompleteTasks={incompleteTasks}
                     pendingTasks={pendingTasks}

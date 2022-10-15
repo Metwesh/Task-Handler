@@ -1,6 +1,7 @@
 .card-wrapper {
   border-radius: 4px;
   grid-area: top-bar;
+  max-height: 4rem;
 }
 
 .card-wrapper-body {

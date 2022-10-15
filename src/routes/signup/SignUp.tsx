@@ -17,7 +17,7 @@ export default function SignUp(): JSX.Element {
   const [inputEmail, setInputEmail] = useState<string>("");
   const [inputPassword, setInputPassword] = useState<string>("");
   const [inputRole, setInputRole] = useState<string>("");
-  const [emailErrors, setEmailErrors] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -40,7 +40,7 @@ export default function SignUp(): JSX.Element {
     const emailMatch = employees.find(matchEmail);
     e.preventDefault();
     if (emailMatch != null) {
-      setEmailErrors(true);
+      setEmailError(true);
       return;
     } else {
       userInfo = {
@@ -93,7 +93,28 @@ export default function SignUp(): JSX.Element {
       <div className="d-flex justify-content-center align-items-center height-41rem">
         <Card className="shadow-lg card-sizer-signup">
           <div className="p-4">
-            <h3 className="my-3 mt-1">Register</h3>
+            <div className="d-flex justify-content-between align-items-center">
+              <h3 className="my-3 mt-1">Register</h3>
+              <h6 className="roles-errors-tool-tip m-0 d-flex align-items-center">
+                <svg
+                  className={`warning-svg me-1${
+                    emailError ? " show" : " hide"
+                  }`}
+                  clipRule="evenodd"
+                  fillRule="evenodd"
+                  strokeLinejoin="round"
+                  strokeMiterlimit="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="m12.002 21.534c5.518 0 9.998-4.48 9.998-9.998s-4.48-9.997-9.998-9.997c-5.517 0-9.997 4.479-9.997 9.997s4.48 9.998 9.997 9.998zm0-1.5c-4.69 0-8.497-3.808-8.497-8.498s3.807-8.497 8.497-8.497 8.498 3.807 8.498 8.497-3.808 8.498-8.498 8.498zm0-6.5c-.414 0-.75-.336-.75-.75v-5.5c0-.414.336-.75.75-.75s.75.336.75.75v5.5c0 .414-.336.75-.75.75zm-.002 3c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"
+                    fillRule="nonzero"
+                    fill="#ff0000"
+                  />
+                </svg>
+                {emailError && "Email already in use"}&nbsp;
+              </h6>
+            </div>
             <Form onSubmit={handleSubmit}>
               <FloatingLabel controlId="name" label="Name" className="mb-3">
                 <Form.Control
@@ -114,20 +135,17 @@ export default function SignUp(): JSX.Element {
                 className="mb-3"
               >
                 <Form.Control
-                  className="p-relative"
+                  className={`${emailError && "border-danger"}`}
                   type="email"
                   placeholder="name@example.com"
                   name="email"
                   onChange={(e) => {
                     setInputEmail(e.target.value);
-                    setEmailErrors(false);
+                    setEmailError(false);
                   }}
                   autoComplete="off"
                   required
                 />
-                {emailErrors && (
-                  <h6 className="email-tool-tip">Email already exists</h6>
-                )}
               </FloatingLabel>
               <FloatingLabel
                 controlId="password"
@@ -168,10 +186,7 @@ export default function SignUp(): JSX.Element {
               </Stack>
               <Stack direction="vertical" className="form-group pt-3">
                 <p className="">Already registered?</p>
-                <Button
-                  href="/signin"
-                  variant="outline-info"
-                >
+                <Button href="/signin" variant="outline-info">
                   Sign in
                 </Button>
               </Stack>
