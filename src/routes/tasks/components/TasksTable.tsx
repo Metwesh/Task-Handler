@@ -26,7 +26,7 @@ export default function TasksTable(props: {
   checkboxes: Array<string>;
   setCheckboxes: React.Dispatch<React.SetStateAction<Array<string>>>;
   checkboxError: boolean;
-  setCheckboxError:React.Dispatch<React.SetStateAction<boolean>>;
+  setCheckboxError: React.Dispatch<React.SetStateAction<boolean>>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   incompleteShow: string;
@@ -60,7 +60,7 @@ export default function TasksTable(props: {
 
   useEffect(() => {
     props.setCheckboxError(false);
-  },[props.checkboxes])
+  }, [props.checkboxes]);
 
   useEffect(() => {
     setIncompleteTasks([]);
@@ -91,7 +91,7 @@ export default function TasksTable(props: {
   function checkboxOnChange(
     setChecked: React.Dispatch<React.SetStateAction<Array<string>>>
   ) {
-    return (e: React.SyntheticEvent) =>
+    return (e: React.SyntheticEvent) => {
       setChecked((current) =>
         (e.target as HTMLFormElement).checked
           ? [...current, (e.target as HTMLFormElement).value]
@@ -99,6 +99,7 @@ export default function TasksTable(props: {
               return value === (e.target as HTMLFormElement).value;
             })
       );
+    };
   }
 
   return (
@@ -163,7 +164,9 @@ export default function TasksTable(props: {
                 <td className="checkbox-table-cell">
                   <input
                     type="checkbox"
-                    className={`custom-checkbox${props.checkboxError ? " animated-checkbox-danger" : ""}`}
+                    className={`custom-checkbox${
+                      props.checkboxError ? " animated-checkbox-danger" : ""
+                    }`}
                     title={taskInfo._id}
                     value={taskInfo._id}
                     onClick={(e) => e.stopPropagation()}
@@ -254,7 +257,9 @@ export default function TasksTable(props: {
                 <td className="checkbox-table-cell">
                   <input
                     type="checkbox"
-                    className={`custom-checkbox${props.checkboxError ? " animated-checkbox-danger" : ""}`}
+                    className={`custom-checkbox${
+                      props.checkboxError ? " animated-checkbox-danger" : ""
+                    }`}
                     title={
                       activeEmployee.role === "User"
                         ? "You don't have the required privileges"
@@ -351,7 +356,9 @@ export default function TasksTable(props: {
                 <td className="checkbox-table-cell">
                   <input
                     type="checkbox"
-                    className={`custom-checkbox${props.checkboxError ? " animated-checkbox-danger" : ""}`}
+                    className={`custom-checkbox${
+                      props.checkboxError ? " animated-checkbox-danger" : ""
+                    }`}
                     title={
                       activeEmployee.role === "User"
                         ? "You don't have the required privileges"
