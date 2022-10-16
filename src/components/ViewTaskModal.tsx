@@ -7,6 +7,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { IEmployeeInfo } from "../App";
 import { IUserContext, UserContext } from "../contexts/UserContext";
+import { IFormData, ISelectOptions } from "../routes/tasks/AddTask";
 import { ITasks } from "../routes/tasks/components/TasksTable";
 import TaskModalForm from "./TaskModalForm";
 import "./ViewTaskModal.css";
@@ -31,6 +32,11 @@ export default function ViewTaskModal(props: {
   setForceUpdate: React.Dispatch<React.SetStateAction<number>>;
 }): JSX.Element {
   const [taskName, setTaskName] = useState<string>("");
+
+  const [inputEmps, setInputEmps] = useState<Array<ISelectOptions>>([]);
+  const [empErrors, setEmpErrors] = useState<boolean>(false);
+  const [taskError, setTaskErrors] = useState<boolean>(false);
+  const [dateErrors, setDateErrors] = useState<boolean>(false);
 
   const [employees, setEmployees] = useState<Array<IEmployeeInfo>>([]);
 
@@ -74,51 +80,93 @@ export default function ViewTaskModal(props: {
     setKey((key) => (key += 1));
   }, [props.activeModalInfo]);
 
-  // async function handlePostToDB(formData: IFormData) {
-  //   defaultModalInfo &&
-  //     (await axios
-  //       .post(
-  //         `${process.env.REACT_APP_BACKEND_BASE}/updatetask/${defaultModalInfo._id}`,
-  //         formData
-  //       )
-  //       .then((response) => {
-  //         if (response.status === 200) {
-  //           props.handleClose?.();
-  //           props.setShowToastSuccess(true);
-  //           setTimeout(() => {
-  //             props.setShowToastSuccess(false);
-  //             props.setForceUpdate((current) => (current += 1));
-  //           }, 3000);
-  //         }
-  //       })
-  //       .catch(() => {
-  //         props.handleClose?.();
-  //         props.setShowToastFail(true);
-  //         setTimeout(() => {
-  //           props.setShowToastFail(false);
-  //           props.setForceUpdate((current) => (current += 1));
-  //         }, 3000);
-  //       }));
-  // }
+  async function handlePostToDB(formData: IFormData) {
+    defaultModalInfo &&
+      (await axios
+        .post(
+          `${process.env.REACT_APP_BACKEND_BASE}/updatetask/${defaultModalInfo._id}`,
+          formData
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            props.handleClose?.();
+            props.setShowToastSuccess(true);
+            setTimeout(() => {
+              props.setShowToastSuccess(false);
+              props.setForceUpdate((current) => (current += 1));
+            }, 3000);
+          }
+        })
+        .catch(() => {
+          props.handleClose?.();
+          props.setShowToastFail(true);
+          setTimeout(() => {
+            props.setShowToastFail(false);
+            props.setForceUpdate((current) => (current += 1));
+          }, 3000);
+        }));
+  }
 
-  // async function handleEditSubmit(e: React.SyntheticEvent) {
-  //   e.preventDefault();
-  //   const employeeNames = inputEmps?.map((emps: ISelectOptions) => emps.value);
-  //   const employeeEmails = inputEmps?.map(
-  //     (emps: ISelectOptions) => emps.email
-  //   );
-  //   const formData: IFormData = {
-  //     task: taskName,
-  //     adminEmail: activeEmployee.email,
-  //     adminRole: activeEmployee.role,
-  //     adminName: activeEmployee.name,
-  //     deadline: deadline,
-  //     employeeNames: employeeNames,
-  //     employeeEmails: employeeEmails,
-  //     status: "Incomplete",
-  //   };
-  //   // await handlePostToDB(formData);
-  // }
+  function employeeValidation() {
+    if (inputEmps.length === 0) {
+      setEmpErrors(true);
+      return false;
+    }
+    return true;
+  }
+
+  function compareDate(date: Date) {
+    return new Date(date?.toDateString()) < new Date(new Date().toDateString());
+  }
+
+  function dateValidation(deadline: Date) {
+    if (compareDate(deadline)) {
+      setDateErrors(true);
+      return false;
+    }
+    return true;
+  }
+
+  function taskValidation() {
+    if (!taskName) {
+      setTaskErrors(true);
+      return false;
+    }
+    return true;
+  }
+
+  function validateInputs(deadline: Date) {
+    taskValidation();
+    dateValidation(deadline);
+    employeeValidation();
+    if (!taskValidation() || !dateValidation(deadline) || !employeeValidation())
+      return false;
+    return true;
+  }
+
+  async function handleEditSubmit(e: React.SyntheticEvent) {
+    e.preventDefault();
+    const deadline = new Date((e.target as HTMLFormElement).form.deadline.value);
+    const status = (e.target as HTMLFormElement).form.status.value;
+    const startDate = defaultModalInfo && new Date(defaultModalInfo.startDate);
+    // validateInputs(deadline);
+    // if (!validateInputs(deadline)) return false;
+    const employeeNames = inputEmps?.map((emps: ISelectOptions) => emps.value);
+    const employeeEmails = inputEmps?.map((emps: ISelectOptions) => emps.email);
+    const formData: IFormData = {
+      task: taskName,
+      adminEmail: activeEmployee.email,
+      adminRole: activeEmployee.role,
+      adminName: activeEmployee.name,
+      deadline: deadline,
+      startDate: startDate as Date,
+      employeeNames: employeeNames,
+      employeeEmails: employeeEmails,
+      status: status,
+    };
+    console.log(formData);
+    // await handlePostToDB(formData);
+  }
 
   async function handleDeleteSubmit() {
     await axios
@@ -177,6 +225,8 @@ export default function ViewTaskModal(props: {
               editable={editable}
               defaultModalInfo={defaultModalInfo}
               setTaskName={setTaskName}
+              setEmpErrors={setEmpErrors}
+              setInputEmps={setInputEmps}
             />
           </Modal.Body>
           <Modal.Footer className="justify-content-center">
@@ -263,7 +313,8 @@ export default function ViewTaskModal(props: {
                       onClick={(e) => {
                         handleDeleteConfirmHide();
                         setEditable(true);
-                        !editable && e.preventDefault();
+                        e.preventDefault();
+                        editable && handleEditSubmit(e);
                       }}
                     >
                       {editable ? "Save changes" : "Edit task"}

@@ -169,6 +169,7 @@ interface DatePickerProps {
   readonly placement?: string | unknown;
   readonly error?: boolean | unknown;
   readonly initialValue?: Date | unknown;
+  readonly name?: string | unknown;
   setDateErrors?: ((_arg: boolean) => void) | undefined;
 }
 
@@ -178,6 +179,7 @@ interface DatePickerState {
   readonly placement?: string | unknown;
   readonly error?: boolean | unknown;
   readonly initialValue?: Date | unknown;
+  readonly name?: string | unknown;
   setDateErrors?: ((_arg: boolean) => void) | undefined;
 }
 
@@ -240,7 +242,7 @@ class DatePicker extends Component<DatePickerProps, DatePickerState> {
         onInputChange={this.handleInputChange}
         options={options}
         placeholder="Select deadline"
-        name="deadline"
+        name={this.props.name as string}
         menuPlacement={`${this.props.placement === "top" ? "top" : "auto"}`}
         classNamePrefix="select"
         value={value}
@@ -279,6 +281,7 @@ export default class DateSelect extends Component<
           initialValue={this.props.initialValue}
           placement={this.props.placement}
           error={this.props.error}
+          name={this.props.name}
           setDateErrors={
             this.props.setDateErrors as ((_arg: boolean) => void) | undefined
           }

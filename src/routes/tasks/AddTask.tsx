@@ -20,7 +20,7 @@ export interface ISelectOptions {
   role?: string;
 }
 
-interface IFormData {
+export interface IFormData {
   task: string | undefined;
   adminEmail: string | undefined;
   adminRole: string | undefined;
@@ -35,9 +35,9 @@ interface IFormData {
 export default function AddTask(): JSX.Element {
   const [inputTask, setInputTask] = useState<string>("");
   const [inputEmps, setInputEmps] = useState<Array<ISelectOptions>>([]);
+  const [empErrors, setEmpErrors] = useState<boolean>(false);
   const [taskError, setTaskErrors] = useState<boolean>(false);
   const [dateErrors, setDateErrors] = useState<boolean>(false);
-  const [empErrors, setEmpErrors] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -106,7 +106,6 @@ export default function AddTask(): JSX.Element {
 
   async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
-    setDateErrors(false);
     const startDate = new Date();
     const deadline = new Date((e.target as HTMLFormElement).deadline.value);
     validateInputs(deadline);

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { SetStateAction } from "react";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { IEmployeeInfo } from "../App";
+import { ISelectOptions } from "../routes/tasks/AddTask";
 import { ITasks } from "../routes/tasks/components/TasksTable";
 import DateSelect from "./DateSelect";
 import EmployeeAsyncSelect from "./EmployeeAsyncSelect";
@@ -15,12 +16,25 @@ export default function TaskModalForm(props: {
   editable: boolean;
   defaultModalInfo: ITasks | undefined;
   setTaskName: React.Dispatch<React.SetStateAction<string>>;
+  setInputEmps: React.Dispatch<React.SetStateAction<Array<ISelectOptions>>>;
+  setEmpErrors: React.Dispatch<React.SetStateAction<boolean>>;
 }): JSX.Element {
   const statusOptions = [
     { value: "Incomplete", label: "Incomplete" },
     { value: "Pending", label: "Pending" },
     { value: "Complete", label: "Complete" },
   ];
+
+  const handleEmpChange = (options: {
+    value?: SetStateAction<string> | undefined;
+    label?: SetStateAction<string> | undefined;
+    _id?: SetStateAction<string> | undefined;
+    role?: SetStateAction<string> | undefined;
+    email?: SetStateAction<string> | undefined;
+  }) => {
+    props.setInputEmps(options as SetStateAction<Array<ISelectOptions>>);
+    props.setEmpErrors(false);
+  };
 
   return (
     <Form.Group as={Row} className="mb-3 mt-2" controlId="editTask">
@@ -68,6 +82,7 @@ export default function TaskModalForm(props: {
       </Form.Label>
       <Col sm="8" className="mb-2">
         <DateSelect
+          name="deadline"
           disabled={props.editable ? false : true}
           initialValue={props.defaultModalInfo?.deadline}
         />
@@ -93,6 +108,7 @@ export default function TaskModalForm(props: {
           activeModalInfo={props.activeModalInfo}
           editable={props.editable}
           multi={true}
+          onChange={handleEmpChange}
         />
       </Col>
     </Form.Group>
