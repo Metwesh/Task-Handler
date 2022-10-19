@@ -77,8 +77,17 @@ export default function ViewTaskModal(props: {
   };
 
   const handleModalEditRevert = () => {
+    props?.activeModalInfo &&
+      setTaskName(props?.activeModalInfo.task);
     setDeleteConfirm(null);
     setEditable(false);
+    setKey((key) => (key += 1));
+    setDefaultModalInfo(props.activeModalInfo);
+    setDeleteConfirm(null);
+    setEditable(false);
+    setTaskError(false);
+    setEmpError(false);
+    setDateError(false);
   };
 
   const handleDeleteConfirmHide = () => setDeleteConfirm(false);
@@ -201,7 +210,7 @@ export default function ViewTaskModal(props: {
   return (
     <>
       <Modal
-        dialogClassName="modal-45w mt-2"
+        dialogClassName="modal-45w mt-5"
         show={props.showTaskModal}
         onHide={() => {
           props.handleClose?.();
@@ -332,15 +341,7 @@ export default function ViewTaskModal(props: {
                       variant="outline-secondary"
                       onClick={(e) => {
                         e.preventDefault();
-                        setKey((key) => (key += 1));
-                        props?.activeModalInfo &&
-                          setTaskName(props?.activeModalInfo.task);
-                        setDefaultModalInfo(props.activeModalInfo);
-                        setDeleteConfirm(null);
-                        setEditable(false);
-                        setTaskError(false);
-                        setEmpError(false);
-                        setDateError(false);
+                        handleModalEditRevert()
                       }}
                     >
                       Discard changes

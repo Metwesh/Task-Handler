@@ -1,4 +1,4 @@
-@supports (grid-template-areas: initial) {
+
   .grid-tasks-split {
     height: 15rem;
     width: 100%;
@@ -21,7 +21,7 @@
   .grid-area-table3 {
     grid-area: table3;
   }
-}
+
 
 .height-197 {
 
@@ -30,4 +30,8 @@
 
 .warning {
   background-color: rgb(255, 0, 0, 0.1);
+}
+
+.badge.bg-success {
+  background-color: rgb(128, 255, 0)!important;
 }

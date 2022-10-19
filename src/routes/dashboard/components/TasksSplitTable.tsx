@@ -11,14 +11,6 @@ export default function TasksSplitTable(props: {
   handleShow: (() => void) | undefined;
   setActiveModalInfo: React.Dispatch<React.SetStateAction<ITasks | undefined>>;
 }): JSX.Element {
-  function compareDate(date: Date) {
-    const differenceInTime = date.getTime() - new Date().getTime();
-
-    // To calculate the no. of days between two dates
-    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
-    return differenceInDays;
-  }
-
   const [priorityZeroTasks, setPriorityZeroTasks] = useState<
     Array<ITasks | undefined>
   >([]);
@@ -52,10 +44,13 @@ export default function TasksSplitTable(props: {
         ) {
           setPriorityThreeTasks((current) => [...current, taskInfo]);
           return (taskInfo.priority = 3);
-        } else if (compareDate(taskDeadline) > 0) {
+        } else if (
+          compareDate(taskDeadline) > 0 &&
+          compareDate(taskDeadline) < 3
+        ) {
           setPriorityTwoTasks((current) => [...current, taskInfo]);
           return (taskInfo.priority = 2);
-        } else if (compareDate(taskDeadline) === 0) {
+        } else if (Math.trunc(compareDate(taskDeadline)) === 0) {
           setPriorityOneTasks((current) => [...current, taskInfo]);
           return (taskInfo.priority = 1);
         } else if (compareDate(taskDeadline) < 0) {
@@ -63,8 +58,21 @@ export default function TasksSplitTable(props: {
           return (taskInfo.priority = 0);
         }
       });
+    return () => {
+      setPriorityZeroTasks([]);
+      setPriorityOneTasks([]);
+      setPriorityTwoTasks([]);
+      setPriorityThreeTasks([]);
+      setPriorityFourTasks([]);
+    };
   }, [props.loading, props.incompleteTasks]);
 
+  function compareDate(date: Date) {
+    const differenceInTime = date.getTime() - new Date().getTime();
+    // To calculate the no. of days between two dates
+    const differenceInDays = differenceInTime / (1000 * 60 * 60 * 24);
+    return differenceInDays;
+  }
   return (
     <div className="d-grid grid-tasks-split">
       {/* Table 1 */}
@@ -84,7 +92,7 @@ export default function TasksSplitTable(props: {
                     0
                   </Badge>
                 ) : (
-                  <Badge bg="danger" className="ms-2">
+                  <Badge bg="danger" text="dark" className="ms-2">
                     {priorityZeroTasks.length}
                   </Badge>
                 )}
@@ -109,20 +117,18 @@ export default function TasksSplitTable(props: {
               priorityZeroTasks.length > 0 &&
               !props.loading &&
               priorityZeroTasks.map((taskInfo) => {
-                if (taskInfo?.priority !== 0) return false;
-                else
-                  return (
-                    <tr
-                      key={taskInfo._id}
-                      className="warning pointer"
-                      onClick={() => {
-                        props.handleShow?.();
-                        props.setActiveModalInfo(taskInfo);
-                      }}
-                    >
-                      <td>{taskInfo.task}</td>
-                    </tr>
-                  );
+                return (
+                  <tr
+                    key={taskInfo?._id}
+                    className="warning pointer"
+                    onClick={() => {
+                      props.handleShow?.();
+                      props.setActiveModalInfo(taskInfo);
+                    }}
+                  >
+                    <td>{taskInfo?.task}</td>
+                  </tr>
+                );
               })
             )}
           </tbody>
@@ -145,7 +151,7 @@ export default function TasksSplitTable(props: {
                     0
                   </Badge>
                 ) : (
-                  <Badge bg="warning" className="ms-2">
+                  <Badge bg="warning" text="dark" className="ms-2">
                     {priorityOneTasks.length}
                   </Badge>
                 )}
@@ -167,23 +173,21 @@ export default function TasksSplitTable(props: {
                 <td className="fw-light fst-italic">No tasks for today</td>
               </tr>
             ) : (
-              priorityTwoTasks.length > 0 &&
+              priorityOneTasks.length > 0 &&
               !props.loading &&
-              priorityTwoTasks.map((taskInfo) => {
-                if (taskInfo?.priority !== 1) return false;
-                else
-                  return (
-                    <tr
-                      key={taskInfo._id}
-                      className="pointer"
-                      onClick={() => {
-                        props.handleShow?.();
-                        props.setActiveModalInfo(taskInfo);
-                      }}
-                    >
-                      <td>{taskInfo.task}</td>
-                    </tr>
-                  );
+              priorityOneTasks.map((taskInfo) => {
+                return (
+                  <tr
+                    key={taskInfo?._id}
+                    className="pointer"
+                    onClick={() => {
+                      props.handleShow?.();
+                      props.setActiveModalInfo(taskInfo);
+                    }}
+                  >
+                    <td>{taskInfo?.task}</td>
+                  </tr>
+                );
               })
             )}
           </tbody>
@@ -209,7 +213,7 @@ export default function TasksSplitTable(props: {
                     0
                   </Badge>
                 ) : (
-                  <Badge bg="info" className="ms-2">
+                  <Badge bg="success" text="dark" className="ms-2">
                     {
                       priorityTwoTasks.concat(
                         priorityThreeTasks,

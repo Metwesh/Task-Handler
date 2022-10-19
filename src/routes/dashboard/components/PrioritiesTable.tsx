@@ -19,13 +19,13 @@ export default function PrioritiesTable(props: {
     props.incompleteTasks.forEach((taskInfo) => {
       const taskDeadline = new Date(taskInfo.deadline);
       if (compareDate(taskDeadline) > 7) return (taskInfo.priority = 5);
-      else if (compareDate(taskDeadline) > 5 && compareDate(taskDeadline) < 7)
+      else if (compareDate(taskDeadline) > 3 && compareDate(taskDeadline) < 7)
         return (taskInfo.priority = 4);
-      else if (compareDate(taskDeadline) > 3 && compareDate(taskDeadline) < 5)
-        return (taskInfo.priority = 3);
       else if (compareDate(taskDeadline) > 0 && compareDate(taskDeadline) < 3)
+        return (taskInfo.priority = 3);
+      else if (Math.trunc(compareDate(taskDeadline)) === 0)
         return (taskInfo.priority = 2);
-      else if (compareDate(taskDeadline) <= 0) return (taskInfo.priority = 1);
+      else if (compareDate(taskDeadline) < 0) return (taskInfo.priority = 1);
     });
 
   props.incompleteTasks.sort((a, b) => b?.priority - a?.priority);
@@ -49,105 +49,105 @@ export default function PrioritiesTable(props: {
               {taskInfo.priority === 1 ? (
                 <td
                   className="text-center"
-                  title="Priority level 1: Today or past due"
+                  title="Priority level 1: Past due"
                 >
                   <span
                     className="dot five-star"
-                    title="Priority level 1: Today or past due"
+                    title="Priority level 1: Past due"
                   ></span>
                   <span
                     className="dot five-star"
-                    title="Priority level 1: Today or past due"
+                    title="Priority level 1: Past due"
                   ></span>
                   <span
                     className="dot five-star"
-                    title="Priority level 1: Today or past due"
+                    title="Priority level 1: Past due"
                   ></span>
                   <span
                     className="dot five-star"
-                    title="Priority level 1: Today or past due"
+                    title="Priority level 1: Past due"
                   ></span>
                   <span
                     className="dot five-star"
-                    title="Priority level 1: Today or past due"
+                    title="Priority level 1: Past due"
                   ></span>
                 </td>
               ) : taskInfo.priority === 2 ? (
                 <td
                   className="text-center"
-                  title="Priority level 2: Less than 3 days left"
+                  title="Priority level 2: Today"
                 >
                   <span
                     className="dot four-star"
-                    title="Priority level 2: Less than 3 days left"
+                    title="Priority level 2: Today"
                   ></span>
                   <span
                     className="dot four-star"
-                    title="Priority level 2: Less than 3 days left"
+                    title="Priority level 2: Today"
                   ></span>
                   <span
                     className="dot four-star"
-                    title="Priority level 2: Less than 3 days left"
+                    title="Priority level 2: Today"
                   ></span>
                   <span
                     className="dot four-star"
-                    title="Priority level 2: Less than 3 days left"
+                    title="Priority level 2: Today"
                   ></span>
                   <span
                     className="dot"
-                    title="Priority level 2: Less than 3 days left"
+                    title="Priority level 2: Today"
                   ></span>
                 </td>
               ) : taskInfo.priority === 3 ? (
                 <td
                   className="text-center"
-                  title="Priority level 3: Less than 5 days left"
+                  title="Priority level 3: Less than 3 days left"
                 >
                   <span
                     className="dot three-star"
-                    title="Priority level 3: Less than 5 days leftPriority 3: Less than 5 days left"
+                    title="Priority level 3: Less than 3 days left"
                   ></span>
                   <span
                     className="dot three-star"
-                    title="Priority level 3: Less than 5 days left"
+                    title="Priority level 3: Less than 3 days left"
                   ></span>
                   <span
                     className="dot three-star"
-                    title="Priority level 3: Less than 5 days left"
+                    title="Priority level 3: Less than 3 days left"
                   ></span>
                   <span
                     className="dot"
-                    title="Priority level 3: Less than 5 days left"
+                    title="Priority level 3: Less than 3 days left"
                   ></span>
                   <span
                     className="dot"
-                    title="Priority level 3: Less than 5 days left"
+                    title="Priority level 3: Less than 3 days left"
                   ></span>
                 </td>
               ) : taskInfo.priority === 4 ? (
                 <td
                   className="text-center"
-                  title="Priority level 4: More than 5 days left"
+                  title="Priority level 4: Less than 7 days left"
                 >
                   <span
                     className="dot two-star"
-                    title="Priority level 4: More than 5 days left"
+                    title="Priority level 4: Less than 7 days left"
                   ></span>
                   <span
                     className="dot two-star"
-                    title="Priority level 4: More than 5 left"
+                    title="Priority level 4: Less than 7 days left"
                   ></span>
                   <span
                     className="dot"
-                    title="Priority level 4: More than 5 days left"
+                    title="Priority level 4: Less than 7 days left"
                   ></span>
                   <span
                     className="dot"
-                    title="Priority level 4: More than 5 left"
+                    title="Priority level 4: Less than 7 days left"
                   ></span>
                   <span
                     className="dot"
-                    title="Priority level 4: More than 5 left"
+                    title="Priority level 4: Less than 7 days left"
                   ></span>
                 </td>
               ) : (
