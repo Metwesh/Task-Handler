@@ -1,7 +1,14 @@
 .custom-input-field:disabled {
   background-color: hsl(0, 0%, 95%) !important;
+  border-color: hsl(0, 0%, 90%) !important;
+
 }
 
 .custom-input-field {
-  border-color: hsl(0, 0%, 90%) !important;
+  border-color: hsl(0, 0%, 80%) !important;
+}
+
+
+.custom-input-field:not(.custom-input-field:disabled):hover {
+  border-color: hsl(0, 0%, 70%) !important;
 }

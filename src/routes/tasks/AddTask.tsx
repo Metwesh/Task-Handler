@@ -53,6 +53,14 @@ export default function AddTask(): JSX.Element {
     setInputEmps(options as SetStateAction<Array<ISelectOptions>>);
     setEmpErrors(false);
   };
+  
+  function taskValidation() {
+    if (!inputTask) {
+      setTaskErrors(true);
+      return false;
+    }
+    return true;
+  }
 
   function employeeValidation() {
     if (inputEmps.length === 0) {
@@ -69,14 +77,6 @@ export default function AddTask(): JSX.Element {
   function dateValidation(deadline: Date) {
     if (compareDate(deadline)) {
       setDateErrors(true);
-      return false;
-    }
-    return true;
-  }
-
-  function taskValidation() {
-    if (!inputTask) {
-      setTaskErrors(true);
       return false;
     }
     return true;
@@ -144,7 +144,9 @@ export default function AddTask(): JSX.Element {
                 <Form.Group className="mb-2" controlId="task">
                   <Form.Label>Task:</Form.Label>
                   <Form.Control
-                    className={`rounded-0${taskError && " border-danger"}`}
+                    className={`rounded-0 ${
+                      taskError ? "border-danger" : "custom-input-field"
+                    }`}
                     type="text"
                     name="task"
                     onChange={(e) => {
@@ -201,13 +203,14 @@ export default function AddTask(): JSX.Element {
                         fill="#ff0000"
                       />
                     </svg>
-                    {empErrors && "Please fill out this field"}&nbsp;
+                    {empErrors && "Please assign at least one employee"}&nbsp;
                   </h6>
                 </Form.Group>
 
                 <Form.Group className="mb-4" controlId="deadline">
                   <Form.Label>Deadline:</Form.Label>
                   <DateSelect
+                    name="deadline"
                     setDateErrors={setDateErrors}
                     placement={"top"}
                     error={dateErrors ? true : false}

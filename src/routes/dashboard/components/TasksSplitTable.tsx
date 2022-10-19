@@ -8,6 +8,8 @@ import "./TasksSplitTable.css";
 export default function TasksSplitTable(props: {
   loading: boolean;
   incompleteTasks: Array<ITasks>;
+  handleShow: (() => void) | undefined;
+  setActiveModalInfo: React.Dispatch<React.SetStateAction<ITasks | undefined>>;
 }): JSX.Element {
   function compareDate(date: Date) {
     const differenceInTime = date.getTime() - new Date().getTime();
@@ -110,7 +112,14 @@ export default function TasksSplitTable(props: {
                 if (taskInfo?.priority !== 0) return false;
                 else
                   return (
-                    <tr key={taskInfo._id} className="warning pointer">
+                    <tr
+                      key={taskInfo._id}
+                      className="warning pointer"
+                      onClick={() => {
+                        props.handleShow?.();
+                        props.setActiveModalInfo(taskInfo);
+                      }}
+                    >
                       <td>{taskInfo.task}</td>
                     </tr>
                   );
@@ -164,7 +173,14 @@ export default function TasksSplitTable(props: {
                 if (taskInfo?.priority !== 1) return false;
                 else
                   return (
-                    <tr key={taskInfo._id} className="pointer">
+                    <tr
+                      key={taskInfo._id}
+                      className="pointer"
+                      onClick={() => {
+                        props.handleShow?.();
+                        props.setActiveModalInfo(taskInfo);
+                      }}
+                    >
                       <td>{taskInfo.task}</td>
                     </tr>
                   );
@@ -230,7 +246,14 @@ export default function TasksSplitTable(props: {
                 .concat(priorityThreeTasks, priorityFourTasks)
                 .map((taskInfo) => {
                   return (
-                    <tr key={taskInfo?._id} className="pointer">
+                    <tr
+                      key={taskInfo?._id}
+                      className="pointer"
+                      onClick={() => {
+                        props.handleShow?.();
+                        props.setActiveModalInfo(taskInfo);
+                      }}
+                    >
                       <td>{taskInfo?.task}</td>
                     </tr>
                   );

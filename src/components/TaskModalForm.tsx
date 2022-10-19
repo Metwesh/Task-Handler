@@ -16,8 +16,13 @@ export default function TaskModalForm(props: {
   editable: boolean;
   defaultModalInfo: ITasks | undefined;
   setTaskName: React.Dispatch<React.SetStateAction<string>>;
+  taskError: boolean;
+  setTaskError: React.Dispatch<React.SetStateAction<boolean>>;
   setInputEmps: React.Dispatch<React.SetStateAction<Array<ISelectOptions>>>;
-  setEmpErrors: React.Dispatch<React.SetStateAction<boolean>>;
+  empError: boolean;
+  setEmpError: React.Dispatch<React.SetStateAction<boolean>>;
+  dateError: boolean;
+  setDateError: React.Dispatch<React.SetStateAction<boolean>>;
 }): JSX.Element {
   const statusOptions = [
     { value: "Incomplete", label: "Incomplete" },
@@ -33,7 +38,7 @@ export default function TaskModalForm(props: {
     email?: SetStateAction<string> | undefined;
   }) => {
     props.setInputEmps(options as SetStateAction<Array<ISelectOptions>>);
-    props.setEmpErrors(false);
+    props.setEmpError(false);
   };
 
   return (
@@ -63,11 +68,27 @@ export default function TaskModalForm(props: {
       </Col>
       <Form.Label column sm="4" className="fw-bold">
         Task name
+        {props.taskError && (
+          <svg
+            className="warning-svg ms-1"
+            clipRule="evenodd"
+            fillRule="evenodd"
+            strokeLinejoin="round"
+            strokeMiterlimit="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="m12.002 21.534c5.518 0 9.998-4.48 9.998-9.998s-4.48-9.997-9.998-9.997c-5.517 0-9.997 4.479-9.997 9.997s4.48 9.998 9.997 9.998zm0-1.5c-4.69 0-8.497-3.808-8.497-8.498s3.807-8.497 8.497-8.497 8.498 3.807 8.498 8.497-3.808 8.498-8.498 8.498zm0-6.5c-.414 0-.75-.336-.75-.75v-5.5c0-.414.336-.75.75-.75s.75.336.75.75v5.5c0 .414-.336.75-.75.75zm-.002 3c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"
+              fillRule="nonzero"
+              fill="#ff0000"
+            />
+          </svg>
+        )}
       </Form.Label>
       <Col sm="8" className="mb-2">
         <Form.Control
-          className={`rounded-0 custom-input-field${
-            props.editable ? "" : " greyed-out"
+          className={`rounded-0 ${props.editable ? "" : " greyed-out"} ${
+            props.taskError ? " border-danger" : " custom-input-field"
           }`}
           disabled={props.editable ? false : true}
           readOnly={props.editable ? false : true}
@@ -79,12 +100,29 @@ export default function TaskModalForm(props: {
       </Col>
       <Form.Label column sm="4" className="fw-bold">
         Deadline
+        {props.dateError && (
+          <svg
+            className="warning-svg ms-1"
+            clipRule="evenodd"
+            fillRule="evenodd"
+            strokeLinejoin="round"
+            strokeMiterlimit="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="m12.002 21.534c5.518 0 9.998-4.48 9.998-9.998s-4.48-9.997-9.998-9.997c-5.517 0-9.997 4.479-9.997 9.997s4.48 9.998 9.997 9.998zm0-1.5c-4.69 0-8.497-3.808-8.497-8.498s3.807-8.497 8.497-8.497 8.498 3.807 8.498 8.497-3.808 8.498-8.498 8.498zm0-6.5c-.414 0-.75-.336-.75-.75v-5.5c0-.414.336-.75.75-.75s.75.336.75.75v5.5c0 .414-.336.75-.75.75zm-.002 3c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"
+              fillRule="nonzero"
+              fill="#ff0000"
+            />
+          </svg>
+        )}
       </Form.Label>
       <Col sm="8" className="mb-2">
         <DateSelect
           name="deadline"
           disabled={props.editable ? false : true}
           initialValue={props.defaultModalInfo?.deadline}
+          error={props.dateError}
         />
       </Col>
       <Form.Label column sm="4" className="fw-bold">
@@ -101,6 +139,22 @@ export default function TaskModalForm(props: {
       </Col>
       <Form.Label column sm="4" className="fw-bold">
         Employee(s)
+        {props.empError && (
+          <svg
+            className="warning-svg ms-1"
+            clipRule="evenodd"
+            fillRule="evenodd"
+            strokeLinejoin="round"
+            strokeMiterlimit="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="m12.002 21.534c5.518 0 9.998-4.48 9.998-9.998s-4.48-9.997-9.998-9.997c-5.517 0-9.997 4.479-9.997 9.997s4.48 9.998 9.997 9.998zm0-1.5c-4.69 0-8.497-3.808-8.497-8.498s3.807-8.497 8.497-8.497 8.498 3.807 8.498 8.497-3.808 8.498-8.498 8.498zm0-6.5c-.414 0-.75-.336-.75-.75v-5.5c0-.414.336-.75.75-.75s.75.336.75.75v5.5c0 .414-.336.75-.75.75zm-.002 3c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"
+              fillRule="nonzero"
+              fill="#ff0000"
+            />
+          </svg>
+        )}
       </Form.Label>
       <Col sm="8" className="mb-2">
         <EmployeeAsyncSelect
@@ -108,6 +162,7 @@ export default function TaskModalForm(props: {
           activeModalInfo={props.activeModalInfo}
           editable={props.editable}
           multi={true}
+          error={props.empError}
           onChange={handleEmpChange}
         />
       </Col>

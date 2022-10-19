@@ -1,9 +1,12 @@
+import React from "react";
 import "../../../components/Rating.css";
 import { ITasks } from "../../tasks/components/TasksTable";
 import "./PrioritiesTable.css";
 
 export default function PrioritiesTable(props: {
   incompleteTasks: Array<ITasks>;
+  handleShow: (() => void) | undefined;
+  setActiveModalInfo: React.Dispatch<React.SetStateAction<ITasks | undefined>>;
 }) {
   function compareDate(date: Date) {
     const differenceInTime = date.getTime() - new Date().getTime();
@@ -33,7 +36,14 @@ export default function PrioritiesTable(props: {
         props.incompleteTasks.map((taskInfo) => {
           const taskDeadline = new Date(taskInfo.deadline);
           return (
-            <tr key={taskInfo._id} className="pointer">
+            <tr
+              key={taskInfo._id}
+              className="pointer"
+              onClick={() => {
+                props.handleShow?.();
+                props.setActiveModalInfo(taskInfo);
+              }}
+            >
               <td>{taskInfo.task}</td>
               <td className="text-center">{taskDeadline.toDateString()}</td>
               {taskInfo.priority === 1 ? (

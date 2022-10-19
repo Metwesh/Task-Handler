@@ -1,8 +1,11 @@
 import { useContext, useEffect, useState } from "react";
+import ToastContainer from "react-bootstrap/ToastContainer";
+import Toast from "react-bootstrap/Toast";
 import Card from "react-bootstrap/Card";
 import DashboardNav from "../../components/DashboardNav";
 import Loading from "../../components/Loading";
 import VerticalNav from "../../components/VerticalNav";
+import ViewTaskModal from "../../components/ViewTaskModal";
 import { IUserContext, UserContext } from "../../contexts/UserContext";
 import { ITasks } from "../tasks/components/TasksTable";
 import Charts from "./components/Charts";
@@ -15,9 +18,25 @@ export default function Dashboard() {
   const [incompleteTasks, setIncompleteTasks] = useState<Array<ITasks>>([]);
   const [pendingTasks, setPendingTasks] = useState<Array<ITasks>>([]);
   const [completeTasks, setCompleteTasks] = useState<Array<ITasks>>([]);
+
   const [loading, setLoading] = useState<boolean>(false);
+  const [forceUpdate, setForceUpdate] = useState<number>(0);
+
+  const [showTaskModal, setShowTaskModal] = useState<boolean>(false);
+  const [activeModalInfo, setActiveModalInfo] = useState<ITasks | undefined>(
+    undefined
+  );
+
+  const [showToastSuccess, setShowToastSuccess] = useState<boolean>(false);
+  const [showToastFail, setShowToastFail] = useState<boolean>(false);
 
   const { activeEmployee } = useContext<IUserContext>(UserContext);
+
+  const handleClose = () => {
+    setActiveModalInfo(undefined);
+    setShowTaskModal(false);
+  };
+  const handleShow = () => setShowTaskModal(true);
 
   useEffect(() => {
     setLoading(true);
@@ -37,7 +56,13 @@ export default function Dashboard() {
           setTasks(tasks);
           if (tasks.length === 0) setLoading(false);
         });
-  }, []);
+    return (() => {
+      setTasks([]);
+      setIncompleteTasks([]);
+      setPendingTasks([]);
+      setCompleteTasks([]);
+    })
+  }, [forceUpdate]);
 
   useEffect(() => {
     tasks.length > 0 &&
@@ -97,7 +122,11 @@ export default function Dashboard() {
                   </td>
                 </tr>
               ) : (
-                <PrioritiesTable incompleteTasks={incompleteTasks} />
+                <PrioritiesTable
+                  incompleteTasks={incompleteTasks}
+                  handleShow={handleShow}
+                  setActiveModalInfo={setActiveModalInfo}
+                />
               )}
             </tbody>
           </table>
@@ -138,9 +167,39 @@ export default function Dashboard() {
           <TasksSplitTable
             loading={loading}
             incompleteTasks={incompleteTasks}
+            handleShow={handleShow}
+            setActiveModalInfo={setActiveModalInfo}
           />
         </div>
       </div>
+
+      <ViewTaskModal
+        activeModalInfo={activeModalInfo}
+        showTaskModal={showTaskModal}
+        handleClose={handleClose}
+        setShowToastSuccess={setShowToastSuccess}
+        setShowToastFail={setShowToastFail}
+        setForceUpdate={setForceUpdate}
+      />
+      <ToastContainer position="top-end">
+        <Toast
+          className="mt-2 me-3"
+          bg="info"
+          show={showToastSuccess}
+          animation
+        >
+          <Toast.Header closeButton={false}>
+            <strong className="me-auto">Success</strong>
+          </Toast.Header>
+          <Toast.Body>Operation was successful</Toast.Body>
+        </Toast>
+        <Toast className="mt-2 me-3" bg="danger" show={showToastFail} animation>
+          <Toast.Header closeButton={false}>
+            <strong className="me-auto">Failure</strong>
+          </Toast.Header>
+          <Toast.Body className="text-white">Operation failed</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </>
   );
 }
