@@ -77,8 +77,7 @@ export default function ViewTaskModal(props: {
   };
 
   const handleModalEditRevert = () => {
-    props?.activeModalInfo &&
-      setTaskName(props?.activeModalInfo.task);
+    props?.activeModalInfo && setTaskName(props?.activeModalInfo.task);
     setDeleteConfirm(null);
     setEditable(false);
     setKey((key) => (key += 1));
@@ -220,7 +219,7 @@ export default function ViewTaskModal(props: {
       >
         <Form
           key={key}
-          className={`transition${editable ? " border-modal" : ""} ${
+          className={`transition ${editable ? "border-modal" : ""}${
             deleteConfirm ? "border-modal-danger" : ""
           }`}
         >
@@ -341,7 +340,7 @@ export default function ViewTaskModal(props: {
                       variant="outline-secondary"
                       onClick={(e) => {
                         e.preventDefault();
-                        handleModalEditRevert()
+                        handleModalEditRevert();
                       }}
                     >
                       Discard changes

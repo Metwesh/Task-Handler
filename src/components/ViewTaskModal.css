@@ -39,7 +39,7 @@
 }
 
 @keyframes blink-edit {
-  0% {
+  from {
     outline: 5px solid #0dcaf0;
   }
   to {
@@ -48,7 +48,7 @@
 }
 
 @keyframes blink-danger {
-  0% {
+  from {
     outline: 5px solid #dc3545;
   }
   to {

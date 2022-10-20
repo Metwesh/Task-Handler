@@ -88,11 +88,11 @@ export default function TasksSplitTable(props: {
                 {props.loading ? null : (priorityZeroTasks.length === 0 ||
                     props.incompleteTasks.length === 0) &&
                   !props.loading ? (
-                  <Badge bg="secondary" className="ms-2">
+                  <Badge bg="secondary" className="ms-2 px-075">
                     0
                   </Badge>
                 ) : (
-                  <Badge bg="danger" text="dark" className="ms-2">
+                  <Badge bg="danger" className="ms-2 px-075">
                     {priorityZeroTasks.length}
                   </Badge>
                 )}
@@ -147,11 +147,11 @@ export default function TasksSplitTable(props: {
                 {props.loading ? null : (priorityOneTasks.length === 0 ||
                     props.incompleteTasks.length === 0) &&
                   !props.loading ? (
-                  <Badge bg="secondary" className="ms-2">
+                  <Badge bg="secondary" className="ms-2 px-075">
                     0
                   </Badge>
                 ) : (
-                  <Badge bg="warning" text="dark" className="ms-2">
+                  <Badge bg="warning" text="dark" className="ms-2 px-075">
                     {priorityOneTasks.length}
                   </Badge>
                 )}
@@ -209,11 +209,11 @@ export default function TasksSplitTable(props: {
                   ).length === 0 ||
                     props.incompleteTasks.length === 0) &&
                   !props.loading ? (
-                  <Badge bg="secondary" className="ms-2">
+                  <Badge bg="secondary" className="ms-2 px-075">
                     0
                   </Badge>
                 ) : (
-                  <Badge bg="success" text="dark" className="ms-2">
+                  <Badge bg="success" text="dark" className="ms-2 px-075">
                     {
                       priorityTwoTasks.concat(
                         priorityThreeTasks,
