@@ -47,108 +47,77 @@ export default function PrioritiesTable(props: {
               <td>{taskInfo.task}</td>
               <td className="text-center">{taskDeadline.toDateString()}</td>
               {taskInfo.priority === 1 ? (
-                <td
-                  className="text-center"
-                  title="Priority level 1: Past due"
-                >
-                  <span
-                    className="dot five-star"
-                    title="Priority level 1: Past due"
-                  ></span>
-                  <span
-                    className="dot five-star"
-                    title="Priority level 1: Past due"
-                  ></span>
-                  <span
-                    className="dot five-star"
-                    title="Priority level 1: Past due"
-                  ></span>
-                  <span
-                    className="dot five-star"
-                    title="Priority level 1: Past due"
-                  ></span>
-                  <span
-                    className="dot five-star"
-                    title="Priority level 1: Past due"
-                  ></span>
+                <td className="text-center" title="Priority level 1: Past due">
+                  {[...Array(5)].map((_v, i) => {
+                    return (
+                      <span
+                        key={i + taskInfo._id}
+                        className="dot five-star"
+                        title="Priority level 1: Past due"
+                      />
+                    );
+                  })}
                 </td>
               ) : taskInfo.priority === 2 ? (
-                <td
-                  className="text-center"
-                  title="Priority level 2: Today"
-                >
-                  <span
-                    className="dot four-star"
-                    title="Priority level 2: Today"
-                  ></span>
-                  <span
-                    className="dot four-star"
-                    title="Priority level 2: Today"
-                  ></span>
-                  <span
-                    className="dot four-star"
-                    title="Priority level 2: Today"
-                  ></span>
-                  <span
-                    className="dot four-star"
-                    title="Priority level 2: Today"
-                  ></span>
-                  <span
-                    className="dot"
-                    title="Priority level 2: Today"
-                  ></span>
+                <td className="text-center" title="Priority level 2: Today">
+                  {[...Array(4)].map((_v, i) => {
+                    return (
+                      <span
+                        key={i + taskInfo._id}
+                        className="dot four-star"
+                        title="Priority level 2: Today"
+                      />
+                    );
+                  })}
+                  <span className="dot" title="Priority level 2: Today" />
                 </td>
               ) : taskInfo.priority === 3 ? (
                 <td
                   className="text-center"
                   title="Priority level 3: Less than 3 days left"
                 >
-                  <span
-                    className="dot three-star"
-                    title="Priority level 3: Less than 3 days left"
-                  ></span>
-                  <span
-                    className="dot three-star"
-                    title="Priority level 3: Less than 3 days left"
-                  ></span>
-                  <span
-                    className="dot three-star"
-                    title="Priority level 3: Less than 3 days left"
-                  ></span>
-                  <span
-                    className="dot"
-                    title="Priority level 3: Less than 3 days left"
-                  ></span>
-                  <span
-                    className="dot"
-                    title="Priority level 3: Less than 3 days left"
-                  ></span>
+                  {[...Array(3)].map((_v, i) => {
+                    return (
+                      <span
+                        key={i + taskInfo._id}
+                        className="dot three-star"
+                        title="Priority level 3: Less than 3 days left"
+                      />
+                    );
+                  })}
+                  {[...Array(2)].map((_v, i) => {
+                    return (
+                      <span
+                        key={i + taskInfo._id}
+                        className="dot"
+                        title="Priority level 3: Less than 3 days left"
+                      />
+                    );
+                  })}
                 </td>
               ) : taskInfo.priority === 4 ? (
                 <td
                   className="text-center"
                   title="Priority level 4: Less than 7 days left"
                 >
-                  <span
-                    className="dot two-star"
-                    title="Priority level 4: Less than 7 days left"
-                  ></span>
-                  <span
-                    className="dot two-star"
-                    title="Priority level 4: Less than 7 days left"
-                  ></span>
-                  <span
-                    className="dot"
-                    title="Priority level 4: Less than 7 days left"
-                  ></span>
-                  <span
-                    className="dot"
-                    title="Priority level 4: Less than 7 days left"
-                  ></span>
-                  <span
-                    className="dot"
-                    title="Priority level 4: Less than 7 days left"
-                  ></span>
+                  {[...Array(2)].map((_v, i) => {
+                    return (
+                      <span
+                        key={i + taskInfo._id}
+                        className="dot two-star"
+                        title="Priority level 4: Less than 7 days left"
+                      />
+                    );
+                  })}
+                  {[...Array(3)].map((_v, i) => {
+                    return (
+                      <span
+                        key={i + taskInfo._id}
+                        className="dot"
+                        title="Priority level 4: Less than 7 days left"
+                      />
+                    );
+                  })}
                 </td>
               ) : (
                 <td
@@ -158,23 +127,16 @@ export default function PrioritiesTable(props: {
                   <span
                     className="dot one-star"
                     title="Priority level 5: More than 7 days left"
-                  ></span>
-                  <span
-                    className="dot"
-                    title="Priority level 5: More than 7 days left"
-                  ></span>
-                  <span
-                    className="dot"
-                    title="Priority level 5: More than 7 days left"
-                  ></span>
-                  <span
-                    className="dot"
-                    title="Priority level 5: More than 7 days left"
-                  ></span>
-                  <span
-                    className="dot"
-                    title="Priority level 5: More than 7 days left"
-                  ></span>
+                  />
+                  {[...Array(4)].map((_v, i) => {
+                    return (
+                      <span
+                        key={i + taskInfo._id}
+                        className="dot"
+                        title="Priority level 5: More than 7 days left"
+                      />
+                    );
+                  })}
                 </td>
               )}
             </tr>
