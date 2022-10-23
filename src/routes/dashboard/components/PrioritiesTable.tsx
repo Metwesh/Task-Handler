@@ -28,7 +28,7 @@ export default function PrioritiesTable(props: {
       else if (compareDate(taskDeadline) < 0) return (taskInfo.priority = 1);
     });
 
-  props.incompleteTasks.sort((a, b) => b?.priority - a?.priority);
+  props.incompleteTasks.sort((a, b) => a?.priority - b?.priority);
 
   return (
     <>
