@@ -16,7 +16,7 @@
   background-color: yellow;
 }
 .four-star {
-  background-color: rgb(255, 205, 86);
+  background-color: orange;
 }
 .five-star {
   background-color: rgba(255, 0, 0, 0.644);
@@ -38,7 +38,7 @@
   height: 1rem;
   width: 1rem;
   margin-right: 0.5rem;
-  background-color: rgb(255, 205, 86);
+  background-color: orange;
   border-radius: 50%;
   display: inline-block;
 }

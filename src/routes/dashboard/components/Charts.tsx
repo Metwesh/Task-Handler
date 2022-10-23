@@ -22,7 +22,7 @@ export default function Charts(props: {
         data: chartData,
         backgroundColor: [
           "rgb(190,190,190)",
-          "rgb(255, 205, 86)",
+          "rgb(255, 165, 0)",
           "rgb(128,255,0)",
         ],
         hoverOffset: 3,
