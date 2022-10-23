@@ -101,6 +101,7 @@ export default function ViewTaskModal(props: {
         .then((response) => {
           if (response.status === 200) {
             props.handleClose?.();
+            handleModalEditRevert();
             props.setShowToastSuccess(true);
             setTimeout(() => {
               props.setShowToastSuccess(false);
@@ -110,7 +111,7 @@ export default function ViewTaskModal(props: {
         })
         .catch(() => {
           props.handleClose?.();
-          handleModalEditRevert()
+          handleModalEditRevert();
           props.setShowToastFail(true);
           setTimeout(() => {
             props.setShowToastFail(false);
